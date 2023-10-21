@@ -1,0 +1,416 @@
+[
+    {
+        "id": "773261dc17be4159",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "eb2e9fe90b94f8d7",
+        "type": "group",
+        "z": "773261dc17be4159",
+        "name": "",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "41b050e85c8d46a5",
+            "688c164e33767abb",
+            "ad8323d64675d124",
+            "18943261b79b853c"
+        ],
+        "x": 54,
+        "y": 239,
+        "w": 852,
+        "h": 142
+    },
+    {
+        "id": "4b689c68c68459ea",
+        "type": "group",
+        "z": "773261dc17be4159",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "dbefa0b848848572",
+            "41553b315e94c225",
+            "a6609f61cf3dcc0f",
+            "b7209c72847a2a23"
+        ],
+        "x": 54,
+        "y": 499,
+        "w": 1032,
+        "h": 82
+    },
+    {
+        "id": "4acca394181b4570",
+        "type": "inject",
+        "z": "773261dc17be4159",
+        "name": "Prueba1",
+        "props": [
+            {
+                "p": "valor",
+                "v": "2",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 240,
+        "y": 120,
+        "wires": [
+            [
+                "3de0a7281e4441af"
+            ]
+        ]
+    },
+    {
+        "id": "56c6d19587172efd",
+        "type": "debug",
+        "z": "773261dc17be4159",
+        "name": "salida de peticion",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "3de0a7281e4441af",
+        "type": "http request",
+        "z": "773261dc17be4159",
+        "name": "peticion a catalog",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8080/user/{{{valor}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 470,
+        "y": 120,
+        "wires": [
+            [
+                "56c6d19587172efd"
+            ]
+        ]
+    },
+    {
+        "id": "41b050e85c8d46a5",
+        "type": "debug",
+        "z": "773261dc17be4159",
+        "g": "eb2e9fe90b94f8d7",
+        "name": "salida de peticion",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "688c164e33767abb",
+        "type": "http request",
+        "z": "773261dc17be4159",
+        "g": "eb2e9fe90b94f8d7",
+        "name": "peticion a catalog",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8080/user/{{{valor}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 530,
+        "y": 340,
+        "wires": [
+            [
+                "41b050e85c8d46a5"
+            ]
+        ]
+    },
+    {
+        "id": "ad8323d64675d124",
+        "type": "ui_text_input",
+        "z": "773261dc17be4159",
+        "g": "eb2e9fe90b94f8d7",
+        "name": "",
+        "label": "",
+        "tooltip": "",
+        "group": "121241d7b0e5f69e",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "{{{valor2}}}",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 140,
+        "y": 280,
+        "wires": [
+            [
+                "18943261b79b853c"
+            ]
+        ]
+    },
+    {
+        "id": "18943261b79b853c",
+        "type": "ui_button",
+        "z": "773261dc17be4159",
+        "g": "eb2e9fe90b94f8d7",
+        "name": "",
+        "group": "7bb71bc6e250cab3",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "button",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "{{{valor2}}}",
+        "payloadType": "str",
+        "topic": "{{{valor}}}",
+        "topicType": "msg",
+        "x": 330,
+        "y": 320,
+        "wires": [
+            [
+                "688c164e33767abb"
+            ]
+        ]
+    },
+    {
+        "id": "dbefa0b848848572",
+        "type": "change",
+        "z": "773261dc17be4159",
+        "g": "4b689c68c68459ea",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "valor",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 390,
+        "y": 540,
+        "wires": [
+            [
+                "a6609f61cf3dcc0f"
+            ]
+        ]
+    },
+    {
+        "id": "41553b315e94c225",
+        "type": "debug",
+        "z": "773261dc17be4159",
+        "g": "4b689c68c68459ea",
+        "name": "salida de peticion",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 950,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "a6609f61cf3dcc0f",
+        "type": "http request",
+        "z": "773261dc17be4159",
+        "g": "4b689c68c68459ea",
+        "name": "peticion a catalog",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8080/user/{{{valor}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 710,
+        "y": 540,
+        "wires": [
+            [
+                "41553b315e94c225"
+            ]
+        ]
+    },
+    {
+        "id": "b7209c72847a2a23",
+        "type": "ui_text_input",
+        "z": "773261dc17be4159",
+        "g": "4b689c68c68459ea",
+        "name": "",
+        "label": "Write here",
+        "tooltip": "",
+        "group": "31f9a55b9152e32b",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "number",
+        "delay": 300,
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 150,
+        "y": 540,
+        "wires": [
+            [
+                "dbefa0b848848572"
+            ]
+        ]
+    },
+    {
+        "id": "1d66fedb356b8017",
+        "type": "ui_text_input",
+        "z": "773261dc17be4159",
+        "name": "",
+        "label": "Write here 2",
+        "tooltip": "",
+        "group": "7bb71bc6e250cab3",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "number",
+        "delay": 300,
+        "topic": "valor",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 350,
+        "y": 780,
+        "wires": [
+            [
+                "a62b3410fc93c9a7"
+            ]
+        ]
+    },
+    {
+        "id": "a62b3410fc93c9a7",
+        "type": "debug",
+        "z": "773261dc17be4159",
+        "name": "salida de peticion",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "121241d7b0e5f69e",
+        "type": "ui_group",
+        "name": "prueba1",
+        "tab": "f2ad7f44b833f25f",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "7bb71bc6e250cab3",
+        "type": "ui_group",
+        "name": "grupo1",
+        "tab": "94dc4d76cffa8b73",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "31f9a55b9152e32b",
+        "type": "ui_group",
+        "name": "prueba2",
+        "tab": "468508906b6edeef",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f2ad7f44b833f25f",
+        "type": "ui_tab",
+        "name": "prueba1",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "94dc4d76cffa8b73",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "468508906b6edeef",
+        "type": "ui_tab",
+        "name": "prueba2",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]

@@ -1,0 +1,96 @@
+{
+   "users": [
+      {
+         "id": 1,
+         "userName": "Aleja Sanchez",
+         "password": "123456",
+         "email": "aleja@gmail.com",
+         "city": "Torino",
+         "parkRides": [
+            {
+               "rideID": 1,
+               "rideName": "Atlantis",
+               "state": "ON",
+               "maintenanceTime": "2 weeks",
+               "maxRides": 500
+            },
+            {
+               "rideID": 2,
+               "rideName": "Manta",
+               "state": "OFF",
+               "maintenanceTime": "4 weeks",
+               "maxRides": 500
+            }
+         ]
+      },
+      {
+         "id": 2,
+         "userName": "Alessia Mollinari",
+         "password": "123456",
+         "email": "aleja@gmail.com",
+         "city": "Torino",
+         "parkRides": [
+            {
+               "rideID": 1,
+               "rideName": "Atlantis",
+               "state": "ON",
+               "maintenanceTime": "2 weeks",
+               "maxRides": 500
+            },
+            {
+               "rideID": 2,
+               "rideName": "Manta",
+               "state": "OFF",
+               "maintenanceTime": "4 weeks",
+               "maxRides": 500
+            },
+            {
+               "rideID": 3,
+               "rideName": "Mako",
+               "state": "OFF",
+               "maintenanceTime": "4 weeks",
+               "maxRides": 500
+            },
+            {
+               "rideID": 5,
+               "rideName": "Kraken",
+               "state": "ON",
+               "maintenanceTime": "2 weeks",
+               "maxRides": 500
+            }
+         ]
+      },
+      {
+         "id": 3,
+         "userName": "new",
+         "password": "123456",
+         "email": "aleja@gmail.com",
+         "city": "Milano",
+         "parkRides": [
+            {
+               "rideID": 1,
+               "rideName": "Atlantis",
+               "state": "ON",
+               "maintenanceTime": "2 weeks",
+               "maxRides": 500
+            }
+         ]
+      },
+      {
+         "id": 4,
+         "userName": "new5",
+         "password": "123456",
+         "email": "aleja@gmail.com",
+         "city": "Milano",
+         "parkRides": [
+            {
+               "rideID": "1",
+               "rideName": "Atlantis",
+               "state": "ON",
+               "maintenanceTime": "2 weeks",
+               "maxRides": 500
+            }
+         ]
+      }
+   ]
+}
