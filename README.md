@@ -134,3 +134,73 @@ Used by the maintenance startedy to inform an employee that a ride needs to be c
 - **ALERT 1:** a ride is about to need a revision soon – the ride has done 80% of its máximum rides or maximum time finishes in 2 days
 - **ALERT 2:** a ride is closed because it has to go to revision, mainly just to inform its already closed – this alert shouldn’t be a surprise because alert 1 should have warned the employee
 - **ALERT 3:** not really an alert just a notice to inform a ride has made its revision and is back on. 
+
+```
+user : {
+		"name": "kids",
+		"id": 1,
+		"password": "stringPS",
+		"mail": "stringmail",
+		"city": "Torino",
+		"rides" : 
+			{
+				"ride1":
+					{
+						"name": "river",
+						"id": 1,
+						"state": true/false,
+						"maintenance_time": "2 weeks",
+						"max_rides": 500,
+						"control_strategies":
+							{
+								"maintenanceControl":
+									{
+										"state": true/false,
+										"sensors":
+											{
+												"sensorRidesID": 0,
+												"weightID": 0
+											},
+										"actuators":
+											{
+												"airpumpID": 0,
+												"maintenanceCallID": 0
+											}
+									}
+								"waterControl":
+									{
+										"state": true/false,
+										"sensors":
+											{
+												"waterSensorID": 0,
+												"phSensorID": 0
+											}
+										"actuators":
+											{
+												"valveID": 0,
+												"activatorID": 0
+											}
+									}
+								"comfortControl":
+									{
+										"state": true/false,
+										"weatherAPI": [],
+										"sensors":
+											{
+												"lightSensorID": 0
+											}
+										"actuators":
+											{
+												"lightsID": 0,
+												"fansID": 0
+											}
+									}
+							}
+					},
+				"ride2": 
+					{
+						...
+					}
+			}
+	}
+```
