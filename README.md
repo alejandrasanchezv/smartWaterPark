@@ -142,65 +142,50 @@ user : {
 		"password": "stringPS",
 		"mail": "stringmail",
 		"city": "Torino",
-		"rides" : 
-			{
-				"ride1":
-					{
+		"rides" : {
+				"ride1": {
 						"name": "river",
 						"id": 1,
 						"state": true/false,
 						"maintenance_time": "2 weeks",
 						"max_rides": 500,
-						"control_strategies":
-							{
-								"maintenanceControl":
-									{
+						"control_strategies": {
+								"maintenanceControl": {
 										"state": true/false,
-										"sensors":
-											{
+										"sensors": {
 												"sensorRidesID": 0,
 												"weightID": 0
-											},
-										"actuators":
-											{
+										},
+										"actuators": {
 												"airpumpID": 0,
 												"maintenanceCallID": 0
-											}
-									}
-								"waterControl":
-									{
+										}
+								}
+								"waterControl": {
 										"state": true/false,
-										"sensors":
-											{
+										"sensors": {
 												"waterSensorID": 0,
 												"phSensorID": 0
-											}
-										"actuators":
-											{
+										}
+										"actuators": {
 												"valveID": 0,
 												"activatorID": 0
-											}
-									}
-								"comfortControl":
-									{
+										}
+								}
+								"comfortControl": {
 										"state": true/false,
 										"weatherAPI": [],
-										"sensors":
-											{
+										"sensors": {
 												"lightSensorID": 0
-											}
-										"actuators":
-											{
+										}
+										"actuators": {
 												"lightsID": 0,
 												"fansID": 0
-											}
-									}
-							}
-					},
-				"ride2": 
-					{
-						...
-					}
-			}
-	}
+										}
+								}
+						}
+				},
+				"ride2": { ... }
+		}
+}
 ```
