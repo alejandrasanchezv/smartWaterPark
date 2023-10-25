@@ -62,10 +62,10 @@
       },
       {
          "id": 3,
-         "userName": "new",
+         "userName": "Mike",
          "password": "123456",
-         "email": "aleja@gmail.com",
-         "city": "Milano",
+         "email": "Mike24@gmail.com",
+         "city": "Berlin",
          "parkRides": [
             {
                "rideID": 1,
@@ -77,16 +77,32 @@
          ]
       },
       {
-         "id": 4,
-         "userName": "new5",
-         "password": "123456",
-         "email": "aleja@gmail.com",
-         "city": "Milano",
+         "id": 6,
+         "userName": "Francesco",
+         "password": "123456789",
+         "email": "fra24@gmail.com",
+         "city": "Roma",
          "parkRides": [
             {
-               "rideID": "1",
+               "rideID": 1,
                "rideName": "Atlantis",
-               "state": "ON",
+               "state": "OFF",
+               "maintenanceTime": "2 weeks",
+               "maxRides": 500
+            }
+         ]
+      },
+      {
+         "id": 7,
+         "userName": "Pablo",
+         "password": "45678",
+         "email": "pablo@gmail.com",
+         "city": "Madrid",
+         "parkRides": [
+            {
+               "rideID": 1,
+               "rideName": "Atlantis",
+               "state": "OFF",
                "maintenanceTime": "2 weeks",
                "maxRides": 500
             }

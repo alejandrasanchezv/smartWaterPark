@@ -31,21 +31,32 @@ class User(object):
 
         users=db["users"]
         new_user={
-            "id": 4,
-            "userName": "new5",
+            "id": 1,
+            "userName": "newUser",
             "password": "123456",
             "email": "aleja@gmail.com",
             "city": "Milano",
             "parkRides": [
                 {
-                    "rideID": "1",
+                    "rideID": 1,
                     "rideName": "Atlantis",
-                    "state": "ON",
+                    "state": "OFF",
                     "maintenanceTime": "2 weeks",
                     "maxRides": 500
                 }
             ]
         }
+
+        # Read the data from the body
+        body=cherrypy.request.body.read()
+        json_body=json.loads(body)
+
+        new_user["id"] = int(json_body["userID"])
+        new_user["userName"] = json_body["userName"]
+        new_user["password"] = json_body["password"]
+        new_user["email"] = json_body["email"]
+        new_user["city"] = json_body["city"]
+
         
         users.append(new_user)
         db["users"] = users
@@ -54,7 +65,61 @@ class User(object):
             json.dump(db, file, indent=3)
 
         return "User sucessfully registered"
+    
+    def PUT(self):
 
+        with open("db/catalog.json", "r") as file:
+            db = json.load(file)
+        
+        users=db["users"]
+
+        body=cherrypy.request.body.read()
+        json_body=json.loads(body)
+
+        #User Information to update
+         #json_body['userName']
+         #json_body['email']
+        #json_body ['city']
+
+        #UserID of the user to modify
+        userID = int(json_body['userID'])
+        print(userID)
+
+        for user in users:
+            print(user['id'])
+            if user["id"] == userID:
+                user['userName'] = json_body['userName']
+                user["email"] = json_body['email']
+                user["city"] = json_body ['city']
+
+                #Save the information in the db
+                db["users"] = users
+                with open("db/catalog.json", "w") as file:
+                    json.dump(db, file, indent=3)
+
+                return "The information has been updated succesfully"
+            
+        return "User ID not found, please try again"
+
+    def DELETE(self,**params):
+        with open("db/catalog.json", "r") as file:
+            db = json.load(file)
+        
+        users=db["users"]
+        userID=int(params["userID"])
+    
+        for index, user in enumerate(users):
+            if user["id"] == userID:
+                print(index)
+                users.pop(index)
+                db["users"] = users
+                with open("db/catalog.json", "w") as file:
+                    json.dump(db, file, indent=3)
+                
+                return "The user was successfully deleted"
+        
+        return "No User ID was found"
+        
 
 class ParkRide(object):
     exposed = True
@@ -80,6 +145,8 @@ class ParkRide(object):
     def POST(self):
         with open("db/catalog.json", "r") as file:
             db = json.load(file)
+
+        
         
         users=db["users"]
         id=2 #id of the user
@@ -91,6 +158,8 @@ class ParkRide(object):
                "maintenanceTime": "2 weeks",
                "maxRides": 500
         }
+
+        
 
         for user in users:
             if user["id"] == int(id):
@@ -104,6 +173,23 @@ class ParkRide(object):
                 return "New ride succesfully added to the user"
             
         return "No userID found"
+    
+    def PUT(self):
+        body=cherrypy.request.body.read()
+        with open("db/catalog.json", "r") as file:
+            db = json.load(file)
+        
+        users=db["users"]
+
+        json_body=json.loads(body)
+        print(json_body)
+        print(type(json_body))
+        userID= int(json_body["userID"])
+        parkRideID= int(json_body["parkRideID"])
+        print(f'USERIDE VALUE: {userID} and PARKRIDEID VALUE: {parkRideID}' )
+
+        response="The keys are {}, and the values are {}".format([x for x in json_body.keys()],[x for x in json_body.values()])
+        return response
 
 if __name__ == '__main__':
 
