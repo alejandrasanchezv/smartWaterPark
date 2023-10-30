@@ -1,63 +1,42 @@
 import paho.mqtt.client as PahoMQTT
 import time
+import json
+#import requests
+#import cherrypy
 
-class ClientMQTT:
+from mqttClass import *
 
-    def __init__(self, clientID, topics, broker='mqtt.eclipseprojects.io', port=1883, qos=2, onMessageReceived= '', ble=''):
-        print(f"[{clientID}] Instantiating mqtt_client")
-        self.clientID = clientID
-		# create an instance of paho.mqtt.client
-        if ble == '':
-          self._paho_mqtt = PahoMQTT.Client(clientID, clean_session= True)   #  the broker will remove all information about this client when it disconnects 
-        else:
-           self._paho_mqtt = PahoMQTT.Client(clientID, userdata=ble)
+database = "devices.json"
 
-		# register the callback
-        #self._paho_mqtt.on_connect = self.myOnConnect
-        self._paho_mqtt.on_message = self.onMessageReceived
-        self._paho_mqtt.on_connect = self.myOnConnect
-        #if onMessageReceived != '':
-        #  self._paho_mqtt.on_message = onMessageReceived
-        self.topics = topics
-        self.broker = broker
-        self.port = port
-        self.qos = qos
+class publisher(object):
+  def __init__(self):
+    global database, usrID, rideID
 
-    def start (self):
-		# manage connection to broker
-       print(f"[{self.clientID}] Connecting to broker {self.broker}:{self.port}")
-       self._paho_mqtt.connect(self.broker, self.port)
-		# subscribe to topics
-       self._paho_mqtt.subscribe([(x, self.qos) for x in self.topics])
-       self._paho_mqtt.loop_start()
+    self.sensors = db["devices"]["sensors"]
+    self.actuators = db["devices"]["actuators"]
+    self.strategies = db["strategies"]
 
-    def stop (self):
-       print(f"[{self.clientID}] Unsubscribing and disconnecting from broker")
-       self._paho_mqtt.unsubscribe(self.topic)
-       self._paho_mqtt.loop_stop()
-       self._paho_mqtt.disconnect()
 
-    def myOnConnect (self, paho_mqtt, userdata, flags, rc):
-       print(f"['{self.clientID}'] Connected to '{self.broker}' with result code: '{rc}'")
-       #print ("Connected to %s with result code: %d" % (self.broker, rc))
-		#print('Message received')
-	
-    def publish(self, topic, message):
-       print(f"[{self.clientID}] Publishing message: '{message}'; topic: '{topic}'")
-       self._paho_mqtt.publish(topic, message, self.qos, retain=False)
+  
 
-    def onMessageReceived(self, paho_mqtt , userdata, msg):
-		## A new message is received
-        print ("Topic:'" + msg.topic+"', QoS: '"+str(msg.qos)+"' Message: '"+str(msg.payload) + "'")
+def onMsgReceived(device1, userdata, msg):
+    print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
+
+with open(database, "r") as file:
+  db = json.load(file)
+
+usrID = db["userID"]
+rideID = db["rideID"]
 
 
 if __name__ == "__main__":
+  topic = "smartWaterPark/devConnector/user_" + str(usrID) + "/ride_" + str(rideID) + "/#"
+  client = "devConnector" + str(usrID)
+  devMqtt = ClientMQTT(client, [topic],onMessageReceived=onMsgReceived)
 
-    paciente = ClientMQTT("123", ["temp/iot/deviceConnector"])
-
-    paciente.start()
+  devMqtt.start()
 	
-    while True:
-        time.sleep(3)
-        paciente.publish('temp/iot/deviceConnector', 23.4)
-        #pass
+  while True:
+    time.sleep(3)
+    devMqtt.publish('temp/iot/deviceConnector', 23.4)
+    #pass
