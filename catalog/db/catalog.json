@@ -107,22 +107,6 @@
                "maxRides": 500
             }
          ]
-      },
-      {
-         "id": 4,
-         "userName": "caro",
-         "password": "caro1234",
-         "email": "caro@gmail.com",
-         "city": "Medellin",
-         "parkRides": [
-            {
-               "rideID": 1,
-               "rideName": "Atlantis",
-               "state": "OFF",
-               "maintenanceTime": "2 weeks",
-               "maxRides": 500
-            }
-         ]
       }
    ]
 }
