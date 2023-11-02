@@ -10,7 +10,7 @@ class User(object):
     exposed = True
 
     def GET(self,userID=None):
-        with open("db/catalog.json", "r") as file:
+        with open('db/catalog.json', 'r') as file:
             db = json.load(file)
 
         users = db["users"]
@@ -123,7 +123,7 @@ class User(object):
 
 class ParkRide(object):
     exposed = True
-    def GET(self,parkRideID=None):
+    def GET(self,**params):
         with open("db/catalog.json", "r") as file:
             db = json.load(file)
         
@@ -131,13 +131,19 @@ class ParkRide(object):
         #We need to find a better way to pass the user ID, Maybe with the use of queries
         
         id=2 #id of the user
+        userID=int(params["userID"])
+        parkRideID=int(params["parkRideID"])
+        print("typo de userID",type(userID))
+        print("typo de parkRide",type(parkRideID))
+
+        
         
         if parkRideID is None:
             return "No rideID was given"
         for user in users:
-            if user["id"] == int(id):
+            if user["id"] == userID:
                 for ride in user["parkRides"]:
-                    if ride["rideID"] == int(parkRideID):
+                    if ride["rideID"] == parkRideID:
                         return "Park ride Found: ", json.dumps(ride,indent=3)
                 
                 return "Park ride does not exits"
