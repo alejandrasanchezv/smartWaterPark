@@ -20,49 +20,49 @@ fansID = 0
 callMaintID = 0
 
 class Publisher(object):
-  def __init__(self, client):
+  def __init__(self, sensors, actuators, strategies):
     global database, counterID, airID, waterLevelID, phID,\
       airpumpID, valveID, chlorineValveID, lightsID, fansID, callMaintID
+
+    self.sensorsList = sensors
+    self.actuatorsList = actuators
+    self.strategies = strategies
     
-    with open(database, "r") as file:
-      db = json.load(file)
-
-    usrID = db["userID"]
-    rideID = db["rideID"]
-    self.topic = "smartWaterPark/devConnector/user_" + str(usrID) + "/ride_" + str(rideID) + "/#"
-    self.client = client + str(usrID)
-    self.mqttClient = ClientMQTT(self.client, [self.topic],onMessageReceived=onMsgReceived)
-
-    self.sensorsList = db["devices"]["sensors"]
-    self.actuatorsList = db["devices"]["actuators"]
-    self.strategies = db["strategies"]
-    self.sensors = []
-    self.actuators = []
+    self.sensorsMaintenance = []
+    self.sensorsWater = []
 
     for sensor in self.sensorsList:
       if sensor == "counterRides":
-        self.sensors.append(Sensor(counterID, sensor))
+        self.sensorsMaintenance.append(Sensor(counterID, sensor))
       elif sensor == "airWeight":
-        self.sensors.append(Sensor(airID, sensor))
+        self.sensorsMaintenance.append(Sensor(airID, sensor))
       elif sensor == "waterLevel":
-        self.sensors.append(Sensor(waterLevelID, sensor))
+        self.sensorsWater.append(Sensor(waterLevelID, sensor))
       elif sensor == "phSensor":
-        self.sensors.append(Sensor(phID, sensor))
+        self.sensorsWater.append(Sensor(phID, sensor))
+
+    self.actuatorsMaintenance = []
+    self.actuatorsWater = []
+    self.actuatorsComfort = []
 
     # Actuator are always initialized as off
     for actuator in self.actuatorsList: 
       if actuator == "airPump":
-        self.actuators.append(Actuator(airpumpID, False, actuator))
+        self.actuatorsMaintenance.append(Actuator(airpumpID, False, actuator))
       elif actuator == "maintenanceCall":
-        self.actuators.append(Actuator(callMaintID, False, actuator))
+        self.actuatorsMaintenance.append(Actuator(callMaintID, False, actuator))
       elif actuator == "waterValve":
-        self.actuators.append(Actuator(valveID, False, actuator))
+        self.actuatorsWater.append(Actuator(valveID, False, actuator))
       elif actuator == "chlorineValve":
-        self.actuators.append(Actuator(chlorineValveID, False, actuator))
+        self.actuatorsWater.append(Actuator(chlorineValveID, False, actuator))
       elif actuator == "lights":
-        self.actuators.append(Actuator(lightsID, False, actuator))
+        self.actuatorsComfort.append(Actuator(lightsID, False, actuator))
       elif actuator == "fans":
-        self.actuators.append(Actuator(fansID, False, actuator))
+        self.actuatorsComfort.append(Actuator(fansID, False, actuator))
+
+    self.maintenance = Maintenance(self.sensorsMaintenance, self.actuatorsMaintenance)
+    self.water = Water(self.sensorsWater, self.actuatorsWater)
+    self.comfort = Comfort(self.actuatorsComfort, "Turin")
 
   def onMsgReceived(device1, userdata, msg):
     print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
@@ -71,9 +71,21 @@ class Publisher(object):
 
 
 if __name__ == "__main__":
+  with open(database, "r") as file:
+      db = json.load(file)
 
-  devMqtt = Publisher("devConnector")
+  usrID = db["userID"]
+  rideID = db["rideID"]
+  topic = "smartWaterPark/devConnector/user_" + str(usrID) + "/ride_" + str(rideID) + "/#"
+  client = "devConnector" + str(usrID)
+  devMqtt = ClientMQTT(client, [topic],onMessageReceived=Publisher.onMsgReceived)
   devMqtt.start()
+
+  sensors = db["devices"]["sensors"]
+  actuators = db["devices"]["actuators"]
+  strategies = db["strategies"]
+
+  devConnector = Publisher(sensors, actuators, strategies)
 	
   while True:
     time.sleep(3)
