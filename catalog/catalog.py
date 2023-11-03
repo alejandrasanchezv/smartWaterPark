@@ -128,9 +128,7 @@ class ParkRide(object):
             db = json.load(file)
         
         users = db["users"]
-        #We need to find a better way to pass the user ID, Maybe with the use of queries
         
-        id=2 #id of the user
         userID=int(params["userID"])
         parkRideID=int(params["parkRideID"])
         print("typo de userID",type(userID))
@@ -155,20 +153,27 @@ class ParkRide(object):
         
         
         users=db["users"]
-        id=2 #id of the user
+        
 
         newRide={
                "rideID": 5,
                "rideName": "Kraken",
-               "state": "ON",
+               "state": "OFF",
                "maintenanceTime": "2 weeks",
                "maxRides": 500
         }
 
-        
+        # Read the data from the body
+        body=cherrypy.request.body.read()
+        json_body=json.loads(body)
+
+        userID=int(json_body["userID"]) #id of the user to add the new ride
+        newRide["rideID"] = int(json_body["rideParkID"])
+        newRide["rideName"] = json_body["rideParkName"]
+        newRide["maintenanceTime"] =json_body["maintenance"]
 
         for user in users:
-            if user["id"] == int(id):
+            if user["id"] == userID:
                 user['parkRides'].append(newRide)
 
                 db["users"] = users
@@ -188,14 +193,65 @@ class ParkRide(object):
         users=db["users"]
 
         json_body=json.loads(body)
-        print(json_body)
-        print(type(json_body))
+  
         userID= int(json_body["userID"])
         parkRideID= int(json_body["parkRideID"])
-        print(f'USERIDE VALUE: {userID} and PARKRIDEID VALUE: {parkRideID}' )
+        #print(f'USERIDE VALUE: {userID} and PARKRIDEID VALUE: {parkRideID}' )
+        #response="The keys are {}, and the values are {}".format([x for x in json_body.keys()],[x for x in json_body.values()])
+        #return response
 
-        response="The keys are {}, and the values are {}".format([x for x in json_body.keys()],[x for x in json_body.values()])
-        return response
+        for user in users:
+            if user["id"] == userID:
+                rides = user["parkRides"]
+                for ride in rides:
+                    print(ride["rideID"])
+                    print(type(ride["rideID"]))
+                    print(parkRideID)
+                    print(type(parkRideID))
+        
+                    if ride["rideID"] == parkRideID:
+                        ride["rideName"] = json_body["parkRideName"]
+                        ride["maintenanceTime"] = json_body["maintenance"]
+
+
+
+                        with open("db/catalog.json", "w") as file:
+                            json.dump(db, file, indent=3)
+
+                        return "New ride succesfully added to the user"
+                    
+                return "No Park Ride ID found"
+            
+        return "No userID found"
+
+    def DELETE(self,**params):
+        with open("db/catalog.json", "r") as file:
+            db = json.load(file)
+
+        users=db["users"]
+        userID=int(params["userID"])
+        parkRideID=int(params["parkRideID"])
+        print("typo de userID",type(userID))
+        print("typo de parkRide",type(parkRideID))
+
+  
+        for user in users:
+            if user["id"] == userID:
+                rides = user["parkRides"]
+                for index,ride in enumerate(rides):
+                    if ride["rideID"] == parkRideID:
+                        rides.pop(index)
+                        db["users"] = users
+                        with open("db/catalog.json", "w") as file:
+                            json.dump(db, file, indent=3)
+                
+                        return "The park ride was successfully deleted"
+
+
+                
+                return "Park ride does not exits"
+        return "No user ID was found"
+
 
 if __name__ == '__main__':
 

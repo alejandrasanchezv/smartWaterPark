@@ -20,6 +20,13 @@
                "state": "OFF",
                "maintenanceTime": "4 weeks",
                "maxRides": 500
+            },
+            {
+               "rideID": 3,
+               "rideName": "Barracuda",
+               "state": "OFF",
+               "maintenanceTime": "5 weeks",
+               "maxRides": 500
             }
          ]
       },
