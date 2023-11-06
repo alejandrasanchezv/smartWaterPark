@@ -1,28 +1,97 @@
 import paho.mqtt.client as PahoMQTT
 import time
 import json
-#import requests
-#import cherrypy
+import requests
+import cherrypy
 
 from mqttClass import *
 from devices import *
 
 database = "devices.json"
-counterID = 0
-airID = 0
-waterLevelID = 0
-phID = 0
-airpumpID = 0
-valveID = 0
-chlorineValveID = 0
-lightsID = 0
-fansID = 0
-callMaintID = 0
+#counterID = 0
+#airID = 0
+#waterLevelID = 0
+#phID = 0
+#airpumpID = 0
+#valveID = 0
+#chlorineValveID = 0
+#lightsID = 0
+#fansID = 0
+#callMaintID = 0
 
+class DatabaseClass(object):
+  def POST(self, *path, **queries):
+    global database, usrID, rideID
+
+    input = json.loads(cherrypy.reques.body.read())
+
+    with open(database, "r") as file:
+      db = json.load(file)
+    
+    try:
+      typeStrat = input['typeStrategy']
+      db['strategies'][typeStrat]
+    except:
+      raise cherrypy.HTTPError(400, 'Strategy not found')
+    
+    if typeStrat == "maintenance":
+      try:
+        stratID = input["strategyID"]
+      except:
+        raise cherrypy.HTTPError(400, 'Strategy ID not found')
+      else:
+        stratTopic = "smartWaterPark/maintenance/strategy_"+ str(stratID) +"/user_" + str(usrID) + "/ride_" + str(rideID) + "/#"
+        devMqtt.subscribe(stratTopic)
+        db['strategies'][typeStrat].append(stratTopic)
+    elif typeStrat == "water":
+      try:
+        stratID = input["strategyID"]
+      except:
+        raise cherrypy.HTTPError(400, 'Strategy ID not found')
+      else:
+        stratTopic = "smartWaterPark/water/strategy_"+ str(stratID) +"/user_" + str(usrID) + "/ride_" + str(rideID) + "/#"
+        devMqtt.subscribe(stratTopic)
+        db['strategies'][typeStrat].append(stratTopic)
+    elif typeStrat == "comfort":
+      try:
+        stratID = input["strategyID"]
+      except:
+        raise cherrypy.HTTPError(400, 'Strategy ID not found')
+      else:
+        stratTopic = "smartWaterPark/comfort/strategy_"+ str(stratID) +"/user_" + str(usrID) + "/ride_" + str(rideID) + "/#"
+        devMqtt.subscribe(stratTopic)
+        db['strategies'][typeStrat].append(stratTopic)
+    else:
+      stratTopic = "smartWaterPark/" + str(typeStrat) + "/user_" + str(usrID) + "/ride_" + str(rideID) + "/#"
+      devMqtt.subscribe(stratTopic)
+      db['strategies'][typeStrat].append(stratTopic)
+
+    with open(database, "w") as file:
+      json.dump(db, file, indent=3)
+
+    result = {
+      "typeStrategy": typeStrat
+    }
+    
+    return result
+  
+  def DELETE(self, *path, **queries):
+    global database
+
+    with open(database, "r") as file:
+      db = json.load(file)
+
+    try:
+      typeStrat = queries['typeStrategy']
+      db['strategies'][typeStrat]
+    except:
+      raise cherrypy.HTTPError(400, 'Strategy type not found')
+
+   
 class Publisher(object):
   def __init__(self, sensors, actuators, strategies):
-    global database, counterID, airID, waterLevelID, phID,\
-      airpumpID, valveID, chlorineValveID, lightsID, fansID, callMaintID
+    global database#, counterID, airID, waterLevelID, phID,\
+      #airpumpID, valveID, chlorineValveID, lightsID, fansID, callMaintID
 
     self.sensorsList = sensors
     self.actuatorsList = actuators
@@ -30,35 +99,39 @@ class Publisher(object):
     
     self.sensorsMaintenance = []
     self.sensorsWater = []
+    sensorID = 0
 
     for sensor in self.sensorsList:
       if sensor == "counterRides":
-        self.sensorsMaintenance.append(Sensor(counterID, sensor))
+        self.sensorsMaintenance.append(Sensor(sensorID, sensor))
       elif sensor == "airWeight":
-        self.sensorsMaintenance.append(Sensor(airID, sensor))
+        self.sensorsMaintenance.append(Sensor(sensorID, sensor))
       elif sensor == "waterLevel":
-        self.sensorsWater.append(Sensor(waterLevelID, sensor))
+        self.sensorsWater.append(Sensor(sensorID, sensor))
       elif sensor == "phSensor":
-        self.sensorsWater.append(Sensor(phID, sensor))
+        self.sensorsWater.append(Sensor(sensorID, sensor))
+      sensorID += 1
 
     self.actuatorsMaintenance = []
     self.actuatorsWater = []
     self.actuatorsComfort = []
+    actuatorID = 0
 
     # Actuator are always initialized as off
     for actuator in self.actuatorsList: 
       if actuator == "airPump":
-        self.actuatorsMaintenance.append(Actuator(airpumpID, False, actuator))
+        self.actuatorsMaintenance.append(Actuator(actuatorID, False, actuator))
       elif actuator == "maintenanceCall":
-        self.actuatorsMaintenance.append(Actuator(callMaintID, False, actuator))
+        self.actuatorsMaintenance.append(Actuator(actuatorID, False, actuator))
       elif actuator == "waterValve":
-        self.actuatorsWater.append(Actuator(valveID, False, actuator))
+        self.actuatorsWater.append(Actuator(actuatorID, False, actuator))
       elif actuator == "chlorineValve":
-        self.actuatorsWater.append(Actuator(chlorineValveID, False, actuator))
+        self.actuatorsWater.append(Actuator(actuatorID, False, actuator))
       elif actuator == "lights":
-        self.actuatorsComfort.append(Actuator(lightsID, False, actuator))
+        self.actuatorsComfort.append(Actuator(actuatorID, False, actuator))
       elif actuator == "fans":
-        self.actuatorsComfort.append(Actuator(fansID, False, actuator))
+        self.actuatorsComfort.append(Actuator(actuatorID, False, actuator))
+      actuatorID += 1
 
     self.maintenance = Maintenance(self.sensorsMaintenance, self.actuatorsMaintenance)
     self.water = Water(self.sensorsWater, self.actuatorsWater)
