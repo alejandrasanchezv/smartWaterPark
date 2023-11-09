@@ -8,6 +8,7 @@ from mqttClass import *
 from devices import *
 
 database = "devices.json"
+resourceCatUrl = 'http://resource_catalog:8080'
 #counterID = 0
 #airID = 0
 #waterLevelID = 0
@@ -40,7 +41,7 @@ class DatabaseClass(object):
       except:
         raise cherrypy.HTTPError(400, 'Strategy ID not found')
       else:
-        stratTopic = "smartWaterPark/maintenance/strategy_"+ str(stratID) +"/user_" + str(usrID) + "/ride_" + str(rideID) + "/#"
+        stratTopic = "smartWaterPark/maintenance/strategy/"+ str(stratID) +"/user_" + str(usrID) + "/ride_" + str(rideID) + "/#"
         devMqtt.subscribe(stratTopic)
         db['strategies'][typeStrat].append(stratTopic)
     elif typeStrat == "water":
@@ -49,7 +50,7 @@ class DatabaseClass(object):
       except:
         raise cherrypy.HTTPError(400, 'Strategy ID not found')
       else:
-        stratTopic = "smartWaterPark/water/strategy_"+ str(stratID) +"/user_" + str(usrID) + "/ride_" + str(rideID) + "/#"
+        stratTopic = "smartWaterPark/water/strategy/"+ str(stratID) +"/user_" + str(usrID) + "/ride_" + str(rideID) + "/#"
         devMqtt.subscribe(stratTopic)
         db['strategies'][typeStrat].append(stratTopic)
     elif typeStrat == "comfort":
@@ -58,7 +59,7 @@ class DatabaseClass(object):
       except:
         raise cherrypy.HTTPError(400, 'Strategy ID not found')
       else:
-        stratTopic = "smartWaterPark/comfort/strategy_"+ str(stratID) +"/user_" + str(usrID) + "/ride_" + str(rideID) + "/#"
+        stratTopic = "smartWaterPark/comfort/strategy/"+ str(stratID) +"/user_" + str(usrID) + "/ride_" + str(rideID) + "/#"
         devMqtt.subscribe(stratTopic)
         db['strategies'][typeStrat].append(stratTopic)
     else:
@@ -86,8 +87,38 @@ class DatabaseClass(object):
       db['strategies'][typeStrat]
     except:
       raise cherrypy.HTTPError(400, 'Strategy type not found')
+    
+    try:
+      if typeStrat == "maintenance":
+        try:
+          stratID = queries['stratID']
+        except:
+          db['strategies']['maintenance'] = []
+        else:
+          for topic in range(len(db['strategies']['maintenance'])):
+            topic_levels = topic.split('/')[1]
+            if int(topic_levels[4]) == int(stratID):
+              #ELIMINARLA
+              devMqtt.unsubscribe(topic)
+              break
+      elif typeStrat == "water":
+        devMqtt.unsubscribe(topic)
+        db["strategies"]["water"] = []
+      else:
+        devMqtt.unsubscribe(topic)
+        db["strategies"][typeStrat] = []
 
-   
+      with open(database, "w") as file:
+        json.load(db, file, indent=3)
+      
+      result = {
+        "typeStrategy": typeStrat
+      }
+      
+      return result
+    except:
+      print('No strategy registered')
+              
 class Publisher(object):
   def __init__(self, sensors, actuators, strategies):
     global database#, counterID, airID, waterLevelID, phID,\
@@ -140,10 +171,60 @@ class Publisher(object):
   def onMsgReceived(device1, userdata, msg):
     print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
 
+  def publishSensorReading(self, sensorType):
+    global database, usrID, rideID
+
+    with open(database, "r") as file:
+      db = json.load(file)
+
+    strategy = ""
+    for sensor in self.sensorsList:
+      if sensor == "counterRides":
+        strategy = "maintenance"
+      elif sensor == "airWeight":
+        strategy = "maintenance"
+      elif sensor == "waterLevel":
+        strategy = "water"
+      elif sensor == "phSensor":
+        strategy = "water"
+      sensor.readvalue(sensorType)
+
+    if strategy == "":
+      print('Sensor type not reccognized')
+      return
+    else:
+      sensorTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/" + strategy + "/sensors/"+ sensorType
+      #sensor.readvalue(sensorType)
+      devMqtt.publish(sensorTopic, sensor.value[sensorType])
 
 
+def postFunc():
+  global database
+
+  with open(database, "r") as file:
+    db = json.load(file)
+
+  payload = {
+    "userID": db['userID'],
+    "rideID": db['rideID'],
+    "sensors": db['devices']['sensors'],
+    "actuators": db['devices']['actuators']
+  }
+
+  url = resourceCatUrl +'/device_connectors'
+  requests.post(url, json.dumps(payload))
 
 if __name__ == "__main__":
+  conf = {
+      '/': {
+          'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
+          'tools.sessions.on': True,
+      }
+  }
+  cherrypy.tree.mount(DatabaseClass(), '/dbTopic', conf)
+  cherrypy.config.update({'server.socket_host': '0.0.0.0'})
+  cherrypy.engine.start()
+
   with open(database, "r") as file:
       db = json.load(file)
 
@@ -159,8 +240,20 @@ if __name__ == "__main__":
   strategies = db["strategies"]
 
   devConnector = Publisher(sensors, actuators, strategies)
-	
+  timeLastDB = time.time()
+  timeLastSensors = time.time()
+  timeLimitSensors = 6 # number in seconds
+  timeLimitDB = 15 # number in seconds
   while True:
+    timeNow = time.time()
+    if (timeNow - timeLastDB) >= timeLimitDB:
+      postFunc()
+      timeLastDB = timeNow
+    elif (timeNow - timeLastSensors) >= timeLimitSensors:
+      for sensortype in sensors:
+        devConnector.publishSensorReading(sensortype)
+        time.sleep(0.5)
+      timeLastSensors = time.time()
+
     time.sleep(3)
-    devMqtt.publish('temp/iot/deviceConnector', 23.4)
-    #pass
+    #devMqtt.publish('temp/iot/deviceConnector', 23.4)
