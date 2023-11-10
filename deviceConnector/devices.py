@@ -29,19 +29,19 @@ class Sensor(object):
         self.type = type
         self.value = 0
     
-    def readvalue(self, type):
-        if type == "counterRides":
-            self.value += uniform(10,50)
-        elif type == "airWeight":
-            self.value = uniform(10,30)
-        elif type == "waterLevel":
-            self.value = uniform(10.3,20.0)
-        elif type == "phSensor":
-            self.value = uniform(6.8,8.5) #Ideal between 7.2 amd 7.4
+    def readvalue(self, sensor):
+        if sensor.type == "counterRides":
+            sensor.value += uniform(10,50)
+        elif sensor.type == "airWeight":
+            sensor.value = uniform(10,30)
+        elif sensor.type == "waterLevel":
+            sensor.value = uniform(10.3,20.0)
+        elif sensor.type == "phSensor":
+            sensor.value = uniform(6.8,8.5) #Ideal between 7.2 amd 7.4
         else:
-            self.value = 0
+            sensor.value = 0
             print('Invalid sensor type')
-        print(f'Sensor {self.type} with id {self.id} set value {self.value}')
+        print(f'Sensor {sensor.type} with id {sensor.id} set value {sensor.value}')
 
 class Comfort(object):
     def __init__(self, actuators, city):
@@ -69,7 +69,7 @@ class Maintenance(object):
     def sensorRead(self, id):
         for sensor in self.sensors:
             if sensor.id == id:
-                sensor.readvalue(sensor.type)
+                sensor.readvalue(sensor)
                 return sensor.value
 
     def airPumpOn(self, id):
@@ -100,7 +100,7 @@ class Water(object):
     def sensorRead(self, id):
         for sensor in self.sensors:
             if sensor.id == id:
-                sensor.readvalue(sensor.type)
+                sensor.readvalue(sensor)
                 return sensor.value
             
     def setValueActuator(self, id, value):

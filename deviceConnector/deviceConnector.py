@@ -177,26 +177,31 @@ class Publisher(object):
     with open(database, "r") as file:
       db = json.load(file)
 
-    strategy = ""
+    sensorTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/"
     for sensor in self.sensorsList:
       if sensor == "counterRides":
-        strategy = "maintenance"
+        for sensorM in self.sensorsMaintenance:
+          sensorM.readvalue(sensorM)
+          topic = sensorTopic + "maintenance/sensors/counterRides/sensorid/"+ str(sensorM.id)
+          devMqtt.publish(topic, sensorM.value)
       elif sensor == "airWeight":
-        strategy = "maintenance"
+        for sensorM in self.sensorsMaintenance:
+          sensorM.readvalue(sensorM)
+          topic = sensorTopic + "maintenance/sensors/airWeight/sensorid/"+ str(sensorM.id)
+          devMqtt.publish(topic, sensorM.value)
       elif sensor == "waterLevel":
-        strategy = "water"
+        for sensorw in self.sensorsWater:
+          sensorw.readvalue(sensorw)
+          topic = sensorTopic + "water/sensors/waterLevel/sensorid/"+ str(sensorw.id)
+          devMqtt.publish(topic, sensorw.value)
       elif sensor == "phSensor":
-        strategy = "water"
-      sensor.readvalue(sensorType)
+        for sensorw in self.sensorsWater:
+          sensorw.readvalue(sensorw)
+          topic = sensorTopic + "water/sensors/phSensor/sensorid/"+ str(sensorw.id)
+          devMqtt.publish(topic, sensorw.value)
 
-    if strategy == "":
-      print('Sensor type not reccognized')
-      return
-    else:
-      sensorTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/" + strategy + "/sensors/"+ sensorType
-      #sensor.readvalue(sensorType)
-      devMqtt.publish(sensorTopic, sensor.value[sensorType])
-
+    print('End publishing')
+    
 
 def postFunc():
   global database
@@ -252,6 +257,7 @@ if __name__ == "__main__":
     elif (timeNow - timeLastSensors) >= timeLimitSensors:
       for sensortype in sensors:
         devConnector.publishSensorReading(sensortype)
+        #print(sensortype)
         time.sleep(0.5)
       timeLastSensors = time.time()
 
