@@ -287,7 +287,7 @@ class DeviceConnector(object):
                             greenhouse["deviceConnetors".append(new_dev_connector)]
                         else:
                             for dev_connector in greenhouse["deviceConnetors"]:
-                                if dev_connector["ip"] == ip and dev_conn["port"] == port:
+                                if dev_connector["ip"] == ip and dev_connector["port"] == port:
                                         dev_connector["devices"]["sensors"] = sensors
                                         dev_connector["devices"]["actuators"] = actuators
                                         update = True
