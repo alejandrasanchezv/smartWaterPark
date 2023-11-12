@@ -7,7 +7,7 @@ import cherrypy
 from mqttClass import *
 from devices import *
 
-database = "devices.json"
+database = "./devices.json"
 resourceCatUrl = 'http://resource_catalog:8080'
 #counterID = 0
 #airID = 0
@@ -21,10 +21,14 @@ resourceCatUrl = 'http://resource_catalog:8080'
 #callMaintID = 0
 
 class DatabaseClass(object):
-  def POST(self, *path, **queries):
+  exposed = True
+
+  def POST(self, **params):
     global database, usrID, rideID
 
-    input = json.loads(cherrypy.reques.body.read())
+    input = params
+
+    print(params)
 
     with open(database, "r") as file:
       db = json.load(file)
@@ -36,34 +40,25 @@ class DatabaseClass(object):
       raise cherrypy.HTTPError(400, 'Strategy not found')
     
     if typeStrat == "maintenance":
-      try:
-        stratID = input["strategyID"]
-      except:
-        raise cherrypy.HTTPError(400, 'Strategy ID not found')
-      else:
-        stratTopic = "smartWaterPark/maintenance/strategy/"+ str(stratID) +"/user_" + str(usrID) + "/ride_" + str(rideID) + "/#"
-        devMqtt.subscribe(stratTopic)
-        db['strategies'][typeStrat].append(stratTopic)
+      stratTopicSensor1 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy//maintenance/sensors/counterRides/#"
+      stratTopicSensor2 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/sensors/airWeight/#"
+      devMqtt.subscribe(stratTopicSensor1)
+      db['strategies'][typeStrat].append(stratTopicSensor1)
+      devMqtt.subscribe(stratTopicSensor2)
+      db['strategies'][typeStrat].append(stratTopicSensor2)
     elif typeStrat == "water":
-      try:
-        stratID = input["strategyID"]
-      except:
-        raise cherrypy.HTTPError(400, 'Strategy ID not found')
-      else:
-        stratTopic = "smartWaterPark/water/strategy/"+ str(stratID) +"/user_" + str(usrID) + "/ride_" + str(rideID) + "/#"
-        devMqtt.subscribe(stratTopic)
-        db['strategies'][typeStrat].append(stratTopic)
+      stratTopicSensor1 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/water/sensors/waterLevel/#"
+      stratTopicSensor2 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/water/sensors/phSensor/#"
+      devMqtt.subscribe(stratTopicSensor1)
+      db['strategies'][typeStrat].append(stratTopicSensor1)
+      devMqtt.subscribe(stratTopicSensor2)
+      db['strategies'][typeStrat].append(stratTopicSensor2)
     elif typeStrat == "comfort":
-      try:
-        stratID = input["strategyID"]
-      except:
-        raise cherrypy.HTTPError(400, 'Strategy ID not found')
-      else:
-        stratTopic = "smartWaterPark/comfort/strategy/"+ str(stratID) +"/user_" + str(usrID) + "/ride_" + str(rideID) + "/#"
-        devMqtt.subscribe(stratTopic)
-        db['strategies'][typeStrat].append(stratTopic)
+      stratTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/comfort/#"
+      devMqtt.subscribe(stratTopic)
+      db['strategies'][typeStrat].append(stratTopic)
     else:
-      stratTopic = "smartWaterPark/" + str(typeStrat) + "/user_" + str(usrID) + "/ride_" + str(rideID) + "/#"
+      stratTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/" + str(typeStrat) + "/#"
       devMqtt.subscribe(stratTopic)
       db['strategies'][typeStrat].append(stratTopic)
 
@@ -76,40 +71,35 @@ class DatabaseClass(object):
     
     return result
   
-  def DELETE(self, *path, **queries):
+  def DELETE(self, **params):
     global database
 
     with open(database, "r") as file:
       db = json.load(file)
 
     try:
-      typeStrat = queries['typeStrategy']
+      typeStrat = params['typeStrategy']
       db['strategies'][typeStrat]
     except:
       raise cherrypy.HTTPError(400, 'Strategy type not found')
     
     try:
       if typeStrat == "maintenance":
-        try:
-          stratID = queries['stratID']
-        except:
-          db['strategies']['maintenance'] = []
-        else:
-          for topic in range(len(db['strategies']['maintenance'])):
-            topic_levels = topic.split('/')[1]
-            if int(topic_levels[4]) == int(stratID):
-              #ELIMINARLA
-              devMqtt.unsubscribe(topic)
-              break
+        for topic in db['strategies']['maintenance']:
+          devMqtt.unsubscribe(topic)
+        db["strategies"]["maintenance"] = []
       elif typeStrat == "water":
-        devMqtt.unsubscribe(topic)
+        for topic in db['strategies']['water']:
+          devMqtt.unsubscribe(topic)
         db["strategies"]["water"] = []
       else:
-        devMqtt.unsubscribe(topic)
+        for topic in db['strategies'][typeStrat]:
+          devMqtt.unsubscribe(topic)
         db["strategies"][typeStrat] = []
 
+      print(f'db: {db}')
       with open(database, "w") as file:
-        json.load(db, file, indent=3)
+        json.dump(db, file, indent=3)
       
       result = {
         "typeStrategy": typeStrat
@@ -121,8 +111,7 @@ class DatabaseClass(object):
               
 class Publisher(object):
   def __init__(self, sensors, actuators, strategies):
-    global database#, counterID, airID, waterLevelID, phID,\
-      #airpumpID, valveID, chlorineValveID, lightsID, fansID, callMaintID
+    global database
 
     self.sensorsList = sensors
     self.actuatorsList = actuators
@@ -231,7 +220,7 @@ if __name__ == "__main__":
   cherrypy.engine.start()
 
   with open(database, "r") as file:
-      db = json.load(file)
+    db = json.load(file)
 
   usrID = db["userID"]
   rideID = db["rideID"]
@@ -247,16 +236,16 @@ if __name__ == "__main__":
   devConnector = Publisher(sensors, actuators, strategies)
   timeLastDB = time.time()
   timeLastSensors = time.time()
-  timeLimitSensors = 6 # number in seconds
+  timeLimitSensors = 26 # number in seconds
   timeLimitDB = 15 # number in seconds
   while True:
     timeNow = time.time()
     if (timeNow - timeLastDB) >= timeLimitDB:
-      postFunc()
+      #postFunc()
       timeLastDB = timeNow
     elif (timeNow - timeLastSensors) >= timeLimitSensors:
       for sensortype in sensors:
-        devConnector.publishSensorReading(sensortype)
+        #devConnector.publishSensorReading(sensortype)
         #print(sensortype)
         time.sleep(0.5)
       timeLastSensors = time.time()

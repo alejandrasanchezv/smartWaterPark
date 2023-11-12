@@ -35,7 +35,7 @@ class ClientMQTT:
 
     def stop (self):
        print(f"[{self.clientID}] Unsubscribing and disconnecting from broker")
-       self._paho_mqtt.unsubscribe(self.topic)
+       self._paho_mqtt.unsubscribe(self.topics)
        self._paho_mqtt.loop_stop()
        self._paho_mqtt.disconnect()
 
@@ -43,6 +43,12 @@ class ClientMQTT:
        print(f"['{self.clientID}'] Connected to '{self.broker}' with result code: '{rc}'")
        #print ("Connected to %s with result code: %d" % (self.broker, rc))
 		#print('Message received')
+
+    def subscribe(self, topic):
+       self._paho_mqtt.subscribe(topic)
+
+    def unsubscribe(self, topic):
+       self._paho_mqtt.unsubscribe(topic)
 	
     def publish(self, topic, message):
        print(f"[{self.clientID}] Publishing message: '{message}'; topic: '{topic}'")

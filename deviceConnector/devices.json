@@ -1,25 +1,25 @@
 {
-    "userID": 0,
-    "rideID": 0,
-    "devices": {
-        "sensors": [
-            "counterRides",
-            "airWeight",
-            "waterLevel",
-            "phSensor"
-        ],
-        "actuators": [
-            "airPump",
-            "maintenanceCall",
-            "waterValve",
-            "chlorineValve",
-            "lights",
-            "fans"
-        ]
-    },
-    "strategies": {
-        "maintenance": [],
-        "water": [],
-        "comfort": []
-    }
+   "userID": 0,
+   "rideID": 0,
+   "devices": {
+      "sensors": [
+         "counterRides",
+         "airWeight",
+         "waterLevel",
+         "phSensor"
+      ],
+      "actuators": [
+         "airPump",
+         "maintenanceCall",
+         "waterValve",
+         "chlorineValve",
+         "lights",
+         "fans"
+      ]
+   },
+   "strategies": {
+      "maintenance": [],
+      "water": [],
+      "comfort": []
+   }
 }
