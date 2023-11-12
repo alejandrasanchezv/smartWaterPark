@@ -238,6 +238,7 @@ if __name__ == "__main__":
   timeLastSensors = time.time()
   timeLimitSensors = 30 # number in seconds
   timeLimitDB = 75 # number in seconds
+  postFunc()
   while True:
     timeNow = time.time()
     if (timeNow - timeLastDB) >= timeLimitDB:

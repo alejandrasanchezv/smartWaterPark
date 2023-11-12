@@ -1,5 +1,6 @@
 import time
 import json
+import requests
 from random import uniform
 
 class Actuator(object):
@@ -47,7 +48,39 @@ class Comfort(object):
     def __init__(self, actuators, city):
         self.city = city
         self.actuators = actuators
-        self.api = 'API'
+        self.api = '2782492787784b98814165302230711'
+        self.temperature = 18
+        self.isday = 1
+        self.flag = True
+        self.lastTime = time.time()
+
+    def weatherApi(self):
+        url = 'http://api.weatherapi.com/v1/current.json?key='+ self.api +'&q='+ self.city
+        request = requests.get(url)
+
+        data = request.json()
+        #with urllib.urlopen(request) as api_rsp:
+        #    data = json.loads(api_rsp.read().decode())
+
+        temp = data['current']['feelslike_c'] #THERMAL SENSATION
+        isday = data['current']['is_day']
+
+        return temp, isday
+    
+    def updateData(self):
+        #actualTime = time.time()
+
+        for actuator in  self.actuators:
+            if actuator.state:
+                #change actuator
+                print('1')
+
+        if self.flag:
+            self.temperature, self.isday = self.weatherApi()
+            self.flag = False
+
+        return
+
     
     def comfortActuatorOn(self, id):
         for actuator in self.actuators:
@@ -70,7 +103,7 @@ class Maintenance(object):
         for sensor in self.sensors:
             if sensor.id == id:
                 sensor.readvalue(sensor)
-                return sensor.value
+                return round(sensor.value,2)
 
     def airPumpOn(self, id):
         for actuator in self.actuators:
@@ -169,6 +202,10 @@ if __name__ == "__main__":
     timeLastMant = time.time()
     timeLimitWater = 7 # number in seconds
     timeLimitMant = 10 # number in seconds
+    # WEATHER API
+    temp, day = comfort.weatherApi()
+    print(temp)
+    print(day)
     while True:
         timeNow = time.time()
         if (timeNow - timeLastWater) >= timeLimitWater:
