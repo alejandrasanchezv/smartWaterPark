@@ -8,7 +8,7 @@ from mqttClass import *
 from devices import *
 
 database = "./devices.json"
-resourceCatUrl = 'http://resource_catalog:8080'
+resourceCatUrl = 'http://127.0.0.1:8080'
 #counterID = 0
 #airID = 0
 #waterLevelID = 0
@@ -205,7 +205,7 @@ def postFunc():
     "actuators": db['devices']['actuators']
   }
 
-  url = resourceCatUrl +'/device_connectors'
+  url = resourceCatUrl +'/device_connector'
   requests.post(url, json.dumps(payload))
 
 if __name__ == "__main__":
@@ -216,7 +216,7 @@ if __name__ == "__main__":
       }
   }
   cherrypy.tree.mount(DatabaseClass(), '/dbTopic', conf)
-  cherrypy.config.update({'server.socket_host': '0.0.0.0'})
+  cherrypy.config.update({'server.socket_host': '127.0.0.1', 'server.socket_port': 8099})
   cherrypy.engine.start()
 
   with open(database, "r") as file:
@@ -236,18 +236,18 @@ if __name__ == "__main__":
   devConnector = Publisher(sensors, actuators, strategies)
   timeLastDB = time.time()
   timeLastSensors = time.time()
-  timeLimitSensors = 26 # number in seconds
-  timeLimitDB = 15 # number in seconds
+  timeLimitSensors = 30 # number in seconds
+  timeLimitDB = 75 # number in seconds
   while True:
     timeNow = time.time()
     if (timeNow - timeLastDB) >= timeLimitDB:
-      #postFunc()
+      postFunc()
       timeLastDB = timeNow
     elif (timeNow - timeLastSensors) >= timeLimitSensors:
       for sensortype in sensors:
-        #devConnector.publishSensorReading(sensortype)
+        devConnector.publishSensorReading(sensortype)
         #print(sensortype)
-        time.sleep(0.5)
+        time.sleep(1)
       timeLastSensors = time.time()
 
     time.sleep(3)
