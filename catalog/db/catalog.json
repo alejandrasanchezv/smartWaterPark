@@ -12,21 +12,43 @@
                "rideName": "Atlantis",
                "state": "ON",
                "maintenanceTime": "2 weeks",
-               "maxRides": 500
+               "maxRides": 500,
+               "deviceConnectors": [
+                  {
+                     "devices": {
+                        "sensors": [
+                           "counterRides",
+                           "airWeight",
+                           "waterLevel",
+                           "phSensor"
+                        ],
+                        "actuators": [
+                           "airPump",
+                           "maintenanceCall",
+                           "waterValve",
+                           "chlorineValve",
+                           "lights",
+                           "fans"
+                        ]
+                     }
+                  }
+               ]
             },
             {
                "rideID": 2,
                "rideName": "Manta",
                "state": "OFF",
                "maintenanceTime": "4 weeks",
-               "maxRides": 500
+               "maxRides": 500,
+               "deviceConnectors": []
             },
             {
                "rideID": 3,
                "rideName": "Barracuda",
                "state": "OFF",
                "maintenanceTime": "5 weeks",
-               "maxRides": 500
+               "maxRides": 500,
+               "deviceConnectors": []
             }
          ]
       },

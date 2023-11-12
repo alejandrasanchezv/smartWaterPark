@@ -160,7 +160,8 @@ class ParkRide(object):
                "rideName": "Kraken",
                "state": "OFF",
                "maintenanceTime": "2 weeks",
-               "maxRides": 500
+               "maxRides": 500,
+               "deviceConnectors":[]
         }
 
         # Read the data from the body
@@ -260,19 +261,21 @@ class DeviceConnector(object):
         with open("db/catalog.json", "r") as file:
             db = json.load(file)
     
-        body = json.loads(cherrypy.request.body.read())
-        json_body=json.loads(body)
+        json_body = json.loads(cherrypy.request.body.read())
+        #print(body)
+        #json_body=json.loads(body)
+        print(json_body)
 
         userID = json_body["userID"]
-        greenHouseID = json_body["greenHouseID"]
-        ip = json_body["ip"]
-        port = json_body["port"]
+        parkRideID = json_body["rideID"]
+        #ip = json_body["ip"]
+        #port = json_body["port"]
         sensors = json_body["sensors"]
         actuators = json_body["actuators"]
 
         new_dev_connector = {
-            "ip": ip,
-            "port": port,
+            #"ip": ip,
+            #"port": port,
             "devices": {
                 "sensors": sensors,
                 "actuators": actuators
@@ -280,20 +283,28 @@ class DeviceConnector(object):
         }
         for user in db["users"]:
             if user["id"] == int(userID):
-                for greenhouse in user["greenHouses"]:
-                    if greenhouse["greenHouseID"] == int(greenHouseID):
+                print("ENTRO 1")
+                for parkRide in user["parkRides"]:
+                    if parkRide["rideID"] == int(parkRideID):
+                        print("ENTRO2")
                         update = False
-                        if len(greenhouse["deviceConnectors"] == 0):
-                            greenhouse["deviceConnetors".append(new_dev_connector)]
+                        parkRide["deviceConnectors"].append(new_dev_connector)
+                        #if len(parkRide["deviceConnectors"] == 0):
+                        #    print("ENTRO3")
+                            
+                        '''
                         else:
-                            for dev_connector in greenhouse["deviceConnetors"]:
-                                if dev_connector["ip"] == ip and dev_connector["port"] == port:
-                                        dev_connector["devices"]["sensors"] = sensors
-                                        dev_connector["devices"]["actuators"] = actuators
-                                        update = True
+                            for dev_connector in parkRide["deviceConnetors"]:
+                                #if dev_connector["ip"] == ip and dev_connector["port"] == port:
+                                dev_connector["devices"]["sensors"] = sensors
+                                dev_connector["devices"]["actuators"] = actuators
+                                update = True
                             if update == False:
-                                greenhouse["deviceConnectors"].append(new_dev_connector)
-
+                                parkRide["deviceConnectors"].append(new_dev_connector)
+                        
+                        
+                        '''
+                        
                         with open("db/catalog.json", "w") as file:
                                 json.dump(db, file, indent=3)
 
@@ -321,7 +332,7 @@ if __name__ == '__main__':
 
     cherrypy.tree.mount(User(), '/user', conf)
     cherrypy.tree.mount(ParkRide(), '/parkride', conf)
-    cherrypy.tree.mount(DeviceConnector(), '/device_connectors', conf)
+    cherrypy.tree.mount(DeviceConnector(), '/device_connector', conf)
 
     cherrypy.config.update({ 'server.shutdown_timeout': 1 })
     cherrypy.engine.start()

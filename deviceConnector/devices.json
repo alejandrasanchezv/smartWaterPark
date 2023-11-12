@@ -1,6 +1,6 @@
 {
-   "userID": 0,
-   "rideID": 0,
+   "userID": 1,
+   "rideID": 1,
    "devices": {
       "sensors": [
          "counterRides",
