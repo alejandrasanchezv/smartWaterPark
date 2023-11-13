@@ -8,8 +8,6 @@ class Actuator(object):
         self.id = id
         self.state = state
         self.type = type
-        if self.type == "airPump" or self.type == "waterValve" or self.type == "chlorineValve":
-            self.value = 0
 
     def turnOn(self):
         self.state = True
@@ -17,12 +15,72 @@ class Actuator(object):
     def turnOff(self):
         self.state = False
 
+class AirPump(Actuator):
+    def __init__(self, id, state, type) -> None:
+        super().__init__(id, state, type)
+        self.value = 0
+
     def setValue(self, value):
         self.value = value
         if self.value == 0:
             self.state = False
         else:
             self.state = True
+
+class WaterValve(Actuator):
+    def __init__(self, id, state, type) -> None:
+        super().__init__(id, state, type)
+        self.value = 0
+
+    def setValue(self, value):
+        self.value = value
+        if self.value == 0:
+            self.turnOff()
+        else:
+            self.turnOn()
+
+class ChlorineValve(Actuator):
+    def __init__(self, id, state, type) -> None:
+        super().__init__(id, state, type)
+        self.value = 0
+
+    def setValue(self, value):
+        self.value = value
+        if self.value == 0:
+            self.turnOff()
+        else:
+            self.turnOn()
+
+class Lights(Actuator):
+    def __init__(self, id, state, type) -> None:
+        super().__init__(id, state, type)
+
+class Fans(Actuator):
+    def __init__(self, id, state, type) -> None:
+        super().__init__(id, state, type)
+
+class MaintenanceCall(Actuator):
+    def __init__(self, id, state, type) -> None:
+        super().__init__(id, state, type)
+        self.warning = 0
+
+    def callMaintenance(self, userid, rideid, level = 3):
+        if level == 1:
+            print(f'Ride with ID {rideid} registered under user {userid}, almost time for maintance')
+            self.warning = 1
+            self.turnOn()
+        elif level == 2:
+            print(f'Ride with ID {rideid} registered under user {userid}, will need maintance shortly')
+            self.warning = 2
+            self.turnOn()
+        elif level == 3:
+            print(f'Ride with ID {rideid} registered under user {userid} needs maintance: RIDE {rideid} IS CLOSED')
+            self.warning = 3
+            self.turnOn()
+        else:
+            print(f'Ride with ID {rideid} registered under user {userid} is out of maintance: RIDE {rideid} IS OPEN')
+            self.warning = 0
+            self.turnOff()
 
 class Sensor(object):
     def __init__(self, id, type) -> None:
@@ -57,23 +115,30 @@ class Comfort(object):
     def weatherApi(self):
         url = 'http://api.weatherapi.com/v1/current.json?key='+ self.api +'&q='+ self.city
         request = requests.get(url)
-
         data = request.json()
-        #with urllib.urlopen(request) as api_rsp:
-        #    data = json.loads(api_rsp.read().decode())
 
         temp = data['current']['feelslike_c'] #THERMAL SENSATION
         isday = data['current']['is_day']
+
+        self.temperature = temp
+        self.isday = isday
 
         return temp, isday
     
     def updateData(self):
         #actualTime = time.time()
-
         for actuator in  self.actuators:
-            if actuator.state:
-                #change actuator
-                print('1')
+            if isinstance(actuator, Lights):
+                if self.isday:
+                    self.comfortActuatorOn(actuator.id)
+                else:
+                    self.comfortActuatorOff(actuator.id)
+            elif isinstance(actuator, Fans):
+                if self.temperature >= 25:
+                    self.comfortActuatorOn(actuator.id)
+                else:
+                    self.comfortActuatorOff(actuator.id)
+
 
         if self.flag:
             self.temperature, self.isday = self.weatherApi()
@@ -81,7 +146,6 @@ class Comfort(object):
 
         return
 
-    
     def comfortActuatorOn(self, id):
         for actuator in self.actuators:
             if actuator.id == id:
@@ -116,14 +180,6 @@ class Maintenance(object):
             if actuator.id == id:
                 actuator.turnOff()
                 return f'Comfort Actuator {actuator.type} with ID {id} is off'
-            
-    def callMaintenance(self, userid, rideid, level = 3):
-        if level == 1:
-            print(f'Ride with ID {rideid} registered under user {userid}, almost time for maintance')
-        elif level == 2:
-            print(f'Ride with ID {rideid} registered under user {userid}, will need maintance shortly')
-        else:
-            print(f'Ride with ID {rideid} registered under user {userid} needs maintance: RIDE {rideid} IS CLOSED')
 
 class Water(object):
     def __init__(self, sensors, actuators):
