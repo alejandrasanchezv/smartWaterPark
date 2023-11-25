@@ -40,7 +40,7 @@ class DatabaseClass(object):
       raise cherrypy.HTTPError(400, 'Strategy not found')
     
     if typeStrat == "maintenance":
-      stratTopicSensor1 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy//maintenance/sensors/counterRides/#"
+      stratTopicSensor1 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/sensors/counterRides/#"
       stratTopicSensor2 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/sensors/airWeight/#"
       devMqtt.subscribe(stratTopicSensor1)
       db['strategies'][typeStrat].append(stratTopicSensor1)
