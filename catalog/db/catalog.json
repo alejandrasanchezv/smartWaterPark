@@ -31,6 +31,42 @@
                            "fans"
                         ]
                      }
+                  },
+                  {
+                     "devices": {
+                        "sensors": [
+                           "counterRides",
+                           "airWeight",
+                           "waterLevel",
+                           "phSensor"
+                        ],
+                        "actuators": [
+                           "airPump",
+                           "maintenanceCall",
+                           "waterValve",
+                           "chlorineValve",
+                           "lights",
+                           "fans"
+                        ]
+                     }
+                  },
+                  {
+                     "devices": {
+                        "sensors": [
+                           "counterRides",
+                           "airWeight",
+                           "waterLevel",
+                           "phSensor"
+                        ],
+                        "actuators": [
+                           "airPump",
+                           "maintenanceCall",
+                           "waterValve",
+                           "chlorineValve",
+                           "lights",
+                           "fans"
+                        ]
+                     }
                   }
                ]
             },
