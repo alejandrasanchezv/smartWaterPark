@@ -216,7 +216,7 @@ if __name__ == "__main__":
       }
   }
   cherrypy.tree.mount(DatabaseClass(), '/dbTopic', conf)
-  cherrypy.config.update({'server.socket_host': '127.0.0.1', 'server.socket_port': 8099})
+  cherrypy.config.update({'server.socket_host': '127.0.0.1', 'server.socket_port': 8090})
   cherrypy.engine.start()
 
   with open(database, "r") as file:
