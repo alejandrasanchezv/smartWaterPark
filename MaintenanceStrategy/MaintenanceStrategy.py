@@ -5,11 +5,11 @@ import requests
 import cherrypy
 
 from mqttClass import *
-database = "./waterDB.json"
+database = "./maintenanceDB.json"
 
 resCatEndpoints = "http://127.0.0.1:8080"
 
-class WaterStrategy(object):
+class MaintenanceStrategy(object):
     exposed = True
 
     def POST(self, **params):
@@ -200,7 +200,7 @@ class WaterStrategy(object):
                 
             return result
         
-class waterPublisher(object):
+class maintenancePublisher(object):
 
     def __init__(self) -> None:
         pass
@@ -221,9 +221,6 @@ if __name__ == "__main__":
           'tools.sessions.on': True,
       }
   }
-  cherrypy.tree.mount(WaterStrategy(), '/dbTopic', conf)
-  cherrypy.config.update({'server.socket_host': '127.0.0.1', 'server.socket_port': 8092})
+  cherrypy.tree.mount(MaintenanceStrategy(), '/dbTopic', conf)
+  cherrypy.config.update({'server.socket_host': '127.0.0.1', 'server.socket_port': 8094})
   cherrypy.engine.start()
-
-  #Maintenance 8094
-  #Comfort 8096
