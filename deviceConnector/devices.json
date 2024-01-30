@@ -19,7 +19,7 @@
    },
    "strategies": {
       "maintenance": [
-         "smartWaterPark/user_0/ride_0/strategy//maintenance/sensors/counterRides/#",
+         "smartWaterPark/user_0/ride_0/strategy/maintenance/sensors/counterRides/#",
          "smartWaterPark/user_0/ride_0/strategy/maintenance/sensors/airWeight/#"
       ],
       "water": [],

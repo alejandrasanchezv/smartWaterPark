@@ -31,7 +31,7 @@ class MaintenanceStrategy(object):
         except:
             raise cherrypy.HTTPError(400, 'Wrong input')
         
-        stratTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/water/" + str(stratID)
+        stratTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/" + str(stratID)
 
         with open(database, "r") as file:
             db = json.load(file)
@@ -163,7 +163,7 @@ class MaintenanceStrategy(object):
 
                 return
         else:
-            stratTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/water/" + str(stratID)
+            stratTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/" + str(stratID)
             
             with open(database, "r") as file:
                 db = json.load(file)
@@ -181,7 +181,7 @@ class MaintenanceStrategy(object):
                     root_topic = strat['topic'].split('/')
                     if root_topic[1] == user and root_topic[2] == ride and int(root_topic[4]) > int(stratID):
                         stid = int(root_topic[4]) - 1
-                        stratTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/water/" + str(stid)
+                        stratTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/" + str(stid)
 
                 with open(database, "w") as file:
                     json.dump(db, file, indent=3)
@@ -205,14 +205,58 @@ class maintenancePublisher(object):
     def __init__(self) -> None:
         pass
 
-    def onMsgReceived(device1, userdata, msg):
+    def onMsgReceived(self, userdata, msg):
         print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
+        value = json.loads(msg.payload)
+        topic = msg.topic
+
+        user_topic = topic.split('/')[1]
+        ride_topic = topic.split('/')[2]
+
+        with open(database, "r") as file:
+            db = json.load(file)
+
+        try:
+            for strat in db['strategies']:
+                user = "user_" + str(strat['userID'])
+                ride = "ride_" + str(strat['rideID'])
+
+                if user_topic == user and ride_topic == ride:
+                    chosenstrat = strat
+                    userid = strat['userID']
+                    rideid = strat['rideID']
+                    break
+
+            maxRides = db['strategies'][chosenstrat]['maxRides']
+            counterRides = db['strategies'][chosenstrat]['counterRides']
+        except:
+            raise cherrypy.HTTPError(400, 'User not found')
+
+        if user == user_topic:
+            if ride == ride_topic:
+                sensor_topic = topic.split('/')[5]
+                if sensor_topic == "sensors":
+                    for sensor in db['sensors']:
+                        if sensor == "counterRides":
+                            counterRides += value
+                            alertStatus = 0
+                            alertTopic = "smartWaterPark/thingSpeak/user/" + str(userid) + "/ride/" + str(rideid) + "/stateAlert"
+                            if counterRides >= round(maxRides*0.95):
+                                alertStatus = 3
+                            elif counterRides >= round(maxRides*0.9):
+                                alertStatus = 2
+                            elif counterRides >= round(maxRides*0.8):
+                                alertStatus = 1
+                            else:
+                                print('No alert')
+                                alertStatus = 0
+                            self.publish(alertTopic, alertStatus)   
+                        elif sensor == "airWeight":
+                            pass
 
 with open(database, "r") as file:
     db = json.load(file)
 
-with open(database, "r") as file:
-    dbTest = json.load(file)
 
 if __name__ == "__main__":
   conf = {
@@ -224,3 +268,14 @@ if __name__ == "__main__":
   cherrypy.tree.mount(MaintenanceStrategy(), '/dbTopic', conf)
   cherrypy.config.update({'server.socket_host': '127.0.0.1', 'server.socket_port': 8094})
   cherrypy.engine.start()
+
+  
+  with open(database, "r") as file:
+    db = json.load(file)
+
+  usrID = db["userID"]
+  rideID = db["rideID"]
+  topic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/#"
+  client = "devConnector" + str(usrID)
+  maintMqtt = ClientMQTT(client, [topic],onMessageReceived=maintenancePublisher.onMsgReceived)
+  maintMqtt.start()

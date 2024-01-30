@@ -9,16 +9,6 @@ from devices import *
 
 database = "./devices.json"
 resourceCatUrl = 'http://127.0.0.1:8080'
-#counterID = 0
-#airID = 0
-#waterLevelID = 0
-#phID = 0
-#airpumpID = 0
-#valveID = 0
-#chlorineValveID = 0
-#lightsID = 0
-#fansID = 0
-#callMaintID = 0
 
 class DatabaseClass(object):
   exposed = True
@@ -159,6 +149,47 @@ class Publisher(object):
 
   def onMsgReceived(device1, userdata, msg):
     print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
+    value = json.loads(msg.payload)
+    topic = msg.topic
+
+    user_topic = topic.split('/')[2]
+    ride_topic = topic.split('/')[3]
+
+    with open(database, "r") as file:
+      db = json.load(file)
+    
+    try:
+      user = db['userID']
+      ride = db['rideID']
+    except:
+      raise cherrypy.HTTPError(400, 'User not found')
+    
+    usrstr = "user_" + str(user)
+    ridestr = "ride_" + str(ride)
+
+    #"smartWaterPark/devConnector/user_1/ride_1/strategy/{strategy}/sensor-actuator/{type}
+    if user_topic == usrstr  and ride_topic == ridestr:
+      element = topic.split('/')[6]
+
+      if element == "actuator":
+
+        try:
+          actuators = db['actuators']
+        except:
+          raise cherrypy.HTTPError(400, 'No actuators registered')
+        
+        actuator_topic = topic.split('/')[7]
+
+        for actuator in actuators:
+          if actuator_topic ==  actuator:
+            if value == 1:
+              #actuator on
+              print(f'atuator: {actuator} is ON')
+            else:
+              #actuator off
+              print(f'atuator: {actuator} is OFF')
+
+
 
   def publishSensorReading(self, sensorType):
     global database, usrID, rideID
