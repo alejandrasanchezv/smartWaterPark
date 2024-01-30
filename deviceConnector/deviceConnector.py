@@ -147,7 +147,7 @@ class Publisher(object):
     self.water = Water(self.sensorsWater, self.actuatorsWater)
     self.comfort = Comfort(self.actuatorsComfort, "Turin")
 
-  def onMsgReceived(device1, userdata, msg):
+  def onMsgReceived(self, userdata, msg):
     print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
     value = json.loads(msg.payload)
     topic = msg.topic
@@ -169,27 +169,57 @@ class Publisher(object):
 
     #"smartWaterPark/devConnector/user_1/ride_1/strategy/{strategy}/sensor-actuator/{type}
     if user_topic == usrstr  and ride_topic == ridestr:
-      element = topic.split('/')[6]
+      strategy_topic = topic.split('/')[5]
+      try:
+        strategies = db['strategies']
+      except:
+        raise cherrypy.HTTPError(400, 'No strategies registered')
+      
+      for strategy in strategies:
+        if strategy == strategy_topic:
+          
+          element = topic.split('/')[6]
+          if element == "actuator":
+            #try:
+            #  actuators = db['actuators']
+            #except:
+            #  raise cherrypy.HTTPError(400, 'No actuators registered')
+            
+            actuator_topic = topic.split('/')[7]
 
-      if element == "actuator":
-
-        try:
-          actuators = db['actuators']
-        except:
-          raise cherrypy.HTTPError(400, 'No actuators registered')
-        
-        actuator_topic = topic.split('/')[7]
-
-        for actuator in actuators:
-          if actuator_topic ==  actuator:
-            if value == 1:
-              #actuator on
-              print(f'atuator: {actuator} is ON')
+            if strategy == "water":
+              for actuator in self.actuatorsWater:
+                if actuator_topic ==  actuator.type:
+                  actuator.setValue(value)
+                  print(f'actuator with type: {actuator.type} and id {actuator.id} is set to {actuator.state}')
+            elif strategy == "comfort":
+              #print(f'Actuators with type: {actuator.type} should be controlled by API')
+              for actuator in self.actuatorsComfort:
+                if actuator_topic ==  actuator.type:
+                  if value == 1:
+                    actuator.comfortActuatorOn(actuator.id)
+                  else:
+                    actuator.comfortActuatorOff(actuator.id)
+                  print(f'actuator with type: {actuator.type} and id {actuator.id} is set to {actuator.state}')
+            elif strategy == "maintenance":
+              if actuator.type == "maintenanceCall":
+                print(f'atuator: {actuator} is ON')
+              else:
+                for actuator in self.actuatorsMaintenance:
+                  if actuator_topic ==  actuator.type:
+                    if value == 1:
+                      actuator.airPumpOn(actuator.id)
+                    else:
+                      actuator.airPumpOff(actuator.id)
+                    print(f'actuator with type: {actuator.type} and id {actuator.id} is set to {actuator.state}')
             else:
-              #actuator off
-              print(f'atuator: {actuator} is OFF')
-
-
+              print(f'Strategy: {strategy}')
+              if value == 1:
+                actuator.turnOn()
+              else:
+                actuator.turnOff()
+              print(f'actuator with type: {actuator.type} and id {actuator.id} is set to {actuator.state}')          
+        break
 
   def publishSensorReading(self, sensorType):
     global database, usrID, rideID

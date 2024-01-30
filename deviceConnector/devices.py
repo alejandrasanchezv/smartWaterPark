@@ -173,13 +173,13 @@ class Maintenance(object):
         for actuator in self.actuators:
             if actuator.id == id:
                 actuator.turnOn()
-                return f'Comfort Actuator {actuator.type} with ID {id} is on'
+                return f'Maintenance Actuator {actuator.type} with ID {id} is on'
         
     def airPumpOff(self, id):
         for actuator in self.actuators:
             if actuator.id == id:
                 actuator.turnOff()
-                return f'Comfort Actuator {actuator.type} with ID {id} is off'
+                return f'Maintenance Actuator {actuator.type} with ID {id} is off'
 
 class Water(object):
     def __init__(self, sensors, actuators):
