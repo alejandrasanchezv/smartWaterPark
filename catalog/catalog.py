@@ -9,11 +9,12 @@ import cherrypy
 class User(object):
     exposed = True
 
-    def GET(self,userID=None):
+    def GET(self,**params):
         with open('db/catalog.json', 'r') as file:
             db = json.load(file)
 
         users = db["users"]
+        userID=int(params["userID"])
         if userID is None:
             return('No user ID was given')
 
@@ -142,7 +143,7 @@ class ParkRide(object):
             if user["id"] == userID:
                 for ride in user["parkRides"]:
                     if ride["rideID"] == parkRideID:
-                        return "Park ride Found: ", json.dumps(ride,indent=3)
+                        return json.dumps(ride,indent=3)
                 
                 return "Park ride does not exits"
             
@@ -158,8 +159,8 @@ class ParkRide(object):
         newRide={
                "rideID": 5,
                "rideName": "Kraken",
-               "state": "OFF",
-               "maintenanceTime": "2 weeks",
+               "state": 1,
+               "maintenanceTime": 2,
                "maxRides": 500,
                "deviceConnectors":[]
         }
@@ -171,7 +172,7 @@ class ParkRide(object):
         userID=int(json_body["userID"]) #id of the user to add the new ride
         newRide["rideID"] = int(json_body["rideParkID"])
         newRide["rideName"] = json_body["rideParkName"]
-        newRide["maintenanceTime"] =json_body["maintenance"]
+        newRide["maintenanceTime"] =int(json_body["maintenance"])
 
         for user in users:
             if user["id"] == userID:
@@ -283,14 +284,20 @@ class DeviceConnector(object):
         }
         for user in db["users"]:
             if user["id"] == int(userID):
-                print("ENTRO 1")
+                
                 for parkRide in user["parkRides"]:
                     if parkRide["rideID"] == int(parkRideID):
-                        print("ENTRO2")
+                        
                         update = False
-                        parkRide["deviceConnectors"].append(new_dev_connector)
-                        #if len(parkRide["deviceConnectors"] == 0):
-                        #    print("ENTRO3")
+
+                        #parkRide["deviceConnectors"].append(new_dev_connector)
+                        if parkRide["deviceConnectors"] == []:
+                            
+                            print("is empty, then i can add the elements")
+                            parkRide["deviceConnectors"].append(new_dev_connector)
+                            
+                        else:
+                            print("It's occupied")
                             
                         '''
                         else:
