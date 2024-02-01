@@ -5,7 +5,7 @@ import requests
 import cherrypy
 
 from mqttClass import *
-database = "./waterDB.json"
+database = "waterDB.json"
 
 resCatEndpoints = "http://127.0.0.1:8080"
 

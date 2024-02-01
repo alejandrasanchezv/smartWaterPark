@@ -5,7 +5,7 @@ import requests
 import cherrypy
 
 from mqttClass import *
-database = "./maintenanceDB.json"
+database = "maintenanceDB.json"
 
 resCatEndpoints = "http://127.0.0.1:8080"
 
@@ -65,6 +65,20 @@ class MaintenanceStrategy(object):
             "timestamp": time.time()
         }
 
+        """
+        result = {
+            "userID": usrID,
+            "rideID": rideID,
+            "stratID": stratStatus,
+            "status": stratStatus,
+            "topic": topic,
+            "isinMaint": false,
+            "numMaint": 0,
+            "alert": 0,
+            "timestamp": time.time()
+        } 
+        """
+
         return result
     
     def PUT(self, **params):
@@ -114,7 +128,7 @@ class MaintenanceStrategy(object):
             "rideID": rideID,
             "status": stratStatus,
             "timestamp": time.time()
-        }
+        }       
 
         return result
     

@@ -5,7 +5,7 @@ import requests
 import cherrypy
 
 from mqttClass import *
-database = "./comfortDB.json"
+database = "comfortDB.json"
 
 resCatEndpoints = "http://127.0.0.1:8080"
 

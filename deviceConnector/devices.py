@@ -15,18 +15,6 @@ class Actuator(object):
     def turnOff(self):
         self.state = False
 
-class AirPump(Actuator):
-    def __init__(self, id, state, type) -> None:
-        super().__init__(id, state, type)
-        self.value = 0
-
-    def setValue(self, value):
-        self.value = value
-        if self.value == 0:
-            self.state = False
-        else:
-            self.state = True
-
 class WaterValve(Actuator):
     def __init__(self, id, state, type) -> None:
         super().__init__(id, state, type)
@@ -91,8 +79,6 @@ class Sensor(object):
     def readvalue(self, sensor):
         if sensor.type == "counterRides":
             sensor.value += uniform(10,50)
-        elif sensor.type == "airWeight":
-            sensor.value = uniform(10,30)
         elif sensor.type == "waterLevel":
             sensor.value = uniform(10.3,20.0)
         elif sensor.type == "phSensor":
@@ -169,18 +155,6 @@ class Maintenance(object):
                 sensor.readvalue(sensor)
                 return round(sensor.value,2)
 
-    def airPumpOn(self, id):
-        for actuator in self.actuators:
-            if actuator.id == id:
-                actuator.turnOn()
-                return f'Maintenance Actuator {actuator.type} with ID {id} is on'
-        
-    def airPumpOff(self, id):
-        for actuator in self.actuators:
-            if actuator.id == id:
-                actuator.turnOff()
-                return f'Maintenance Actuator {actuator.type} with ID {id} is off'
-
 class Water(object):
     def __init__(self, sensors, actuators):
         self.sensors = sensors
@@ -210,9 +184,6 @@ if __name__ == "__main__":
     for counter in range(numCounters):
         sensorsMaintenance.append(Sensor(id, "counterRides"))
         id += 1
-    for airW in range(numAirWeight):
-        sensorsMaintenance.append(Sensor(id, "airWeight"))
-        id += 1
     for waterL in range(numWaterLevel):
         sensorsWater.append(Sensor(id, "waterLevel"))
         id += 1
@@ -223,7 +194,6 @@ if __name__ == "__main__":
     actuatorsMaintenance = []
     actuatorsWater = []
     actuatorsComfort = []
-    numAir = 1
     numMaint = 1
     numValves = 1
     numChlo = 1
@@ -231,9 +201,6 @@ if __name__ == "__main__":
     numFans = 1
     idA = 0
 
-    for pump in range(numAir):
-        actuatorsMaintenance.append(Actuator(idA, False, "airPump"))
-        idA += 1
     for maint in range(numMaint):
         actuatorsMaintenance.append(Actuator(idA, False, "maintenanceCall"))
         idA += 1

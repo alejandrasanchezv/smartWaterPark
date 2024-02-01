@@ -31,11 +31,8 @@ class DatabaseClass(object):
     
     if typeStrat == "maintenance":
       stratTopicSensor1 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/sensors/counterRides/#"
-      stratTopicSensor2 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/sensors/airWeight/#"
       devMqtt.subscribe(stratTopicSensor1)
       db['strategies'][typeStrat].append(stratTopicSensor1)
-      devMqtt.subscribe(stratTopicSensor2)
-      db['strategies'][typeStrat].append(stratTopicSensor2)
     elif typeStrat == "water":
       stratTopicSensor1 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/water/sensors/waterLevel/#"
       stratTopicSensor2 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/water/sensors/phSensor/#"
@@ -114,8 +111,6 @@ class Publisher(object):
     for sensor in self.sensorsList:
       if sensor == "counterRides":
         self.sensorsMaintenance.append(Sensor(sensorID, sensor))
-      elif sensor == "airWeight":
-        self.sensorsMaintenance.append(Sensor(sensorID, sensor))
       elif sensor == "waterLevel":
         self.sensorsWater.append(Sensor(sensorID, sensor))
       elif sensor == "phSensor":
@@ -129,9 +124,7 @@ class Publisher(object):
 
     # Actuator are always initialized as off
     for actuator in self.actuatorsList: 
-      if actuator == "airPump":
-        self.actuatorsMaintenance.append(Actuator(actuatorID, False, actuator))
-      elif actuator == "maintenanceCall":
+      if actuator == "maintenanceCall":
         self.actuatorsMaintenance.append(Actuator(actuatorID, False, actuator))
       elif actuator == "waterValve":
         self.actuatorsWater.append(Actuator(actuatorID, False, actuator))
@@ -204,14 +197,6 @@ class Publisher(object):
             elif strategy == "maintenance":
               if actuator.type == "maintenanceCall":
                 print(f'atuator: {actuator} is ON')
-              else:
-                for actuator in self.actuatorsMaintenance:
-                  if actuator_topic ==  actuator.type:
-                    if value == 1:
-                      actuator.airPumpOn(actuator.id)
-                    else:
-                      actuator.airPumpOff(actuator.id)
-                    print(f'actuator with type: {actuator.type} and id {actuator.id} is set to {actuator.state}')
             else:
               print(f'Strategy: {strategy}')
               if value == 1:
@@ -233,11 +218,6 @@ class Publisher(object):
         for sensorM in self.sensorsMaintenance:
           sensorM.readvalue(sensorM)
           topic = sensorTopic + "maintenance/sensors/counterRides/sensorid/"+ str(sensorM.id)
-          devMqtt.publish(topic, sensorM.value)
-      elif sensor == "airWeight":
-        for sensorM in self.sensorsMaintenance:
-          sensorM.readvalue(sensorM)
-          topic = sensorTopic + "maintenance/sensors/airWeight/sensorid/"+ str(sensorM.id)
           devMqtt.publish(topic, sensorM.value)
       elif sensor == "waterLevel":
         for sensorw in self.sensorsWater:
@@ -264,6 +244,14 @@ def postFunc():
     "rideID": db['rideID'],
     "sensors": db['devices']['sensors'],
     "actuators": db['devices']['actuators']
+    #"strategies": {
+    #  "maintenance": [
+    #     "smartWaterPark/user_0/ride_0/strategy/maintenance/sensors/counterRides/#",
+    #     "smartWaterPark/user_0/ride_0/strategy/maintenance/sensors/airWeight/#"
+    #  ],
+    #  "water": [],
+    #  "comfort": []
+    #}
   }
 
   url = resourceCatUrl +'/device_connector'

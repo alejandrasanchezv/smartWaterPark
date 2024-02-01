@@ -6,7 +6,7 @@ import paho.mqtt.client as mqtt
 
 from mqttClass import *
 
-database = "./thingSpeakDB.json"
+database = "thingSpeakDB.json"
 resCatEndpoints = "http://127.0.0.1:8080"
 url_thingspeak = "https://api.thingspeak.com/update?api_key="
 
