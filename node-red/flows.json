@@ -1,41 +1,34 @@
 [
     {
-        "id": "a73be9ce4b99c5f0",
+        "id": "b3e923dc0a301c60",
         "type": "ui_form",
         "z": "773261dc17be4159",
+        "g": "3cbaea7c100919c1",
         "name": "",
         "label": "",
-        "group": "bf5f087db0e926fa",
-        "order": 1,
+        "group": "181e5a3da1f229b2",
+        "order": 2,
         "width": 0,
         "height": 0,
         "options": [
             {
-                "label": "name",
-                "value": "userName",
-                "type": "text",
+                "label": "Water pH",
+                "value": "waterPH",
+                "type": "number",
                 "required": true,
                 "rows": null
             },
             {
-                "label": "email",
-                "value": "email",
-                "type": "text",
-                "required": true,
-                "rows": null
-            },
-            {
-                "label": "city",
-                "value": "city",
-                "type": "text",
-                "required": true,
+                "label": "Water Level",
+                "value": "waterLevel",
+                "type": "number",
+                "required": false,
                 "rows": null
             }
         ],
         "formValue": {
-            "userName": "",
-            "email": "",
-            "city": ""
+            "waterPH": "",
+            "waterLevel": ""
         },
         "payload": "",
         "submit": "submit",
@@ -44,31 +37,32 @@
         "topicType": "msg",
         "splitLayout": "",
         "className": "",
-        "x": 210,
-        "y": 2280,
+        "x": 230,
+        "y": 3480,
         "wires": [
             [
-                "2b33f6427f9a3da9"
+                "da904c0c071273ce",
+                "9424044918484342"
             ]
         ]
     },
     {
-        "id": "bf5f087db0e926fa",
+        "id": "181e5a3da1f229b2",
         "type": "ui_group",
-        "name": "Prueba8",
-        "tab": "b58f83dea9ac8e59",
-        "order": 1,
+        "name": "Water",
+        "tab": "e00cfd45124a538a",
+        "order": 4,
         "disp": true,
         "width": "6",
         "collapse": false,
         "className": ""
     },
     {
-        "id": "b58f83dea9ac8e59",
+        "id": "e00cfd45124a538a",
         "type": "ui_tab",
-        "name": "Prueba8",
+        "name": "Strategy",
         "icon": "dashboard",
-        "order": 6,
+        "order": 4,
         "disabled": false,
         "hidden": false
     }
