@@ -1,20 +1,62 @@
 {
    "userID": 1,
    "rideID": 1,
+   "sensorTypes": [
+      "counterRides",
+      "waterLevel",
+      "phSensor"
+   ],
+   "actuatorTypes": [
+      "maintenanceCall",
+      "waterValve",
+      "chlorineValve",
+      "lights",
+      "fans"
+   ],
    "devices": {
       "sensors": [
-         "counterRides",
-         "airWeight",
-         "waterLevel",
-         "phSensor"
+         {
+            "id": 0,
+            "type": "counterRides",
+            "value": 97.65179662351898
+         },
+         {
+            "id": 1,
+            "type": "waterLevel",
+            "value": 17.419832645635697
+         },
+         {
+            "id": 2,
+            "type": "phSensor",
+            "value": 8.10359609796309
+         }
       ],
       "actuators": [
-         "airPump",
-         "maintenanceCall",
-         "waterValve",
-         "chlorineValve",
-         "lights",
-         "fans"
+         {
+            "id": 0,
+            "type": "maintenanceCall",
+            "state": false
+         },
+         {
+            "id": 1,
+            "type": "waterValve",
+            "state": false
+         },
+         {
+            "id": 2,
+            "type": "chlorineValve",
+            "state": false
+         },
+         {
+            "id": 3,
+            "type": "lights",
+            "state": false
+         },
+         {
+            "id": 4,
+            "type": "fans",
+            "state": false
+         }
       ]
    },
    "strategies": {

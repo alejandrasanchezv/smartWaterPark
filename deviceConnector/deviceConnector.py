@@ -139,6 +139,54 @@ class Publisher(object):
     self.maintenance = Maintenance(self.sensorsMaintenance, self.actuatorsMaintenance)
     self.water = Water(self.sensorsWater, self.actuatorsWater)
     self.comfort = Comfort(self.actuatorsComfort, "Turin")
+    self.saveDevices()
+
+  def saveDevices(self):
+
+    with open(database, "r") as file:
+      db = json.load(file)
+
+    db['devices']['sensors'] = []
+    for i in self.sensorsMaintenance:
+      sens = {}
+      sens['id'] = i.id
+      sens['type'] = i.type
+      sens['value'] = i.value
+      db['devices']['sensors'].append(sens)
+
+    for i in self.sensorsWater:
+      sens = {}
+      sens['id'] = i.id
+      sens['type'] = i.type
+      sens['value'] = i.value
+      db['devices']['sensors'].append(sens)
+    print(db['devices']['sensors'])
+
+    db['devices']['actuators'] = []
+    for i in self.actuatorsMaintenance:
+      act = {}
+      act['id'] = i.id
+      act['type'] = i.type
+      act['state'] = i.state
+      db['devices']['actuators'].append(act)
+
+    for i in self.actuatorsWater:
+      act = {}
+      act['id'] = i.id
+      act['type'] = i.type
+      act['state'] = i.state
+      db['devices']['actuators'].append(act)
+
+    for i in self.actuatorsComfort:
+      act = {}
+      act['id'] = i.id
+      act['type'] = i.type
+      act['state'] = i.state
+      db['devices']['actuators'].append(act)
+    print(db['devices']['actuators'])
+
+    with open(database, "w") as file:
+      json.dump(db, file, indent=3)
 
   def onMsgReceived(self, userdata, msg):
     print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
@@ -231,6 +279,7 @@ class Publisher(object):
           devMqtt.publish(topic, sensorw.value)
 
     print('End publishing')
+    self.saveDevices()
     
 
 def postFunc():
@@ -243,19 +292,12 @@ def postFunc():
     "userID": db['userID'],
     "rideID": db['rideID'],
     "sensors": db['devices']['sensors'],
-    "actuators": db['devices']['actuators']
-    #"strategies": {
-    #  "maintenance": [
-    #     "smartWaterPark/user_0/ride_0/strategy/maintenance/sensors/counterRides/#",
-    #     "smartWaterPark/user_0/ride_0/strategy/maintenance/sensors/airWeight/#"
-    #  ],
-    #  "water": [],
-    #  "comfort": []
-    #}
+    "actuators": db['devices']['actuators'],
+    "strategies": db['strategies']
   }
 
   url = resourceCatUrl +'/device_connector'
-  requests.post(url, json.dumps(payload))
+  #requests.post(url, json.dumps(payload))
 
 if __name__ == "__main__":
   conf = {
@@ -278,8 +320,8 @@ if __name__ == "__main__":
   devMqtt = ClientMQTT(client, [topic],onMessageReceived=Publisher.onMsgReceived)
   devMqtt.start()
 
-  sensors = db["devices"]["sensors"]
-  actuators = db["devices"]["actuators"]
+  sensors = db["sensorTypes"]
+  actuators = db["actuatorTypes"]
   strategies = db["strategies"]
 
   devConnector = Publisher(sensors, actuators, strategies)
