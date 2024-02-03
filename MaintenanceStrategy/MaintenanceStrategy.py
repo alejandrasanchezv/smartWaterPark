@@ -287,9 +287,26 @@ if __name__ == "__main__":
   with open(database, "r") as file:
     db = json.load(file)
 
-  usrID = db["userID"]
-  rideID = db["rideID"]
+  usrID = 1#db["userID"]
+  rideID = 0#db["rideID"]
   topic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/#"
   client = "devConnector" + str(usrID)
   maintMqtt = ClientMQTT(client, [topic],onMessageReceived=maintenancePublisher.onMsgReceived)
   maintMqtt.start()
+  
+  alertTopicEx = "smartWaterPark/thingSpeak/user/" + str(usrID) + "/ride/" + str(rideID)
+
+  time.sleep(2)
+
+  alertEx = alertTopicEx + "/stateAlert"
+  maintMqtt.publish(alertEx, 2)
+
+  time.sleep(12)
+
+  numEx =  alertTopicEx + "/numMaint"
+  maintMqtt.publish(numEx, 1)
+
+  time.sleep(12)
+
+  inMaintEx =  alertTopicEx + "/isinMaint"
+  maintMqtt.publish(inMaintEx, 0)

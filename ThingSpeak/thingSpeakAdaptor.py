@@ -103,27 +103,32 @@ class ThingSpeakmqtt(object):
         data = json.loads(msg.payload)
         topic = msg.topic
 
-        sendThingSpeak(topic, data)
+        userID = topic.split("/")[3]
+        print(f'userID: {userID}')
+        rideID = topic.split("/")[5]
+        print(f'rideID: {rideID}')
+        dataType = topic.split("/")[6]
+        print(f'dataType: {dataType}')
+        
 
-def sendThingSpeak(topic, data):
+        for user in db["users"]:
+            if user["userID"] == int(userID):
+                for ride in user["rides"]:
+                    if ride["rideID"] == int(rideID):
+                        sendThingSpeak(userID, rideID, dataType, data)
+
+def sendThingSpeak(userID, rideID, dataType, data):
     """
     Sends the information received from 
     a MQTT topic to Thingspeak using REST (post)
     """
 
-    print(f'sendThingSpeak entered with topic: "{str(topic)}" and data: "{str(data)}"')
     global database
 
     with open(database, "r") as file:
         db = json.load(file)
 
-    userID = topic.split("/")[3]
-    print(f'userID: {userID}')
-    rideID = topic.split("/")[5]
-    print(f'rideID: {rideID}')
-    dataType = topic.split("/")[6]
-    print(f'dataType: {dataType}')
-    maintData[dataType] = data[dataType]
+    maintData[dataType] = data
 
     for user in db["users"]:
         if user["userID"] == int(userID):
@@ -170,7 +175,7 @@ def postFunc():
   }
 
   url = resCatEndpoints +'/thingSpeakAdaptor'
-  requests.post(url, json.dumps(payload))
+  #requests.post(url, json.dumps(payload))
 
 def getTopics():
     """
@@ -187,7 +192,7 @@ def getTopics():
 
 if __name__ == "__main__":
 
-    time.sleep(10)
+    #time.sleep(10)
 
     conf = {
         '/': {
@@ -209,32 +214,34 @@ if __name__ == "__main__":
     thingsSpeakMqtt = ClientMQTT(client, [topic],onMessageReceived=ThingSpeakmqtt.onMsgReceived)
     thingsSpeakMqtt.start()
 
-    exampleData = {
-        "isinMaint": 1,
-        "numMaint": 1,
-        "stateAlert": 0
-    }
-
-    time.sleep(5)
-
-    topicTest = "smartWaterPark/thingSpeak/user/" + str(usrID) + "/ride/" + str(rideID) + "/isinMaint"
-    sendThingSpeak(topicTest, exampleData)
-
-    time.sleep(15)
-
-    topicTest = "smartWaterPark/thingSpeak/user/" + str(usrID) + "/ride/" + str(rideID) + "/numMaint"
-    sendThingSpeak(topicTest, exampleData)
-
-    time.sleep(15)
-
-    topicTest = "smartWaterPark/thingSpeak/user/" + str(usrID) + "/ride/" + str(rideID) + "/stateAlert"
-    sendThingSpeak(topicTest, exampleData)
-
-    timeLimitDB = 60 # number in seconds
     #postFunc()
-    #while True:
-    #    timeNow = time.time()
-    #    if (timeNow - timeLastDB) >= timeLimitDB:
-    #        postFunc()
-    #        timeLastDB = timeNow
+    timeLimitDB = 60 # number in seconds
+    timeLastDB = time.time()
+
+    while True:
+        timeNow = time.time()
+        if (timeNow - timeLastDB) >= timeLimitDB:
+            postFunc()
+            timeLastDB = timeNow
     #thingsSpeakMqtt.stop()
+
+    #exampleData = {
+    #    "isinMaint": 1,
+    #    "numMaint": 1,
+    #    "stateAlert": 0
+    #}
+
+    #time.sleep(5)
+
+    #topicTest = "smartWaterPark/thingSpeak/user/" + str(usrID) + "/ride/" + str(rideID) + "/isinMaint"
+    #sendThingSpeak(topicTest, exampleData)
+
+    #time.sleep(15)
+
+    #topicTest = "smartWaterPark/thingSpeak/user/" + str(usrID) + "/ride/" + str(rideID) + "/numMaint"
+    #sendThingSpeak(topicTest, exampleData)
+
+    #time.sleep(15)
+
+    #topicTest = "smartWaterPark/thingSpeak/user/" + str(usrID) + "/ride/" + str(rideID) + "/stateAlert"
+    #sendThingSpeak(topicTest, exampleData)
