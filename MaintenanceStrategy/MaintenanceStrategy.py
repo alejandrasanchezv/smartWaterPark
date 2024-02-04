@@ -287,8 +287,8 @@ if __name__ == "__main__":
   with open(database, "r") as file:
     db = json.load(file)
 
-  usrID = 1#db["userID"]
-  rideID = 0#db["rideID"]
+  usrID = 1 #db["userID"]
+  rideID = 0 #db["rideID"]
   topic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/#"
   client = "devConnector" + str(usrID)
   maintMqtt = ClientMQTT(client, [topic],onMessageReceived=maintenancePublisher.onMsgReceived)

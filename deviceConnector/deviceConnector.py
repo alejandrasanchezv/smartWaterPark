@@ -9,6 +9,11 @@ from devices import *
 
 database = "./devices.json"
 resourceCatUrl = 'http://127.0.0.1:8080'
+sensorsMaintenance = [] 
+sensorsWater = [] 
+actuatorsMaintenance = []
+actuatorsWater = [] 
+actuatorsComfort = []
 
 class DatabaseClass(object):
   exposed = True
@@ -28,7 +33,7 @@ class DatabaseClass(object):
       db['strategies'][typeStrat]
     except:
       raise cherrypy.HTTPError(400, 'Strategy not found')
-    
+
     if typeStrat == "maintenance":
       stratTopicSensor1 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/sensors/counterRides/#"
       devMqtt.subscribe(stratTopicSensor1)
@@ -98,7 +103,7 @@ class DatabaseClass(object):
               
 class Publisher(object):
   def __init__(self, sensors, actuators, strategies):
-    global database
+    global database, sensorsMaintenance, sensorsWater, actuatorsMaintenance, actuatorsWater, actuatorsComfort
 
     self.sensorsList = sensors
     self.actuatorsList = actuators
@@ -139,54 +144,12 @@ class Publisher(object):
     self.maintenance = Maintenance(self.sensorsMaintenance, self.actuatorsMaintenance)
     self.water = Water(self.sensorsWater, self.actuatorsWater)
     self.comfort = Comfort(self.actuatorsComfort, "Turin")
-    self.saveDevices()
 
-  def saveDevices(self):
-
-    with open(database, "r") as file:
-      db = json.load(file)
-
-    db['devices']['sensors'] = []
-    for i in self.sensorsMaintenance:
-      sens = {}
-      sens['id'] = i.id
-      sens['type'] = i.type
-      sens['value'] = i.value
-      db['devices']['sensors'].append(sens)
-
-    for i in self.sensorsWater:
-      sens = {}
-      sens['id'] = i.id
-      sens['type'] = i.type
-      sens['value'] = i.value
-      db['devices']['sensors'].append(sens)
-    print(db['devices']['sensors'])
-
-    db['devices']['actuators'] = []
-    for i in self.actuatorsMaintenance:
-      act = {}
-      act['id'] = i.id
-      act['type'] = i.type
-      act['state'] = i.state
-      db['devices']['actuators'].append(act)
-
-    for i in self.actuatorsWater:
-      act = {}
-      act['id'] = i.id
-      act['type'] = i.type
-      act['state'] = i.state
-      db['devices']['actuators'].append(act)
-
-    for i in self.actuatorsComfort:
-      act = {}
-      act['id'] = i.id
-      act['type'] = i.type
-      act['state'] = i.state
-      db['devices']['actuators'].append(act)
-    print(db['devices']['actuators'])
-
-    with open(database, "w") as file:
-      json.dump(db, file, indent=3)
+    sensorsMaintenance = self.sensorsMaintenance
+    sensorsWater = self.sensorsWater
+    actuatorsMaintenance = self.actuatorsMaintenance
+    actuatorsWater = self.actuatorsWater
+    actuatorsComfort = self.actuatorsComfort
 
   def onMsgReceived(self, userdata, msg):
     print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
@@ -279,11 +242,83 @@ class Publisher(object):
           devMqtt.publish(topic, sensorw.value)
 
     print('End publishing')
-    self.saveDevices()
     
+def updateDB():
+    global sensorsMaintenance, sensorsWater, actuatorsMaintenance, actuatorsWater, actuatorsComfort
+
+    with open(database, "r") as file:
+      db = json.load(file)
+
+    db['devices']['sensors'] = []
+    for i in sensorsMaintenance:
+      sens = {}
+      sens['id'] = i.id
+      sens['type'] = i.type
+      sens['value'] = i.value
+      db['devices']['sensors'].append(sens)
+
+    for i in sensorsWater:
+      sens = {}
+      sens['id'] = i.id
+      sens['type'] = i.type
+      sens['value'] = i.value
+      db['devices']['sensors'].append(sens)
+    print(db['devices']['sensors'])
+
+    db['devices']['actuators'] = []
+    for i in actuatorsMaintenance:
+      act = {}
+      act['id'] = i.id
+      act['type'] = i.type
+      act['state'] = i.state
+      db['devices']['actuators'].append(act)
+
+    for i in actuatorsWater:
+      act = {}
+      act['id'] = i.id
+      act['type'] = i.type
+      act['state'] = i.state
+      db['devices']['actuators'].append(act)
+
+    for i in actuatorsComfort:
+      act = {}
+      act['id'] = i.id
+      act['type'] = i.type
+      act['state'] = i.state
+      db['devices']['actuators'].append(act)
+    print(db['devices']['actuators'])
+
+    strategies = db['strategies']
+
+    for typeStrat in strategies:
+      db['strategies'][typeStrat] = []
+      if typeStrat == "maintenance":
+        stratTopicSensor1 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/sensors/counterRides/#"
+        devMqtt.subscribe(stratTopicSensor1)
+        db['strategies'][typeStrat].append(stratTopicSensor1)
+      elif typeStrat == "water":
+        stratTopicSensor1 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/water/sensors/waterLevel/#"
+        stratTopicSensor2 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/water/sensors/phSensor/#"
+        devMqtt.subscribe(stratTopicSensor1)
+        db['strategies'][typeStrat].append(stratTopicSensor1)
+        devMqtt.subscribe(stratTopicSensor2)
+        db['strategies'][typeStrat].append(stratTopicSensor2)
+      elif typeStrat == "comfort":
+        stratTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/comfort/#"
+        devMqtt.subscribe(stratTopic)
+        db['strategies'][typeStrat].append(stratTopic)
+      else:
+        stratTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/" + str(typeStrat) + "/#"
+        devMqtt.subscribe(stratTopic)
+        db['strategies'][typeStrat].append(stratTopic)
+
+    with open(database, "w") as file:
+      json.dump(db, file, indent=3)
 
 def postFunc():
   global database
+
+  updateDB()
 
   with open(database, "r") as file:
     db = json.load(file)
@@ -297,7 +332,7 @@ def postFunc():
   }
 
   url = resourceCatUrl +'/device_connector'
-  #requests.post(url, json.dumps(payload))
+  requests.post(url, json.dumps(payload))
 
 if __name__ == "__main__":
   conf = {
@@ -330,6 +365,7 @@ if __name__ == "__main__":
   timeLimitSensors = 30 # number in seconds
   timeLimitDB = 75 # number in seconds
   postFunc()
+  
   while True:
     timeNow = time.time()
     if (timeNow - timeLastDB) >= timeLimitDB:

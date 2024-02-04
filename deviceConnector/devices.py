@@ -78,11 +78,11 @@ class Sensor(object):
     
     def readvalue(self, sensor):
         if sensor.type == "counterRides":
-            sensor.value += uniform(10,50)
+            sensor.value += round(uniform(10,50))
         elif sensor.type == "waterLevel":
-            sensor.value = uniform(10.3,20.0)
+            sensor.value = round(uniform(10.3,20.0), 2)
         elif sensor.type == "phSensor":
-            sensor.value = uniform(6.8,8.5) #Ideal between 7.2 amd 7.4
+            sensor.value = round(uniform(6.8,8.5),2) #Ideal between 7.2 amd 7.4
         else:
             sensor.value = 0
             print('Invalid sensor type')

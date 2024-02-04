@@ -20,17 +20,17 @@
                            {
                               "id": 0,
                               "type": "counterRides",
-                              "value": 0
+                              "value": 402
                            },
                            {
                               "id": 1,
                               "type": "waterLevel",
-                              "value": 0
+                              "value": 11.9
                            },
                            {
                               "id": 2,
                               "type": "phSensor",
-                              "value": 0
+                              "value": 6.94
                            }
                         ],
                         "actuators": [
@@ -83,11 +83,15 @@
          ],
          "strategies": {
             "maintenance": [
-               "smartWaterPark/user_0/ride_0/strategy/maintenance/sensors/counterRides/#",
-               "smartWaterPark/user_0/ride_0/strategy/maintenance/sensors/airWeight/#"
+               "smartWaterPark/user_1/ride_1/strategy/maintenance/sensors/counterRides/#"
             ],
-            "water": [],
-            "comfort": []
+            "water": [
+               "smartWaterPark/user_1/ride_1/strategy/water/sensors/waterLevel/#",
+               "smartWaterPark/user_1/ride_1/strategy/water/sensors/phSensor/#"
+            ],
+            "comfort": [
+               "smartWaterPark/user_1/ride_1/strategy/comfort/#"
+            ]
          }
       },
       {
