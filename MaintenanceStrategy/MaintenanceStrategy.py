@@ -250,10 +250,8 @@ class MaintenancePublisher(object):
                                     alertStatus = 3
                                     maintenanceOn(userid, rideid, counterRides)
                                 elif counterRides >= round(maxRides*0.95):
-                                    alertStatus = 3
-                                elif counterRides >= round(maxRides*0.9):
                                     alertStatus = 2
-                                elif counterRides >= round(maxRides*0.8):
+                                elif counterRides >= round(maxRides*0.9):
                                     alertStatus = 1
                                 else:
                                     print('No alert')

@@ -53,10 +53,7 @@ class WaterStrategy(object):
                     strat['strategyStatus'] = stratStatus
 
         with open(database, "w") as file:
-            json.dump(db, file, indent=3)
-
-        with open(database, "r") as file:
-            dbTest = json.load(file)
+            db = json.dump(db, file, indent=3)
 
         result = {
             "userID": usrID,
@@ -200,19 +197,82 @@ class WaterStrategy(object):
                 
             return result
         
-class waterPublisher(object):
+class WaterPublisher(object):
 
     def __init__(self) -> None:
         pass
 
-    def onMsgReceived(device1, userdata, msg):
+    def onMsgReceived(self, userdata, msg):
         print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
+        value = json.loads(msg.payload)
+        topic = msg.topic
+
+        user_topic = topic.split('/')[1]
+        ride_topic = topic.split('/')[2]
+
+        with open(database, "r") as file:
+            db = json.load(file)
+
+        
+        for strat in db['strategies']:
+            user = "user_" + str(strat['userID'])
+            ride = "ride_" + str(strat['rideID'])
+
+            if user_topic == user and ride_topic == ride:
+                chosenstrat = strat
+                userid = strat['userID']
+                rideid = strat['rideID']
+                break
+        
+        try:
+            waterThreshold = db['strategies'][chosenstrat]['waterThreshold']
+            phThreshold = db['strategies'][chosenstrat]['phThreshold']
+            strategyStatus = db['strategies'][chosenstrat]['strategyStatus']
+        except:
+            raise cherrypy.HTTPError(400, 'User not found')
+
+        if strategyStatus:
+            if user == user_topic:
+                if ride == ride_topic:
+                    sensor_topic = topic.split('/')[5]
+                    if sensor_topic == "sensors":
+                        for sensor in db['sensors']:
+                            if sensor == "waterLevel":
+                                waterLevel = float(value)
+                                valveStatus = False
+                                if (waterThreshold + 0.1*waterThreshold) >= waterLevel:
+                                    # Water level is too high -> valve should be closed
+                                    valveStatus = False
+                                elif (waterThreshold - 0.1*waterThreshold) >= waterLevel:
+                                    # Water level is too high -> valve should be opened
+                                    valveStatus = True
+                                else:
+                                    print('WATER IS IN NORMAL RANGE')
+
+                                alertTopic = "smartWaterPark/thingSpeak/user/" + str(userid) + "/ride/" + str(rideid) + "/stateAlert"
+                                if counterRides > round(maxRides*0.99):
+                                    print('MAXIMUM NUMBER OF RIDES: ENTERING THE RIDE IN MAINTENANCE')
+                                    alertStatus = 3
+                                    maintenanceOn(userid, rideid, counterRides)
+                                elif counterRides >= round(maxRides*0.95):
+                                    alertStatus = 3
+                                elif counterRides >= round(maxRides*0.9):
+                                    alertStatus = 2
+                                elif counterRides >= round(maxRides*0.8):
+                                    alertStatus = 1
+                                else:
+                                    print('No alert')
+                                    alertStatus = 0
+                                self.publish(alertTopic, alertStatus)
+        else:
+            print('STRATEGY IS NOT ACTIVE') 
+
+def postFunc():
+    with open(database, "r") as file:
+        db = json.load(file)
 
 with open(database, "r") as file:
     db = json.load(file)
-
-with open(database, "r") as file:
-    dbTest = json.load(file)
 
 if __name__ == "__main__":
   conf = {
@@ -222,8 +282,30 @@ if __name__ == "__main__":
       }
   }
   cherrypy.tree.mount(WaterStrategy(), '/dbTopic', conf)
-  cherrypy.config.update({'server.socket_host': '127.0.0.1', 'server.socket_port': 8092})
+  cherrypy.config.update({'server.socket_host': '127.0.0.1', 'server.socket_port': 8094})
   cherrypy.engine.start()
 
-  #Maintenance 8094
-  #Comfort 8096
+  with open(database, "r") as file:
+    db = json.load(file)
+
+  usrID = 1 #db["userID"]
+  rideID = 1 #db["rideID"]
+  
+  url = resCatEndpoints + "/device_connector"
+  stratDB = requests.get(url, params = {"userID": usrID, "parkRideID": rideID, "strategyType": "water"})
+  stratTopic = stratDB.json()
+  print(stratTopic)
+  client = "water" + str(usrID)
+  maintMqtt = ClientMQTT(client, stratTopic,onMessageReceived=WaterPublisher.onMsgReceived)
+  maintMqtt.start()
+
+  timeLastDB = time.time()
+  timeLimitDB = 60 # number in seconds
+  postFunc()
+  
+  while True:
+    timeNow = time.time()
+    if (timeNow - timeLastDB) >= timeLimitDB:
+      postFunc()
+      timeLastDB = timeNow
+    time.sleep(5)
