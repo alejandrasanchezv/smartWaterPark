@@ -200,7 +200,7 @@ class MaintenanceStrategy(object):
                 
             return result
         
-class maintenancePublisher(object):
+class MaintenancePublisher(object):
 
     def __init__(self) -> None:
         pass
@@ -229,6 +229,7 @@ class maintenancePublisher(object):
 
             maxRides = db['strategies'][chosenstrat]['maxRides']
             counterRides = db['strategies'][chosenstrat]['counterRides']
+            isinMaint = db['strategies'][chosenstrat]["isinMaint"]
         except:
             raise cherrypy.HTTPError(400, 'User not found')
 
@@ -239,22 +240,25 @@ class maintenancePublisher(object):
                     for sensor in db['sensors']:
                         if sensor == "counterRides":
                             counterRides += value
-                            alertStatus = 0
-                            alertTopic = "smartWaterPark/thingSpeak/user/" + str(userid) + "/ride/" + str(rideid) + "/stateAlert"
-                            if counterRides > round(maxRides*0.99):
-                                print('MAXIMUM NUMBER OF RIDES: ENTERING THE RIDE IN MAINTENANCE')
-                                alertStatus = 3
+                            if isinMaint:
                                 maintenanceOn(userid, rideid, counterRides)
-                            elif counterRides >= round(maxRides*0.95):
-                                alertStatus = 3
-                            elif counterRides >= round(maxRides*0.9):
-                                alertStatus = 2
-                            elif counterRides >= round(maxRides*0.8):
-                                alertStatus = 1
                             else:
-                                print('No alert')
                                 alertStatus = 0
-                            self.publish(alertTopic, alertStatus)  
+                                alertTopic = "smartWaterPark/thingSpeak/user/" + str(userid) + "/ride/" + str(rideid) + "/stateAlert"
+                                if counterRides > round(maxRides*0.99):
+                                    print('MAXIMUM NUMBER OF RIDES: ENTERING THE RIDE IN MAINTENANCE')
+                                    alertStatus = 3
+                                    maintenanceOn(userid, rideid, counterRides)
+                                elif counterRides >= round(maxRides*0.95):
+                                    alertStatus = 3
+                                elif counterRides >= round(maxRides*0.9):
+                                    alertStatus = 2
+                                elif counterRides >= round(maxRides*0.8):
+                                    alertStatus = 1
+                                else:
+                                    print('No alert')
+                                    alertStatus = 0
+                                self.publish(alertTopic, alertStatus)  
 
         for i in db["strategies"]:
             userdb = i["userID"]
@@ -351,7 +355,6 @@ if __name__ == "__main__":
   cherrypy.tree.mount(MaintenanceStrategy(), '/dbTopic', conf)
   cherrypy.config.update({'server.socket_host': '127.0.0.1', 'server.socket_port': 8094})
   cherrypy.engine.start()
-
   
   with open(database, "r") as file:
     db = json.load(file)
@@ -364,10 +367,22 @@ if __name__ == "__main__":
   stratTopic = stratDB.json()
   print(stratTopic)
   #topic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/#"
-  client = "devConnector" + str(usrID)
-  maintMqtt = ClientMQTT(client, stratTopic,onMessageReceived=maintenancePublisher.onMsgReceived)
+  client = "maintenance" + str(usrID)
+  maintMqtt = ClientMQTT(client, stratTopic,onMessageReceived=MaintenancePublisher.onMsgReceived)
   maintMqtt.start()
+
+  timeLastDB = time.time()
+  timeLimitDB = 60 # number in seconds
+  postFunc()
   
+  while True:
+    timeNow = time.time()
+    if (timeNow - timeLastDB) >= timeLimitDB:
+      postFunc()
+      timeLastDB = timeNow
+    time.sleep(5)
+  
+  """
   alertTopicEx = "smartWaterPark/thingSpeak/user/" + str(usrID) + "/ride/" + str(rideID)
 
   time.sleep(2)
@@ -384,3 +399,4 @@ if __name__ == "__main__":
 
   inMaintEx =  alertTopicEx + "/isinMaint"
   maintMqtt.publish(inMaintEx, 0)
+  """

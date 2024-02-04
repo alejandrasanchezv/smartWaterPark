@@ -2,15 +2,14 @@
     "stratID": 0,
     "sensors": ["counterRides"],
     "counterRides": 0,
-    "airWeight": 0,
     "strategies": [
         {
             "userID": 1,
             "rideID": 1,
             "strategyStatus": true,
+            "topic": "smartWaterPark/user_1/ride_1/strategy/maintenance/0",
             "maintenanceTime": 2,
             "maxRides": 500,
-            "topic": "smartWaterPark/user_1/ride_1/strategy/maintenance/0",
             "isinMaint": false,
             "numMaint": 0,
             "alert": 0,

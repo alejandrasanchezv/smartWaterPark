@@ -183,12 +183,7 @@ class Publisher(object):
         if strategy == strategy_topic:
           
           element = topic.split('/')[6]
-          if element == "actuator":
-            #try:
-            #  actuators = db['actuators']
-            #except:
-            #  raise cherrypy.HTTPError(400, 'No actuators registered')
-            
+          if element == "actuator":            
             actuator_topic = topic.split('/')[7]
 
             if strategy == "water":

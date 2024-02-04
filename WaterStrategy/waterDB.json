@@ -1,4 +1,19 @@
 {
-    "id": 0,
-    "strategies": []
+    "stratID": 1,
+    "sensors": ["waterLevel", "phSensor"],
+    "actuators": ["waterValve", "chlorineValve"],
+    "strategies": [
+        {
+            "userID": 1,
+            "rideID": 1,
+            "strategyStatus": true,
+            "topic": "smartWaterPark/user_1/ride_1/strategy/#",
+            "phThreshold": 2,
+            "waterThreshold": 500,
+            "waterLevel": 0,
+            "phSensor": 0,
+            "waterValve": false,
+            "chlorineValve": false
+        }
+    ]
 }

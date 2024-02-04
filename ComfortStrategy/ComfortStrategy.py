@@ -200,7 +200,7 @@ class ComfortStrategy(object):
                 
             return result
         
-class comfortPublisher(object):
+class ComfortPublisher(object):
 
     def __init__(self) -> None:
         pass
@@ -208,11 +208,12 @@ class comfortPublisher(object):
     def onMsgReceived(device1, userdata, msg):
         print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
 
-with open(database, "r") as file:
-    db = json.load(file)
+def postFunc():
+    with open(database, "r") as file:
+        db = json.load(file)
 
 with open(database, "r") as file:
-    dbTest = json.load(file)
+    db = json.load(file)
 
 if __name__ == "__main__":
   conf = {
@@ -224,3 +225,28 @@ if __name__ == "__main__":
   cherrypy.tree.mount(ComfortStrategy(), '/dbTopic', conf)
   cherrypy.config.update({'server.socket_host': '127.0.0.1', 'server.socket_port': 8096})
   cherrypy.engine.start()
+
+  with open(database, "r") as file:
+    db = json.load(file)
+
+  usrID = 1 #db["userID"]
+  rideID = 1 #db["rideID"]
+  
+  url = resCatEndpoints + "/device_connector"
+  stratDB = requests.get(url, params = {"userID": usrID, "parkRideID": rideID, "strategyType": "maintenance"})
+  stratTopic = stratDB.json()
+  print(stratTopic)
+  client = "comfort" + str(usrID)
+  maintMqtt = ClientMQTT(client, stratTopic,onMessageReceived=ComfortPublisher.onMsgReceived)
+  maintMqtt.start()
+
+  timeLastDB = time.time()
+  timeLimitDB = 60 # number in seconds
+  postFunc()
+  
+  while True:
+    timeNow = time.time()
+    if (timeNow - timeLastDB) >= timeLimitDB:
+      postFunc()
+      timeLastDB = timeNow
+    time.sleep(5)
