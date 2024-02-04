@@ -17,18 +17,48 @@
                   {
                      "devices": {
                         "sensors": [
-                           "counterRides",
-                           "airWeight",
-                           "waterLevel",
-                           "phSensor"
+                           {
+                              "id": 0,
+                              "type": "counterRides",
+                              "value": 0
+                           },
+                           {
+                              "id": 1,
+                              "type": "waterLevel",
+                              "value": 0
+                           },
+                           {
+                              "id": 2,
+                              "type": "phSensor",
+                              "value": 0
+                           }
                         ],
                         "actuators": [
-                           "airPump",
-                           "maintenanceCall",
-                           "waterValve",
-                           "chlorineValve",
-                           "lights",
-                           "fans"
+                           {
+                              "id": 0,
+                              "type": "maintenanceCall",
+                              "state": false
+                           },
+                           {
+                              "id": 1,
+                              "type": "waterValve",
+                              "state": false
+                           },
+                           {
+                              "id": 2,
+                              "type": "chlorineValve",
+                              "state": false
+                           },
+                           {
+                              "id": 3,
+                              "type": "lights",
+                              "state": false
+                           },
+                           {
+                              "id": 4,
+                              "type": "fans",
+                              "state": false
+                           }
                         ]
                      }
                   }
@@ -50,7 +80,15 @@
                "maxRides": 500,
                "deviceConnectors": []
             }
-         ]
+         ],
+         "strategies": {
+            "maintenance": [
+               "smartWaterPark/user_0/ride_0/strategy/maintenance/sensors/counterRides/#",
+               "smartWaterPark/user_0/ride_0/strategy/maintenance/sensors/airWeight/#"
+            ],
+            "water": [],
+            "comfort": []
+         }
       },
       {
          "id": 2,

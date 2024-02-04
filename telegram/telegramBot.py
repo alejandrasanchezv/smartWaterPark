@@ -1,4 +1,6 @@
-import telebot  
+import telebot 
+import requests 
+import time
 API_KEY="6523268004:AAHTrXHEmQVYRvnYXtJrBf7ZX2bChnF_o1A"
 bot = telebot.TeleBot(API_KEY)
 
@@ -52,5 +54,20 @@ def water_request(message):
 def send_water(message):
     bot.send_message(message.chat.id, "The current level of the water is: 1.2m")
 
+
+#bot.polling()
+
+
+#Automatic notification - could work in any part of the project
+def telegram_bot_sendtext(bot_message):
+   token = "6523268004:AAHTrXHEmQVYRvnYXtJrBf7ZX2bChnF_o1A"
+   chat_id = "1227359148"
+   url_req = "https://api.telegram.org/bot" + token + "/sendMessage" + "?chat_id=" + chat_id + "&text=" + bot_message 
+   results = requests.get(url_req)
+   print(results.json())
+
+
+time.sleep(10)
+telegram_bot_sendtext("Hello there!")
 
 bot.polling()

@@ -273,6 +273,7 @@ class DeviceConnector(object):
         #port = json_body["port"]
         sensors = json_body["sensors"]
         actuators = json_body["actuators"]
+        strategies = json_body["strategies"]
 
         new_dev_connector = {
             #"ip": ip,
@@ -287,46 +288,44 @@ class DeviceConnector(object):
                 
                 for parkRide in user["parkRides"]:
                     if parkRide["rideID"] == int(parkRideID):
-                        
                         update = False
-
-                        #parkRide["deviceConnectors"].append(new_dev_connector)
                         if parkRide["deviceConnectors"] == []:
-                            
-                            print("is empty, then i can add the elements")
+                            print("is empty, then i can add a new element")
                             parkRide["deviceConnectors"].append(new_dev_connector)
                             
                         else:
-                            print("It's occupied")
-                            
-                        '''
-                        else:
-                            for dev_connector in parkRide["deviceConnetors"]:
-                                #if dev_connector["ip"] == ip and dev_connector["port"] == port:
-                                dev_connector["devices"]["sensors"] = sensors
-                                dev_connector["devices"]["actuators"] = actuators
-                                update = True
-                            if update == False:
-                                parkRide["deviceConnectors"].append(new_dev_connector)
-                        
-                        
-                        '''
-                        
-                        with open("db/catalog.json", "w") as file:
-                                json.dump(db, file, indent=3)
+                            print("new element replaced")
+                            parkRide["deviceConnectors"] = []
+                            parkRide["deviceConnectors"].append(new_dev_connector)
 
-                        return                   
-'''
-                        if update == False:
-                                # I assume that there is just one Adaptor
-                                url_adaptor = db["thingspeak_adaptors"][0]["ip"]+":"+str(db["thingspeak_adaptors"][0]["port"])+"/"+db["thingspeak_adaptors"][0]["functions"][0]
-                                payload = {
-                                    "userID": userID,
-                                    "greenHouseID": greenHouseID,
-                                    "sensors": sensors
-                                }
-                                requests.post(url_adaptor, json.dumps(payload))
-'''
+                user["strategies"] = strategies
+
+                with open("db/catalog.json", "w") as file:
+                        json.dump(db, file, indent=3)
+                return                   
+
+
+class MaintenanceStrategy(object):
+    exposed = True
+
+    def POST (self):
+        with open("db/catalog.json", "r") as file:
+            db = json.load(file)
+
+        json_body = json.loads(cherrypy.request.body.read())
+
+
+
+class ComfortStrategy(object):
+    exposed = True
+
+    def POST (self):
+        with open("db/catalog.json", "r") as file:
+            db = json.load(file)
+
+        json_body = json.loads(cherrypy.request.body.read())
+
+
                                 
 if __name__ == '__main__':
 
@@ -340,6 +339,8 @@ if __name__ == '__main__':
     cherrypy.tree.mount(User(), '/user', conf)
     cherrypy.tree.mount(ParkRide(), '/parkride', conf)
     cherrypy.tree.mount(DeviceConnector(), '/device_connector', conf)
+    cherrypy.tree.mount(MaintenanceStrategy(),'/maintenance_strategy',conf)
+    cherrypy.tree.mount(ComfortStrategy(),'comfort_strategy',conf)
 
     cherrypy.config.update({ 'server.shutdown_timeout': 1 })
     cherrypy.engine.start()
