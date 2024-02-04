@@ -1,0 +1,34 @@
+{
+    "userID": 1,
+    "rideID": 0,
+    "ip": "http://thingspeak_adaptor",
+    "topics": [],
+    "users": [
+        {
+            "userID": 0,
+            "rides": [
+                {
+                    "rideID": 0,
+                    "channelID": 2413618,
+                    "API_KEY": "LLJQBDB4Z8QE2UMS",
+                    "isinMaint": "&field1={}",
+                    "numMaint": "&field2={}",
+                    "stateAlert": "&field3={}"
+                }
+            ]
+        },
+        {
+            "userID": 1,
+            "rides": [
+                {
+                    "rideID": 0,
+                    "channelID": 2413626,
+                    "API_KEY": "HVOFCAS6XBRC2M1E",
+                    "isinMaint": "&field1={}",
+                    "numMaint": "&field2={}",
+                    "stateAlert": "&field3={}"
+                }
+            ]
+        }
+    ]
+}

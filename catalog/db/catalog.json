@@ -20,17 +20,17 @@
                            {
                               "id": 0,
                               "type": "counterRides",
-                              "value": 402
+                              "value": 0
                            },
                            {
                               "id": 1,
                               "type": "waterLevel",
-                              "value": 11.9
+                              "value": 0
                            },
                            {
                               "id": 2,
                               "type": "phSensor",
-                              "value": 6.94
+                              "value": 0
                            }
                         ],
                         "actuators": [
@@ -62,7 +62,19 @@
                         ]
                      }
                   }
-               ]
+               ],
+               "strategies": {
+                  "maintenance": [
+                     "smartWaterPark/user_1/ride_1/strategy/maintenance/sensors/counterRides/#"
+                  ],
+                  "water": [
+                     "smartWaterPark/user_1/ride_1/strategy/water/sensors/waterLevel/#",
+                     "smartWaterPark/user_1/ride_1/strategy/water/sensors/phSensor/#"
+                  ],
+                  "comfort": [
+                     "smartWaterPark/user_1/ride_1/strategy/comfort/#"
+                  ]
+               }
             },
             {
                "rideID": 2,
@@ -80,19 +92,7 @@
                "maxRides": 500,
                "deviceConnectors": []
             }
-         ],
-         "strategies": {
-            "maintenance": [
-               "smartWaterPark/user_1/ride_1/strategy/maintenance/sensors/counterRides/#"
-            ],
-            "water": [
-               "smartWaterPark/user_1/ride_1/strategy/water/sensors/waterLevel/#",
-               "smartWaterPark/user_1/ride_1/strategy/water/sensors/phSensor/#"
-            ],
-            "comfort": [
-               "smartWaterPark/user_1/ride_1/strategy/comfort/#"
-            ]
-         }
+         ]
       },
       {
          "id": 2,

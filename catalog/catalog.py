@@ -257,6 +257,31 @@ class ParkRide(object):
 
 class DeviceConnector(object):
     exposed = True
+    
+    def GET(self,**params):
+        with open("db/catalog.json", "r") as file:
+            db = json.load(file)
+        
+        users = db["users"]
+        
+        userID=int(params["userID"])
+        parkRideID=int(params["parkRideID"])
+        strategyType=params["strategyType"]
+
+        
+        
+        if parkRideID is None:
+            return "No rideID was given"
+        for user in users:
+            if user["id"] == userID:
+                for ride in user["parkRides"]:
+                    if ride["rideID"] == parkRideID:
+                        for strategy in ride['strategies']:
+                            if strategy == strategyType:
+
+                                return json.dumps(strategy,indent=3)
+                
+                            return "Strategy does not exist in the db"
 
     def POST (self):
         with open("db/catalog.json", "r") as file:
@@ -298,7 +323,7 @@ class DeviceConnector(object):
                             parkRide["deviceConnectors"] = []
                             parkRide["deviceConnectors"].append(new_dev_connector)
 
-                user["strategies"] = strategies
+                        parkRide["strategies"] = strategies
 
                 with open("db/catalog.json", "w") as file:
                         json.dump(db, file, indent=3)

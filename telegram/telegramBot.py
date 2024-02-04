@@ -1,8 +1,37 @@
 import telebot 
 import requests 
 import time
+import json
+
 API_KEY="6523268004:AAHTrXHEmQVYRvnYXtJrBf7ZX2bChnF_o1A"
 bot = telebot.TeleBot(API_KEY)
+
+'''
+class TelegramMqtt(object):
+    def __init__(self) -> None:
+        pass
+
+    def onMsgReceived(device1, userdata, msg):
+        print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
+        data = json.loads(msg.payload)
+        topic = msg.topic
+
+        userID = topic.split("/")[3]
+        print(f'userID: {userID}')
+        rideID = topic.split("/")[5]
+        print(f'rideID: {rideID}')
+        dataType = topic.split("/")[6]
+        print(f'dataType: {dataType}')
+        
+
+        for user in db["users"]:
+            if user["userID"] == int(userID):
+                for ride in user["rides"]:
+                    if ride["rideID"] == int(rideID):
+                        sendThingSpeak(userID, rideID, dataType, data)
+
+
+'''
 
 
 
@@ -66,8 +95,8 @@ def telegram_bot_sendtext(bot_message):
    results = requests.get(url_req)
    print(results.json())
 
+if __name__ == "__main__":
+    time.sleep(10)
+    telegram_bot_sendtext("Hello there!")
 
-time.sleep(10)
-telegram_bot_sendtext("Hello there!")
-
-bot.polling()
+    bot.polling()
