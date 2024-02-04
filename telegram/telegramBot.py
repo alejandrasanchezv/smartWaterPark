@@ -2,11 +2,14 @@ import telebot
 import requests 
 import time
 import json
+import paho.mqtt.client as mqtt
+
+from mqttClass import *
 
 API_KEY="6523268004:AAHTrXHEmQVYRvnYXtJrBf7ZX2bChnF_o1A"
+url_telegram = "https://api.telegram.org/bot"
 bot = telebot.TeleBot(API_KEY)
 
-'''
 class TelegramMqtt(object):
     def __init__(self) -> None:
         pass
@@ -20,18 +23,53 @@ class TelegramMqtt(object):
         print(f'userID: {userID}')
         rideID = topic.split("/")[5]
         print(f'rideID: {rideID}')
-        dataType = topic.split("/")[6]
-        print(f'dataType: {dataType}')
-        
+
+
+        with open("db/telegramDB.json", "r") as file:
+            db = json.load(file)
+
+
 
         for user in db["users"]:
             if user["userID"] == int(userID):
                 for ride in user["rides"]:
                     if ride["rideID"] == int(rideID):
-                        sendThingSpeak(userID, rideID, dataType, data)
+                        sendtoTelegram(userID, rideID, data)
 
 
-'''
+def sendtoTelegram(userID, rideID, dataType, data):
+    """
+    Sends the information received from 
+    a MQTT topic to Thingspeak using REST (post)
+    """
+
+    global database
+
+    with open(database, "r") as file:
+        db = json.load(file)
+
+
+    for user in db["users"]:
+        if user["userID"] == int(userID):
+            for ride in user["rides"]:
+                if ride["rideID"] == int(rideID):
+                    chatID = ride["chatID"]
+
+                    if data == 1:
+                        bot_message=f"Your ride with {rideID} almost time for maintance"
+                        RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + chatID + "&text=" + bot_message
+                    
+                    if data == 2:
+                        bot_message=f"Your ride with {rideID} will need maintance shortly"
+                        RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + chatID + "&text=" + bot_message
+
+                    if data == 3:
+                        bot_message=f"RIDE {rideID} needs maintance:  IS CLOSED"
+                        RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + chatID + "&text=" + bot_message
+
+                    requests.get(RequestToTelegram)
+
+
 
 
 
@@ -96,7 +134,14 @@ def telegram_bot_sendtext(bot_message):
    print(results.json())
 
 if __name__ == "__main__":
-    time.sleep(10)
-    telegram_bot_sendtext("Hello there!")
+    #time.sleep(10)
+    #telegram_bot_sendtext("Hello there!")
+
+    #usrID = db["userID"]
+    #rideID = db["rideID"]
+    topic = "smartWaterPark/thingSpeak/user/" + str(1) + "/ride/" + str(1) + "/#"
+    client = "telegram" + str(1)
+    telegramMqtt = ClientMQTT(client, [topic],onMessageReceived=TelegramMqtt.onMsgReceived)
+    telegramMqtt.start()
 
     bot.polling()

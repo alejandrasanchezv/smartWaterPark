@@ -1,7 +1,8 @@
 {
     "userID": 1,
     "rideID": 0,
-    "ip": "http://thingspeak_adaptor",
+    "API_KEY":"6523268004:AAHTrXHEmQVYRvnYXtJrBf7ZX2bChnF_o1A",
+    "ip" : "https://api.telegram.org/bot",
     "topics": [],
     "users": [
         {
@@ -9,11 +10,7 @@
             "rides": [
                 {
                     "rideID": 0,
-                    "channelID": 2413618,
-                    "API_KEY": "LLJQBDB4Z8QE2UMS",
-                    "isinMaint": "&field1={}",
-                    "numMaint": "&field2={}",
-                    "stateAlert": "&field3={}"
+                    "chatID": 1227359148
                 }
             ]
         },
@@ -22,11 +19,7 @@
             "rides": [
                 {
                     "rideID": 0,
-                    "channelID": 2413626,
-                    "API_KEY": "HVOFCAS6XBRC2M1E",
-                    "isinMaint": "&field1={}",
-                    "numMaint": "&field2={}",
-                    "stateAlert": "&field3={}"
+                    "chatID": 1388779941
                 }
             ]
         }
