@@ -267,6 +267,10 @@ class DeviceConnector(object):
         userID=int(params["userID"])
         parkRideID=int(params["parkRideID"])
         strategyType=params["strategyType"]
+        print(strategyType)
+        strategyType=strategyType.replace('"','',2)
+        print(strategyType)
+        
 
         
         
@@ -278,10 +282,8 @@ class DeviceConnector(object):
                     if ride["rideID"] == parkRideID:
                         for strategy in ride['strategies']:
                             if strategy == strategyType:
-
-                                return json.dumps(strategy,indent=3)
-                
-                            return "Strategy does not exist in the db"
+                                return json.dumps(ride["strategies"][strategy],indent=3)
+                        return "Strategy does not exist in the db"
 
     def POST (self):
         with open("db/catalog.json", "r") as file:
