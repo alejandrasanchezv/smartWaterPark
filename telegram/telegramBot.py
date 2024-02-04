@@ -41,7 +41,7 @@ class TelegramMqtt(object):
 def sendtoTelegram(userID, rideID, data):
     """
     Sends the information received from 
-    a MQTT topic to Thingspeak using REST (post)
+    a MQTT topic to Telegram using REST (post)
     """
 
     global database
