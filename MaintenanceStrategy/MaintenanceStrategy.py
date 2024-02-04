@@ -65,20 +65,6 @@ class MaintenanceStrategy(object):
             "timestamp": time.time()
         }
 
-        """
-        result = {
-            "userID": usrID,
-            "rideID": rideID,
-            "stratID": stratStatus,
-            "status": stratStatus,
-            "topic": topic,
-            "isinMaint": false,
-            "numMaint": 0,
-            "alert": 0,
-            "timestamp": time.time()
-        } 
-        """
-
         return result
     
     def PUT(self, **params):
@@ -255,7 +241,11 @@ class maintenancePublisher(object):
                             counterRides += value
                             alertStatus = 0
                             alertTopic = "smartWaterPark/thingSpeak/user/" + str(userid) + "/ride/" + str(rideid) + "/stateAlert"
-                            if counterRides >= round(maxRides*0.95):
+                            if counterRides > round(maxRides*0.99):
+                                print('MAXIMUM NUMBER OF RIDES: ENTERING THE RIDE IN MAINTENANCE')
+                                alertStatus = 3
+                                maintenanceOn(userid, rideid, counterRides)
+                            elif counterRides >= round(maxRides*0.95):
                                 alertStatus = 3
                             elif counterRides >= round(maxRides*0.9):
                                 alertStatus = 2
@@ -264,9 +254,88 @@ class maintenancePublisher(object):
                             else:
                                 print('No alert')
                                 alertStatus = 0
-                            self.publish(alertTopic, alertStatus)   
-                        elif sensor == "airWeight":
-                            pass
+                            self.publish(alertTopic, alertStatus)  
+
+        for i in db["strategies"]:
+            userdb = i["userID"]
+            ridedb = i["rideID"]       
+            if userid == userdb and rideid == ridedb:
+                stratDB = i
+                break
+
+        stratDB["alert"] = alertStatus
+        stratDB["counterRides"] = counterRides
+
+        with open(database, "w") as file:
+            json.dump(db, file, indent=3)
+         
+
+def maintenanceOn(userid, rideid, counterRides):
+    maintTopic = "smartWaterPark/thingSpeak/user/" + str(userid) + "/ride/" + str(rideid)
+
+    with open(database, "r") as file:
+        db = json.load(file)
+
+    for i in db["strategies"]:
+        user = i["userID"]
+        ride = i["rideID"]       
+        if user == userid and ride == rideid:
+            stratDB = i
+            break
+
+    try:
+        numMaint = stratDB["numMaint"]
+        inMaint = stratDB["isinMaint"]
+    except:
+        raise 'ERROR user not registered'
+    else:
+        if inMaint:
+            print('Ride still in maintenance')
+        else:
+            numMaint += 1
+
+    numMaintTopic =  maintTopic + "/numMaint"
+    maintMqtt.publish(numMaintTopic, numMaint)
+    stratDB["numMaint"] = numMaint
+
+    inMaintTopic =  maintTopic + "/isinMaint"
+    maintMqtt.publish(inMaintTopic, 1)
+    stratDB["isinMaint"] = True
+
+    alertTopic = maintTopic + "/stateAlert"
+    maintMqtt.publish(alertTopic, 3)
+    stratDB["alert"] = 3
+
+    stratDB["counterRides"] = counterRides
+
+    with open(database, "w") as file:
+      json.dump(db, file, indent=3)
+
+def postFunc():
+    with open(database, "r") as file:
+        db = json.load(file)
+
+    for i in db["strategies"]:
+        user = i["userID"]
+        ride = i["rideID"]       
+        if user == usrID and ride == rideID:
+            stratDB = i
+            break
+    
+    payload = {
+        "userID": stratDB['userID'],
+        "rideID": stratDB['rideID'],
+        "topic": stratDB['topic'],
+        "isinMaint": stratDB['isinMaint'],
+        "numMaint": stratDB['numMaint'],
+        "alert": stratDB['alert'],
+        "counterRides": stratDB['counterRides'],
+        "timestamp": time.time()
+    }
+
+    url = resCatEndpoints +'/maintenance_strategy'
+    requests.post(url, json.dumps(payload))
+
 
 with open(database, "r") as file:
     db = json.load(file)
@@ -288,10 +357,15 @@ if __name__ == "__main__":
     db = json.load(file)
 
   usrID = 1 #db["userID"]
-  rideID = 0 #db["rideID"]
-  topic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/#"
+  rideID = 1 #db["rideID"]
+  
+  url = resCatEndpoints + "/device_connector"
+  stratDB = requests.get(url, params = {"userID": usrID, "parkRideID": rideID, "strategyType": "maintenance"})
+  stratTopic = stratDB.json()
+  print(stratTopic)
+  #topic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/#"
   client = "devConnector" + str(usrID)
-  maintMqtt = ClientMQTT(client, [topic],onMessageReceived=maintenancePublisher.onMsgReceived)
+  maintMqtt = ClientMQTT(client, stratTopic,onMessageReceived=maintenancePublisher.onMsgReceived)
   maintMqtt.start()
   
   alertTopicEx = "smartWaterPark/thingSpeak/user/" + str(usrID) + "/ride/" + str(rideID)

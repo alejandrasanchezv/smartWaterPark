@@ -1,6 +1,6 @@
 {
     "stratID": 0,
-    "sensors": ["counterRides", "airWeight"],
+    "sensors": ["counterRides"],
     "counterRides": 0,
     "airWeight": 0,
     "strategies": [
