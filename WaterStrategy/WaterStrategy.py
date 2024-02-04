@@ -247,23 +247,11 @@ class WaterPublisher(object):
                                     # Water level is too high -> valve should be opened
                                     valveStatus = True
                                 else:
-                                    print('WATER IS IN NORMAL RANGE')
+                                    print('WATER IS IN NORMAL RANGE') # we don't need the valve to be opened
+                                    valveStatus = False
 
-                                alertTopic = "smartWaterPark/thingSpeak/user/" + str(userid) + "/ride/" + str(rideid) + "/stateAlert"
-                                if counterRides > round(maxRides*0.99):
-                                    print('MAXIMUM NUMBER OF RIDES: ENTERING THE RIDE IN MAINTENANCE')
-                                    alertStatus = 3
-                                    maintenanceOn(userid, rideid, counterRides)
-                                elif counterRides >= round(maxRides*0.95):
-                                    alertStatus = 3
-                                elif counterRides >= round(maxRides*0.9):
-                                    alertStatus = 2
-                                elif counterRides >= round(maxRides*0.8):
-                                    alertStatus = 1
-                                else:
-                                    print('No alert')
-                                    alertStatus = 0
-                                self.publish(alertTopic, alertStatus)
+                                dcTopic = "smartWaterPark/devConnector/user_" + str(usrID) + "/ride_" + str(rideID) + "/waterValve"
+                                self.publish(dcTopic, valveStatus)
         else:
             print('STRATEGY IS NOT ACTIVE') 
 

@@ -9,6 +9,7 @@ from mqttClass import *
 API_KEY="6523268004:AAHTrXHEmQVYRvnYXtJrBf7ZX2bChnF_o1A"
 url_telegram = "https://api.telegram.org/bot"
 bot = telebot.TeleBot(API_KEY)
+database = "telegramDB.json"
 
 class TelegramMqtt(object):
     def __init__(self) -> None:
@@ -25,7 +26,7 @@ class TelegramMqtt(object):
         print(f'rideID: {rideID}')
 
 
-        with open("db/telegramDB.json", "r") as file:
+        with open("telegramDB.json", "r") as file:
             db = json.load(file)
 
 
@@ -37,7 +38,7 @@ class TelegramMqtt(object):
                         sendtoTelegram(userID, rideID, data)
 
 
-def sendtoTelegram(userID, rideID, dataType, data):
+def sendtoTelegram(userID, rideID, data):
     """
     Sends the information received from 
     a MQTT topic to Thingspeak using REST (post)
@@ -56,16 +57,16 @@ def sendtoTelegram(userID, rideID, dataType, data):
                     chatID = ride["chatID"]
 
                     if data == 1:
-                        bot_message=f"Your ride with {rideID} almost time for maintance"
-                        RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + chatID + "&text=" + bot_message
+                        bot_message=f"Your ride registered with ID {rideID} is almost entering in maintance"
+                        RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + str(chatID) + "&text=" + bot_message
                     
                     if data == 2:
-                        bot_message=f"Your ride with {rideID} will need maintance shortly"
-                        RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + chatID + "&text=" + bot_message
+                        bot_message=f"Your ride registered with ID {rideID} will need maintance shortly"
+                        RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + str(chatID) + "&text=" + bot_message
 
                     if data == 3:
-                        bot_message=f"RIDE {rideID} needs maintance:  IS CLOSED"
-                        RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + chatID + "&text=" + bot_message
+                        bot_message=f"Your ride registered with ID {rideID} needs maintance:  IS CLOSED"
+                        RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + str(chatID) + "&text=" + bot_message
 
                     requests.get(RequestToTelegram)
 
@@ -139,7 +140,7 @@ if __name__ == "__main__":
 
     #usrID = db["userID"]
     #rideID = db["rideID"]
-    topic = "smartWaterPark/thingSpeak/user/" + str(1) + "/ride/" + str(1) + "/#"
+    topic = "smartWaterPark/telegram/user/" + str(1) + "/ride/" + str(1) + "/#"
     client = "telegram" + str(1)
     telegramMqtt = ClientMQTT(client, [topic],onMessageReceived=TelegramMqtt.onMsgReceived)
     telegramMqtt.start()

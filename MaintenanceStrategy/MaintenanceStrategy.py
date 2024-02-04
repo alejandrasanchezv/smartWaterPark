@@ -361,40 +361,40 @@ if __name__ == "__main__":
   rideID = 1 #db["rideID"]
   
   url = resCatEndpoints + "/device_connector"
-  stratDB = requests.get(url, params = {"userID": usrID, "parkRideID": rideID, "strategyType": "maintenance"})
-  stratTopic = stratDB.json()
-  print(stratTopic)
-  #topic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/#"
+  #stratDB = requests.get(url, params = {"userID": usrID, "parkRideID": rideID, "strategyType": "maintenance"})
+  #stratTopic = stratDB.json()
+  #print(stratTopic)
+  stratTopic = ["smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/#"]
   client = "maintenance" + str(usrID)
   maintMqtt = ClientMQTT(client, stratTopic,onMessageReceived=MaintenancePublisher.onMsgReceived)
   maintMqtt.start()
 
   timeLastDB = time.time()
   timeLimitDB = 60 # number in seconds
-  postFunc()
+  #postFunc()
   
-  while True:
-    timeNow = time.time()
-    if (timeNow - timeLastDB) >= timeLimitDB:
-      postFunc()
-      timeLastDB = timeNow
-    time.sleep(5)
+  #while True:
+  #  timeNow = time.time()
+  #  if (timeNow - timeLastDB) >= timeLimitDB:
+  #    postFunc()
+  #    timeLastDB = timeNow
+  #  time.sleep(5)
   
-  """
-  alertTopicEx = "smartWaterPark/thingSpeak/user/" + str(usrID) + "/ride/" + str(rideID)
+  
+  alertTopicEx = "smartWaterPark/telegram/user/" + str(usrID) + "/ride/" + str(rideID)
 
   time.sleep(2)
 
-  alertEx = alertTopicEx + "/stateAlert"
-  maintMqtt.publish(alertEx, 2)
+  alertEx = alertTopicEx 
+  maintMqtt.publish(alertEx, 1)
 
   time.sleep(12)
 
-  numEx =  alertTopicEx + "/numMaint"
-  maintMqtt.publish(numEx, 1)
+  numEx =  alertTopicEx
+  maintMqtt.publish(numEx, 2)
 
   time.sleep(12)
 
-  inMaintEx =  alertTopicEx + "/isinMaint"
-  maintMqtt.publish(inMaintEx, 0)
-  """
+  inMaintEx =  alertTopicEx
+  maintMqtt.publish(inMaintEx, 3)
+  
