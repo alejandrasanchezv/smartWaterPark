@@ -106,9 +106,6 @@ class ComfortStrategy(object):
         with open(database, "w") as file:
             json.dump(db, file, indent=3)
 
-        with open(database, "r") as file:
-            dbTest = json.load(file)
-
         result = {
             "userID": usrID,
             "rideID": rideID,
@@ -205,12 +202,72 @@ class ComfortPublisher(object):
     def __init__(self) -> None:
         pass
 
-    def onMsgReceived(device1, userdata, msg):
+    def onMsgReceived(self, userdata, msg):
         print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
+
+    def weatherApi(self):
+        with open(database, "r") as file:
+            db = json.load(file)
+
+        for i in db["strategies"]:
+            user = i["userID"]
+            ride = i["rideID"]       
+            if user == usrID and ride == rideID:
+                stratDB = i
+                break
+
+        try:
+            city = stratDB['city']
+            api = stratDB['API']
+            tempThr = stratDB['tempThreshold']
+        except:
+            raise 'USER NOT REGISTERED'
+        
+        url = 'http://api.weatherapi.com/v1/current.json?key='+ api +'&q='+ city
+
+        request = requests.get(url)
+        data = request.json()
+        temp = data['current']['feelslike_c'] #THERMAL SENSATION
+        isday = data['current']['is_day']
+
+
+
+
+        stratDB['temp'] = temp
+        stratDB['isday'] = isday
+
+        with open(database, "w") as file:
+            json.dump(db, file, indent=3)
+
+
 
 def postFunc():
     with open(database, "r") as file:
         db = json.load(file)
+
+    for i in db["strategies"]:
+        user = i["userID"]
+        ride = i["rideID"]       
+        if user == usrID and ride == rideID:
+            stratDB = i
+            break
+
+    payload = {
+        "userID": stratDB['userID'],
+        "rideID": stratDB['rideID'],
+        "topic": stratDB['topic'],
+        "phSensor": stratDB['phSensor'],
+        "waterValve": stratDB['waterValve'],
+        "chlorineValve": stratDB['chlorineValve'],
+        "temp": stratDB['temp'],
+        "isday": stratDB['isday'],
+        "lights": stratDB['lights'],
+        "fans": stratDB['fans'],
+        "timestamp": time.time()
+    }
+
+    url = resCatEndpoints +'/control_strategy'
+    requests.post(url, json.dumps(payload))
 
 with open(database, "r") as file:
     db = json.load(file)

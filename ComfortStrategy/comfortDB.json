@@ -1,20 +1,20 @@
 {
     "stratID": 0,
-    "sensors": ["counterRides", "airWeight"],
-    "counterRides": 0,
-    "airWeight": 0,
+    "sensors": ["temp", "isday"],
+    "actuators": ["lights", "fans"],
     "strategies": [
         {
             "userID": 1,
             "rideID": 1,
             "strategyStatus": true,
-            "maintenanceTime": 2,
+            "city": "Turin",
+            "API": "2782492787784b98814165302230711",
             "topic": "smartWaterPark/user_1/ride_1/strategy/maintenance/0",
-            "isinMaint": false,
-            "maxRides": 500,
-            "numMaint": 0,
-            "alert": 0,
-            "counterRides": 0
+            "tempThreshold": 25,
+            "temp": 0,
+            "isday": 0,
+            "lights": 0,
+            "fans": 0
         }
     ]
 }

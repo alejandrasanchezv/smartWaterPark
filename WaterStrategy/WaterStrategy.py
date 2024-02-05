@@ -316,7 +316,7 @@ def postFunc():
         "timestamp": time.time()
     }
 
-    url = resCatEndpoints +'/maintenance_strategy'
+    url = resCatEndpoints +'/water_strategy'
     requests.post(url, json.dumps(payload))
 
 with open(database, "r") as file:
