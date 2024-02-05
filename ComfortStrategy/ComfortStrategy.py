@@ -199,8 +199,29 @@ class ComfortStrategy(object):
         
 class ComfortPublisher(object):
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self):
+        with open(database, "r") as file:
+            db = json.load(file)
+
+        actuators = db["actuators"]
+
+        topic = "smartWaterPark/devConnector/user_" + str(usrID) + "/ride_" + str(rideID) + "/"
+        topic_list = []
+        for i in actuators:
+            topicAct = topic + str(i)
+            topic_list.append(topicAct)
+
+        for strat in db['strategies']:
+            user = strat['userID']
+            ride = strat['rideID']
+
+            if usrID == user and rideID == ride:
+                chosenstrat = strat
+                break
+        
+        db['strategies'][chosenstrat]['topic'] = topic_list
+        with open(database, "w") as file:
+            json.dump(db, file, indent=3)
 
     def onMsgReceived(self, userdata, msg):
         print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
