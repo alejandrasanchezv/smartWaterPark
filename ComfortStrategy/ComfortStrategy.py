@@ -205,39 +205,55 @@ class ComfortPublisher(object):
     def onMsgReceived(self, userdata, msg):
         print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
 
-    def weatherApi(self):
-        with open(database, "r") as file:
-            db = json.load(file)
+        weatherApi()
 
-        for i in db["strategies"]:
-            user = i["userID"]
-            ride = i["rideID"]       
-            if user == usrID and ride == rideID:
-                stratDB = i
-                break
+def weatherApi():
+    with open(database, "r") as file:
+        db = json.load(file)
 
-        try:
-            city = stratDB['city']
-            api = stratDB['API']
-            tempThr = stratDB['tempThreshold']
-        except:
-            raise 'USER NOT REGISTERED'
-        
-        url = 'http://api.weatherapi.com/v1/current.json?key='+ api +'&q='+ city
+    for i in db["strategies"]:
+        user = i["userID"]
+        ride = i["rideID"]       
+        if user == usrID and ride == rideID:
+            stratDB = i
+            break
 
-        request = requests.get(url)
-        data = request.json()
-        temp = data['current']['feelslike_c'] #THERMAL SENSATION
-        isday = data['current']['is_day']
+    try:
+        city = stratDB['city']
+        api = stratDB['API']
+        tempThr = stratDB['tempThreshold']
+    except:
+        raise 'USER NOT REGISTERED'
+    
+    url = 'http://api.weatherapi.com/v1/current.json?key='+ api +'&q='+ city
 
+    request = requests.get(url)
+    data = request.json()
+    temp = data['current']['feelslike_c'] #THERMAL SENSATION
+    isday = data['current']['is_day']
 
+    if temp >= tempThr:
+        fans = True
+    else:
+        fans = False
 
+    if isday == 0:
+        lights = True
+    else:
+        lights = False
 
-        stratDB['temp'] = temp
-        stratDB['isday'] = isday
+    fansTopic = "smartWaterPark/devConnector/user_" + str(usrID) + "/ride_" + str(rideID) + "/fans"
+    comfortMqtt.publish(fansTopic, fans)
+    lightsTopic = "smartWaterPark/devConnector/user_" + str(usrID) + "/ride_" + str(rideID) + "/lights"
+    comfortMqtt.publish(lightsTopic, lights)
 
-        with open(database, "w") as file:
-            json.dump(db, file, indent=3)
+    stratDB['temp'] = temp
+    stratDB['isday'] = isday
+    stratDB['lights'] = lights
+    stratDB['fans'] = fans
+
+    with open(database, "w") as file:
+        json.dump(db, file, indent=3)
 
 
 
@@ -256,9 +272,6 @@ def postFunc():
         "userID": stratDB['userID'],
         "rideID": stratDB['rideID'],
         "topic": stratDB['topic'],
-        "phSensor": stratDB['phSensor'],
-        "waterValve": stratDB['waterValve'],
-        "chlorineValve": stratDB['chlorineValve'],
         "temp": stratDB['temp'],
         "isday": stratDB['isday'],
         "lights": stratDB['lights'],
@@ -267,7 +280,7 @@ def postFunc():
     }
 
     url = resCatEndpoints +'/control_strategy'
-    requests.post(url, json.dumps(payload))
+    #requests.post(url, json.dumps(payload))
 
 with open(database, "r") as file:
     db = json.load(file)
@@ -294,13 +307,13 @@ if __name__ == "__main__":
   stratTopic = stratDB.json()
   print(stratTopic)
   client = "comfort" + str(usrID)
-  maintMqtt = ClientMQTT(client, stratTopic,onMessageReceived=ComfortPublisher.onMsgReceived)
-  maintMqtt.start()
+  comfortMqtt = ClientMQTT(client, stratTopic,onMessageReceived=ComfortPublisher.onMsgReceived)
+  comfortMqtt.start()
 
   timeLastDB = time.time()
   timeLimitDB = 60 # number in seconds
   postFunc()
-  
+  weatherApi()
   while True:
     timeNow = time.time()
     if (timeNow - timeLastDB) >= timeLimitDB:
