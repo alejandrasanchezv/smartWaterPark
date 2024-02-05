@@ -185,7 +185,6 @@ class Publisher(object):
           element = topic.split('/')[6]
           if element == "actuator":            
             actuator_topic = topic.split('/')[7]
-
             if strategy == "water":
               for actuator in self.actuatorsWater:
                 if actuator_topic ==  actuator.type:
@@ -288,12 +287,12 @@ def updateDB():
     for typeStrat in strategies:
       db['strategies'][typeStrat] = []
       if typeStrat == "maintenance":
-        stratTopicSensor1 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/sensors/counterRides/#"
+        stratTopicSensor1 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/sensors/counterRides"
         devMqtt.subscribe(stratTopicSensor1)
         db['strategies'][typeStrat].append(stratTopicSensor1)
       elif typeStrat == "water":
-        stratTopicSensor1 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/water/sensors/waterLevel/#"
-        stratTopicSensor2 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/water/sensors/phSensor/#"
+        stratTopicSensor1 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/water/sensors/waterLevel"
+        stratTopicSensor2 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/water/sensors/phSensor"
         devMqtt.subscribe(stratTopicSensor1)
         db['strategies'][typeStrat].append(stratTopicSensor1)
         devMqtt.subscribe(stratTopicSensor2)
@@ -303,7 +302,7 @@ def updateDB():
         devMqtt.subscribe(stratTopic)
         db['strategies'][typeStrat].append(stratTopic)
       else:
-        stratTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/" + str(typeStrat) + "/#"
+        stratTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/" + str(typeStrat)
         devMqtt.subscribe(stratTopic)
         db['strategies'][typeStrat].append(stratTopic)
 
