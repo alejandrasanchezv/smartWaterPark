@@ -120,7 +120,6 @@ class User(object):
                 return "The user was successfully deleted"
         
         return "No User ID was found"
-        
 
 class ParkRide(object):
     exposed = True
@@ -254,7 +253,6 @@ class ParkRide(object):
                 return "Park ride does not exits"
         return "No user ID was found"
 
-
 class DeviceConnector(object):
     exposed = True
     
@@ -331,9 +329,36 @@ class DeviceConnector(object):
                         json.dump(db, file, indent=3)
                 return                   
 
-
 class MaintenanceStrategy(object):
     exposed = True
+
+    def GET(self,**params):
+        with open("db/catalog.json", "r") as file:
+            db = json.load(file)
+        
+        users = db["users"]
+        
+        userID=int(params["userID"])
+        parkRideID=int(params["parkRideID"])
+        strategyType=params["strategyType"]
+        print(strategyType)
+        strategyType=strategyType.replace('"','',2)
+        print(strategyType)
+        
+
+        
+        
+        if parkRideID is None:
+            return "No rideID was given"
+        for user in users:
+            if user["id"] == userID:
+                for ride in user["parkRides"]:
+                    if ride["rideID"] == parkRideID:
+                        for strategy in ride['strategies']:
+                            if strategy == strategyType:
+                                return json.dumps(ride["strategies"][strategy],indent=3)
+                        return "Strategy does not exist in the db"
+    
 
     def POST (self):
         with open("db/catalog.json", "r") as file:
@@ -341,17 +366,103 @@ class MaintenanceStrategy(object):
 
         json_body = json.loads(cherrypy.request.body.read())
 
+        userID = json_body['userID']
+        parkRideID = json_body['rideID']
+        topic = json_body['topic']
+        isinMaint = json_body['isinMaint']
+        numMaint = json_body['numMaint']
+        alert = json_body['alert']
+        counterRides = json_body['counterRides']
+        timestamp = json_body['timestamp']
 
+        maintenance_params = {
+        "topic": topic,
+        "isinMaint": isinMaint,
+        "numMaint": numMaint,
+        "alert": alert,
+        "counterRides": counterRides,
+        "timestamp": timestamp
+        }
+
+        for user in db["users"]:
+            if user["id"] == int(userID):
+                rides = user["parkRides"]
+                for ride in rides:
+                    if ride['parkRideID'] == parkRideID:
+                        ride['maintenance_params'] = maintenance_params
+                        
+                with open("db/catalog.json", "w") as file:
+                            json.dump(db, file, indent=3)
+                return 'maintenance_params added succesfully'
 
 class ComfortStrategy(object):
     exposed = True
 
+    def GET(self,**params):
+        with open("db/catalog.json", "r") as file:
+            db = json.load(file)
+        
+        users = db["users"]
+        
+        userID=int(params["userID"])
+        parkRideID=int(params["parkRideID"])
+        strategyType=params["strategyType"]
+        print(strategyType)
+        strategyType=strategyType.replace('"','',2)
+        print(strategyType)
+        
+
+        
+        
+        if parkRideID is None:
+            return "No rideID was given"
+        for user in users:
+            if user["id"] == userID:
+                for ride in user["parkRides"]:
+                    if ride["rideID"] == parkRideID:
+                        for strategy in ride['strategies']:
+                            if strategy == strategyType:
+                                return json.dumps(ride["strategies"][strategy],indent=3)
+                        return "Strategy does not exist in the db"
+
+
+
+
     def POST (self):
         with open("db/catalog.json", "r") as file:
             db = json.load(file)
 
-        json_body = json.loads(cherrypy.request.body.read())
+    json_body = json.loads(cherrypy.request.body.read())
 
+class WaterStrategy(object):
+    exposed = True
+    def GET(self,**params):
+        with open("db/catalog.json", "r") as file:
+            db = json.load(file)
+        
+        users = db["users"]
+        
+        userID=int(params["userID"])
+        parkRideID=int(params["parkRideID"])
+        strategyType=params["strategyType"]
+        print(strategyType)
+        strategyType=strategyType.replace('"','',2)
+        print(strategyType)
+        
+
+        
+        
+        if parkRideID is None:
+            return "No rideID was given"
+        for user in users:
+            if user["id"] == userID:
+                for ride in user["parkRides"]:
+                    if ride["rideID"] == parkRideID:
+                        for strategy in ride['strategies']:
+                            if strategy == strategyType:
+                                return json.dumps(ride["strategies"][strategy],indent=3)
+                        return "Strategy does not exist in the db"
+                    
 
                                 
 if __name__ == '__main__':
@@ -367,7 +478,8 @@ if __name__ == '__main__':
     cherrypy.tree.mount(ParkRide(), '/parkride', conf)
     cherrypy.tree.mount(DeviceConnector(), '/device_connector', conf)
     cherrypy.tree.mount(MaintenanceStrategy(),'/maintenance_strategy',conf)
-    cherrypy.tree.mount(ComfortStrategy(),'comfort_strategy',conf)
+    cherrypy.tree.mount(ComfortStrategy(),'/comfort_strategy',conf)
+    cherrypy.tree.mount(WaterStrategy(),'/water_strategy',conf)
 
     cherrypy.config.update({ 'server.shutdown_timeout': 1 })
     cherrypy.engine.start()
