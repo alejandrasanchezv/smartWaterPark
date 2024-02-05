@@ -74,6 +74,14 @@
                   "comfort": [
                      "smartWaterPark/user_1/ride_1/strategy/comfort/#"
                   ]
+               },
+               "maintenance_params": {
+                  "topic": "smartWaterPark/user_1/ride_1/strategy/maintenance/0",
+                  "isinMaint": false,
+                  "numMaint": 0,
+                  "alert": 0,
+                  "counterRides": 0,
+                  "timestamp": 1707166027.182512
                }
             },
             {

@@ -340,10 +340,12 @@ class MaintenanceStrategy(object):
         
         userID=int(params["userID"])
         parkRideID=int(params["parkRideID"])
-        strategyType=params["strategyType"]
-        print(strategyType)
-        strategyType=strategyType.replace('"','',2)
-        print(strategyType)
+        #strategyType=params["strategyType"]
+        strategyType="maintenance"
+
+        #print(strategyType)
+        #strategyType=strategyType.replace('"','',2)
+        #print(strategyType)
         
 
         
@@ -388,7 +390,7 @@ class MaintenanceStrategy(object):
             if user["id"] == int(userID):
                 rides = user["parkRides"]
                 for ride in rides:
-                    if ride['parkRideID'] == parkRideID:
+                    if ride['rideID'] == parkRideID:
                         ride['maintenance_params'] = maintenance_params
                         
                 with open("db/catalog.json", "w") as file:
@@ -406,10 +408,7 @@ class ComfortStrategy(object):
         
         userID=int(params["userID"])
         parkRideID=int(params["parkRideID"])
-        strategyType=params["strategyType"]
-        print(strategyType)
-        strategyType=strategyType.replace('"','',2)
-        print(strategyType)
+        strategyType="comfort"
         
 
         
@@ -444,10 +443,7 @@ class WaterStrategy(object):
         
         userID=int(params["userID"])
         parkRideID=int(params["parkRideID"])
-        strategyType=params["strategyType"]
-        print(strategyType)
-        strategyType=strategyType.replace('"','',2)
-        print(strategyType)
+        strategyType="water"
         
 
         
