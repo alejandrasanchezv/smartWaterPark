@@ -410,9 +410,6 @@ class ComfortStrategy(object):
         parkRideID=int(params["parkRideID"])
         strategyType="comfort"
         
-
-        
-        
         if parkRideID is None:
             return "No rideID was given"
         for user in users:
@@ -432,6 +429,35 @@ class ComfortStrategy(object):
             db = json.load(file)
 
         json_body = json.loads(cherrypy.request.body.read())
+
+        userID = json_body['userID']
+        parkRideID = json_body['rideID']
+        topic = json_body['topic']
+        waterLevel = json_body['waterLevel']
+        phSensor = json_body['phSensor']
+        waterValve = json_body['waterValve']
+        chlorineValve = json_body['chlorineValve']
+        timestamp = json_body['timestamp']
+
+        water_params = {
+        "topic": topic,
+        "waterLevel": waterLevel,
+        "phSensor": phSensor,
+        "waterValve": waterValve,
+        "chlorineValve": chlorineValve,
+        "timestamp": timestamp
+        }
+
+        for user in db["users"]:
+            if user["id"] == int(userID):
+                rides = user["parkRides"]
+                for ride in rides:
+                    if ride['rideID'] == parkRideID:
+                        ride['water_params'] = water_params
+                        
+                with open("db/catalog.json", "w") as file:
+                            json.dump(db, file, indent=3)
+                return 'maintenance_params added succesfully'
 
 class WaterStrategy(object):
     exposed = True
@@ -458,7 +484,41 @@ class WaterStrategy(object):
                             if strategy == strategyType:
                                 return json.dumps(ride["strategies"][strategy],indent=3)
                         return "Strategy does not exist in the db"
-                    
+                
+    def POST (self):
+        with open("db/catalog.json", "r") as file:
+            db = json.load(file)
+
+        json_body = json.loads(cherrypy.request.body.read())
+
+        userID = json_body['userID']
+        parkRideID = json_body['rideID']
+        topic = json_body['topic']
+        waterLevel = json_body['waterLevel']
+        phSensor = json_body['phSensor']
+        waterValve = json_body['waterValve']
+        chlorineValve = json_body['chlorineValve']
+        timestamp = json_body['timestamp']
+
+        water_params = {
+        "topic": topic,
+        "waterLevel": waterLevel,
+        "phSensor": phSensor,
+        "waterValve": waterValve,
+        "chlorineValve": chlorineValve,
+        "timestamp": timestamp
+        }
+
+        for user in db["users"]:
+            if user["id"] == int(userID):
+                rides = user["parkRides"]
+                for ride in rides:
+                    if ride['rideID'] == parkRideID:
+                        ride['water_params'] = water_params
+                        
+                with open("db/catalog.json", "w") as file:
+                            json.dump(db, file, indent=3)
+                return 'maintenance_params added succesfully'
 
                                 
 if __name__ == '__main__':
