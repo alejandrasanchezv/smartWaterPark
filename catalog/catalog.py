@@ -260,49 +260,25 @@ class DeviceConnector(object):
         with open("db/catalog.json", "r") as file:
             db = json.load(file)
         
-        users = db["users"]
+        #users = db["users"]
         
-        userID=int(params["userID"])
-        parkRideID=int(params["parkRideID"])
-        strategyType=params["strategyType"]
-        print(strategyType)
-        strategyType=strategyType.replace('"','',2)
-        print(strategyType)
-        
-
-        
-        
-        if parkRideID is None:
-            return "No rideID was given"
-        for user in users:
-            if user["id"] == userID:
-                for ride in user["parkRides"]:
-                    if ride["rideID"] == parkRideID:
-                        for strategy in ride['strategies']:
-                            if strategy == strategyType:
-                                return json.dumps(ride["strategies"][strategy],indent=3)
-                        return "Strategy does not exist in the db"
+        #userID=int(params["userID"])
+        #parkRideID=int(params["parkRideID"])
+        #strategyType=params["strategyType"]
 
     def POST (self):
         with open("db/catalog.json", "r") as file:
             db = json.load(file)
     
         json_body = json.loads(cherrypy.request.body.read())
-        #print(body)
-        #json_body=json.loads(body)
-        print(json_body)
 
         userID = json_body["userID"]
         parkRideID = json_body["rideID"]
-        #ip = json_body["ip"]
-        #port = json_body["port"]
         sensors = json_body["sensors"]
         actuators = json_body["actuators"]
         strategies = json_body["strategies"]
 
         new_dev_connector = {
-            #"ip": ip,
-            #"port": port,
             "devices": {
                 "sensors": sensors,
                 "actuators": actuators
@@ -310,14 +286,12 @@ class DeviceConnector(object):
         }
         for user in db["users"]:
             if user["id"] == int(userID):
-                
                 for parkRide in user["parkRides"]:
                     if parkRide["rideID"] == int(parkRideID):
                         update = False
                         if parkRide["deviceConnectors"] == []:
                             print("is empty, then i can add a new element")
-                            parkRide["deviceConnectors"].append(new_dev_connector)
-                            
+                            parkRide["deviceConnectors"].append(new_dev_connector)  
                         else:
                             print("new element replaced")
                             parkRide["deviceConnectors"] = []
@@ -335,21 +309,13 @@ class MaintenanceStrategy(object):
     def GET(self,**params):
         with open("db/catalog.json", "r") as file:
             db = json.load(file)
-        
         users = db["users"]
-        
+
         userID=int(params["userID"])
         parkRideID=int(params["parkRideID"])
-        #strategyType=params["strategyType"]
         strategyType="maintenance"
 
-        #print(strategyType)
-        #strategyType=strategyType.replace('"','',2)
-        #print(strategyType)
-        
 
-        
-        
         if parkRideID is None:
             return "No rideID was given"
         for user in users:
@@ -361,7 +327,6 @@ class MaintenanceStrategy(object):
                                 return json.dumps(ride["strategies"][strategy],indent=3)
                         return "Strategy does not exist in the db"
     
-
     def POST (self):
         with open("db/catalog.json", "r") as file:
             db = json.load(file)
@@ -421,9 +386,6 @@ class ComfortStrategy(object):
                                 return json.dumps(ride["strategies"][strategy],indent=3)
                         return "Strategy does not exist in the db"
 
-
-
-
     def POST (self):
         with open("db/catalog.json", "r") as file:
             db = json.load(file)
@@ -471,11 +433,6 @@ class WaterStrategy(object):
         parkRideID=int(params["parkRideID"])
         strategyType="water"
         
-
-        
-        
-        if parkRideID is None:
-            return "No rideID was given"
         for user in users:
             if user["id"] == userID:
                 for ride in user["parkRides"]:
