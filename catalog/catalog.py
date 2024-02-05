@@ -432,7 +432,7 @@ class ComfortStrategy(object):
         with open("db/catalog.json", "r") as file:
             db = json.load(file)
 
-    json_body = json.loads(cherrypy.request.body.read())
+        json_body = json.loads(cherrypy.request.body.read())
 
 class WaterStrategy(object):
     exposed = True
