@@ -339,8 +339,8 @@ if __name__ == "__main__":
   usrID = 1 #db["userID"]
   rideID = 1 #db["rideID"]
   
-  url = resCatEndpoints + "/device_connector"
-  stratDB = requests.get(url, params = {"userID": usrID, "parkRideID": rideID, "strategyType": "water"})
+  url = resCatEndpoints + "/water_strategy"
+  stratDB = requests.get(url, params = {"userID": usrID, "parkRideID": rideID})
   stratTopic = stratDB.json()
   print(stratTopic)
   client = "water" + str(usrID)

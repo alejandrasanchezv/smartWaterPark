@@ -288,22 +288,25 @@ def updateDB():
       db['strategies'][typeStrat] = []
       if typeStrat == "maintenance":
         stratTopicSensor1 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/sensors/counterRides"
-        devMqtt.subscribe(stratTopicSensor1)
+        #devMqtt.subscribe(stratTopicSensor1)
         db['strategies'][typeStrat].append(stratTopicSensor1)
       elif typeStrat == "water":
         stratTopicSensor1 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/water/sensors/waterLevel"
         stratTopicSensor2 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/water/sensors/phSensor"
-        devMqtt.subscribe(stratTopicSensor1)
+        #devMqtt.subscribe(stratTopicSensor1)
         db['strategies'][typeStrat].append(stratTopicSensor1)
-        devMqtt.subscribe(stratTopicSensor2)
+        #devMqtt.subscribe(stratTopicSensor2)
         db['strategies'][typeStrat].append(stratTopicSensor2)
       elif typeStrat == "comfort":
-        stratTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/comfort/#"
-        devMqtt.subscribe(stratTopic)
-        db['strategies'][typeStrat].append(stratTopic)
+        stratTopic1 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/comfort/sensors/temp"
+        stratTopic2 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/comfort/sensors/isday"
+        #devMqtt.subscribe(stratTopic1)
+        db['strategies'][typeStrat].append(stratTopic1)
+        #devMqtt.subscribe(stratTopicSensor2)
+        db['strategies'][typeStrat].append(stratTopic2)
       else:
         stratTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/" + str(typeStrat)
-        devMqtt.subscribe(stratTopic)
+        #devMqtt.subscribe(stratTopic)
         db['strategies'][typeStrat].append(stratTopic)
 
     with open(database, "w") as file:
