@@ -183,9 +183,6 @@ class WaterStrategy(object):
                 with open(database, "w") as file:
                     json.dump(db, file, indent=3)
 
-                with open(database, "r") as file:
-                    dbTest = json.load(file)
-
             except:
                 print('NO STRATEGY REGISTERED')
 
@@ -200,7 +197,28 @@ class WaterStrategy(object):
 class WaterPublisher(object):
 
     def __init__(self) -> None:
-        pass
+        with open(database, "r") as file:
+            db = json.load(file)
+
+        actuators = db["actuators"]
+
+        topic = "smartWaterPark/devConnector/user_" + str(usrID) + "/ride_" + str(rideID) + "/"
+        topic_list = []
+        for i in actuators:
+            topicAct = topic + str(i)
+            topic_list.append(topicAct)
+
+        for strat in db['strategies']:
+            user = strat['userID']
+            ride = strat['rideID']
+
+            if usrID == user and rideID == ride:
+                chosenstrat = strat
+                break
+        
+        db['strategies'][chosenstrat]['topic'] = topic_list
+        with open(database, "w") as file:
+            json.dump(db, file, indent=3)
 
     def onMsgReceived(self, userdata, msg):
         print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
@@ -243,21 +261,63 @@ class WaterPublisher(object):
                                 if (waterThreshold + 0.1*waterThreshold) >= waterLevel:
                                     # Water level is too high -> valve should be closed
                                     valveStatus = False
-                                elif (waterThreshold - 0.1*waterThreshold) >= waterLevel:
-                                    # Water level is too high -> valve should be opened
+                                elif (waterThreshold - 0.1*waterThreshold) <= waterLevel:
+                                    # Water level is too low -> valve should be opened
                                     valveStatus = True
                                 else:
                                     print('WATER IS IN NORMAL RANGE') # we don't need the valve to be opened
                                     valveStatus = False
 
-                                dcTopic = "smartWaterPark/devConnector/user_" + str(usrID) + "/ride_" + str(rideID) + "/waterValve"
+                                dcTopic = "smartWaterPark/devConnector/user_" + str(userid) + "/ride_" + str(rideid) + "/waterValve"
                                 self.publish(dcTopic, valveStatus)
+                                db['strategies'][chosenstrat]['waterLevel'] = waterLevel
+                                db['strategies'][chosenstrat]['waterValve'] = valveStatus
+                            elif sensor == "phSensor":
+                                phLevel = float(value)
+                                valveStatus = False
+                                if (phThreshold + 0.1*phThreshold) >= phLevel:
+                                    # PH level is too high -> valve should be opened
+                                    valveStatus = True
+                                elif (phThreshold - 0.1*phThreshold) <= phLevel:
+                                    # PH level is too low -> valve should be closed
+                                    valveStatus = False
+                                else:
+                                    print('PH IS IN NORMAL RANGE') # we don't need the valve to be opened
+                                    valveStatus = False
+                                dcTopic = "smartWaterPark/devConnector/user_" + str(usrID) + "/ride_" + str(rideID) + "/chlorineValve"
+                                self.publish(dcTopic, valveStatus)
+                                db['strategies'][chosenstrat]['phSensor'] = phLevel
+                                db['strategies'][chosenstrat]['chlorineValve'] = valveStatus
+
+                            with open(database, "w") as file:
+                                json.dump(db, file, indent=3)
         else:
             print('STRATEGY IS NOT ACTIVE') 
 
 def postFunc():
     with open(database, "r") as file:
         db = json.load(file)
+
+    for i in db["strategies"]:
+        user = i["userID"]
+        ride = i["rideID"]       
+        if user == usrID and ride == rideID:
+            stratDB = i
+            break
+    
+    payload = {
+        "userID": stratDB['userID'],
+        "rideID": stratDB['rideID'],
+        "topic": stratDB['topic'],
+        "waterLevel": stratDB['waterLevel'],
+        "phSensor": stratDB['phSensor'],
+        "waterValve": stratDB['waterValve'],
+        "chlorineValve": stratDB['chlorineValve'],
+        "timestamp": time.time()
+    }
+
+    url = resCatEndpoints +'/maintenance_strategy'
+    requests.post(url, json.dumps(payload))
 
 with open(database, "r") as file:
     db = json.load(file)
