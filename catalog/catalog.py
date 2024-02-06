@@ -395,18 +395,18 @@ class ComfortStrategy(object):
         userID = json_body['userID']
         parkRideID = json_body['rideID']
         topic = json_body['topic']
-        waterLevel = json_body['waterLevel']
-        phSensor = json_body['phSensor']
-        waterValve = json_body['waterValve']
-        chlorineValve = json_body['chlorineValve']
+        temp = json_body['temp']
+        isday = json_body['isday']
+        lights = json_body['lights']
+        fans = json_body['fans']
         timestamp = json_body['timestamp']
 
-        water_params = {
+        comfort_params = {
         "topic": topic,
-        "waterLevel": waterLevel,
-        "phSensor": phSensor,
-        "waterValve": waterValve,
-        "chlorineValve": chlorineValve,
+        "temp": temp,
+        "isday": isday,
+        "lights": lights,
+        "fans": fans,
         "timestamp": timestamp
         }
 
@@ -415,7 +415,7 @@ class ComfortStrategy(object):
                 rides = user["parkRides"]
                 for ride in rides:
                     if ride['rideID'] == parkRideID:
-                        ride['water_params'] = water_params
+                        ride['comfort_params'] = comfort_params
                         
                 with open("db/catalog.json", "w") as file:
                             json.dump(db, file, indent=3)

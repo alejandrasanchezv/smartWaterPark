@@ -17,9 +17,9 @@
          "API": "2782492787784b98814165302230711",
          "topic": "smartWaterPark/user_1/ride_1/strategy/maintenance/0",
          "tempThreshold": 25,
-         "temp": 10.3,
-         "isday": 0,
-         "lights": true,
+         "temp": 8.0,
+         "isday": 1,
+         "lights": false,
          "fans": false
       }
    ]

@@ -300,8 +300,8 @@ def postFunc():
         "timestamp": time.time()
     }
 
-    url = resCatEndpoints +'/control_strategy'
-    #requests.post(url, json.dumps(payload))
+    url = resCatEndpoints +'/comfort_strategy'
+    requests.post(url, json.dumps(payload))
 
 with open(database, "r") as file:
     db = json.load(file)
@@ -323,7 +323,7 @@ if __name__ == "__main__":
   usrID = 1 #db["userID"]
   rideID = 1 #db["rideID"]
   
-  url = resCatEndpoints + "/device_connector"
+  url = resCatEndpoints + "/comfort_strategy"
   stratDB = requests.get(url, params = {"userID": usrID, "parkRideID": rideID, "strategyType": "comfort"})
   stratTopic = stratDB.json()
   print(stratTopic)
