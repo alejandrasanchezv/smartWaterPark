@@ -158,7 +158,7 @@ class ParkRide(object):
         newRide={
                "rideID": 5,
                "rideName": "Kraken",
-               "state": 1,
+               "state": True,
                "maintenanceTime": 2,
                "maxRides": 500,
                "deviceConnectors":[]
@@ -357,6 +357,8 @@ class MaintenanceStrategy(object):
                 for ride in rides:
                     if ride['rideID'] == parkRideID:
                         ride['maintenance_params'] = maintenance_params
+                        if isinMaint == False:
+                            ride['state']=isinMaint
                         
                 with open("db/catalog.json", "w") as file:
                             json.dump(db, file, indent=3)
