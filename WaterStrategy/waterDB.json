@@ -1,19 +1,37 @@
 {
-    "stratID": 1,
-    "sensors": ["waterLevel", "phSensor"],
-    "actuators": ["waterValve", "chlorineValve"],
-    "strategies": [
-        {
-            "userID": 1,
-            "rideID": 1,
-            "strategyStatus": true,
-            "topic": "smartWaterPark/user_1/ride_1/strategy/#",
-            "phThreshold": 7.3,
-            "waterThreshold": 20,
-            "waterLevel": 0,
-            "phSensor": 0,
-            "waterValve": false,
-            "chlorineValve": false
-        }
-    ]
+   "stratID": 1,
+   "sensors": [
+      "waterLevel",
+      "phSensor"
+   ],
+   "actuators": [
+      "waterValve",
+      "chlorineValve"
+   ],
+   "strategies": [
+      {
+         "userID": 1,
+         "rideID": 1,
+         "strategyStatus": true,
+         "topic": "smartWaterPark/user_1/ride_1/strategy/#",
+         "phThreshold": 7.3,
+         "waterThreshold": 20,
+         "waterLevel": 8.26,
+         "phSensor": 8.26,
+         "waterValve": false,
+         "chlorineValve": false
+      },
+      {
+         "userID": 0,
+         "rideID": 0,
+         "strategyStatus": true,
+         "topic": "smartWaterPark/user_0/ride_0/strategy/#",
+         "phThreshold": 7.3,
+         "waterThreshold": 20,
+         "waterLevel": 0,
+         "phSensor": 0,
+         "waterValve": false,
+         "chlorineValve": false
+      }
+   ]
 }

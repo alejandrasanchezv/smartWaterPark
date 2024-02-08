@@ -241,11 +241,13 @@ class WaterPublisher(object):
                 userid = strat['userID']
                 rideid = strat['rideID']
                 break
+
+        index = db['strategies'].index(chosenstrat)
         
         try:
-            waterThreshold = db['strategies'][chosenstrat]['waterThreshold']
-            phThreshold = db['strategies'][chosenstrat]['phThreshold']
-            strategyStatus = db['strategies'][chosenstrat]['strategyStatus']
+            waterThreshold = db['strategies'][index]['waterThreshold']
+            phThreshold = db['strategies'][index]['phThreshold']
+            strategyStatus = db['strategies'][index]['strategyStatus']
         except:
             raise cherrypy.HTTPError(400, 'User not found')
 
@@ -270,8 +272,8 @@ class WaterPublisher(object):
 
                                 dcTopic = "smartWaterPark/devConnector/user_" + str(userid) + "/ride_" + str(rideid) + "/strategy/water/actuator/waterValve"
                                 self.publish(dcTopic, valveStatus)
-                                db['strategies'][chosenstrat]['waterLevel'] = waterLevel
-                                db['strategies'][chosenstrat]['waterValve'] = valveStatus
+                                db['strategies'][index]['waterLevel'] = waterLevel
+                                db['strategies'][index]['waterValve'] = valveStatus
                             elif sensor == "phSensor":
                                 phLevel = float(value)
                                 valveStatus = False
@@ -286,8 +288,8 @@ class WaterPublisher(object):
                                     valveStatus = False
                                 dcTopic = "smartWaterPark/devConnector/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/water/actuator/chlorineValve"
                                 self.publish(dcTopic, valveStatus)
-                                db['strategies'][chosenstrat]['phSensor'] = phLevel
-                                db['strategies'][chosenstrat]['chlorineValve'] = valveStatus
+                                db['strategies'][index]['phSensor'] = phLevel
+                                db['strategies'][index]['chlorineValve'] = valveStatus
 
                             with open(database, "w") as file:
                                 json.dump(db, file, indent=3)

@@ -222,17 +222,17 @@ class Publisher(object):
       if sensor == "counterRides":
         for sensorM in self.sensorsMaintenance:
           sensorM.readvalue(sensorM)
-          topic = sensorTopic + "maintenance/sensors/counterRides/sensorid/"+ str(sensorM.id)
+          topic = sensorTopic + "maintenance/sensors/counterRides"
           devMqtt.publish(topic, sensorM.value)
       elif sensor == "waterLevel":
         for sensorw in self.sensorsWater:
           sensorw.readvalue(sensorw)
-          topic = sensorTopic + "water/sensors/waterLevel/sensorid/"+ str(sensorw.id)
+          topic = sensorTopic + "water/sensors/waterLevel"
           devMqtt.publish(topic, sensorw.value)
       elif sensor == "phSensor":
         for sensorw in self.sensorsWater:
           sensorw.readvalue(sensorw)
-          topic = sensorTopic + "water/sensors/phSensor/sensorid/"+ str(sensorw.id)
+          topic = sensorTopic + "water/sensors/phSensor"
           devMqtt.publish(topic, sensorw.value)
     topic = sensorTopic + "control/sensors/readApi"
     devMqtt.publish(topic, 1)

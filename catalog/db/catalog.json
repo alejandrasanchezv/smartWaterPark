@@ -20,17 +20,17 @@
                            {
                               "id": 0,
                               "type": "counterRides",
-                              "value": 0
+                              "value": 153
                            },
                            {
                               "id": 1,
                               "type": "waterLevel",
-                              "value": 0
+                              "value": 13.73
                            },
                            {
                               "id": 2,
                               "type": "phSensor",
-                              "value": 0
+                              "value": 6.91
                            }
                         ],
                         "actuators": [
@@ -90,6 +90,14 @@
                   "lights": false,
                   "fans": false,
                   "timestamp": 1707403165.478361
+               },
+               "water_params": {
+                  "topic": "smartWaterPark/user_1/ride_1/strategy/#",
+                  "waterLevel": 7.18,
+                  "phSensor": 7.18,
+                  "waterValve": false,
+                  "chlorineValve": true,
+                  "timestamp": 1707420828.3666785
                }
             },
             {
