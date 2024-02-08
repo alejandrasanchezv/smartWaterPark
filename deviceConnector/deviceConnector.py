@@ -234,7 +234,7 @@ class Publisher(object):
           sensorw.readvalue(sensorw)
           topic = sensorTopic + "water/sensors/phSensor"
           devMqtt.publish(topic, sensorw.value)
-    topic = sensorTopic + "control/sensors/readApi"
+    topic = sensorTopic + "comfort/sensors/readApi"
     devMqtt.publish(topic, 1)
     print('End publishing')
     

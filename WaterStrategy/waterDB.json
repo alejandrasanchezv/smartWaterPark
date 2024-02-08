@@ -16,10 +16,10 @@
          "topic": "smartWaterPark/user_1/ride_1/strategy/#",
          "phThreshold": 7.3,
          "waterThreshold": 20,
-         "waterLevel": 8.26,
-         "phSensor": 8.26,
+         "waterLevel": 7.26,
+         "phSensor": 7.26,
          "waterValve": false,
-         "chlorineValve": false
+         "chlorineValve": true
       },
       {
          "userID": 0,

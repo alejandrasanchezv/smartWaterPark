@@ -200,6 +200,7 @@ class ComfortStrategy(object):
 class ComfortPublisher(object):
 
     def __init__(self):
+        """
         with open(database, "r") as file:
             db = json.load(file)
 
@@ -222,6 +223,7 @@ class ComfortPublisher(object):
         db['strategies'][chosenstrat]['topic'] = topic_list
         with open(database, "w") as file:
             json.dump(db, file, indent=3)
+        """
 
     def onMsgReceived(self, userdata, msg):
         print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")

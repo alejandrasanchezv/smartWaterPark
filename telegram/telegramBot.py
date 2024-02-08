@@ -11,6 +11,42 @@ url_telegram = "https://api.telegram.org/bot"
 bot = telebot.TeleBot(API_KEY)
 database = "telegramDB.json"
 
+def sendtoTelegram(userID, rideID, dataB):
+    """
+    Sends the information received from 
+    a MQTT topic to Telegram using REST (post)
+    """
+
+    global database
+
+    with open(database, "r") as file:
+        db = json.load(file)
+
+    data = int(dataB)
+    
+    for user in db["users"]:
+        if user["userID"] == int(userID):
+            for ride in user["rides"]:
+                if ride["rideID"] == int(rideID):
+                    chatID = ride["chatID"]
+
+                    if data == 1:
+                        bot_message=f"Your ride registered with ID {rideID} is almost entering in maintance"
+                        RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + str(chatID) + "&text=" + bot_message
+                        requests.get(RequestToTelegram)
+                    
+                    elif data == 2:
+                        bot_message=f"Your ride registered with ID {rideID} will need maintance shortly"
+                        RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + str(chatID) + "&text=" + bot_message
+                        requests.get(RequestToTelegram)
+
+                    elif data == 3:
+                        bot_message=f"Your ride registered with ID {rideID} needs maintance:  IS CLOSED"
+                        RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + str(chatID) + "&text=" + bot_message
+                        requests.get(RequestToTelegram)
+
+                    #requests.get(RequestToTelegram)
+
 class TelegramMqtt(object):
     def __init__(self) -> None:
         pass
@@ -40,43 +76,6 @@ class TelegramMqtt(object):
                     if ride["rideID"] == int(rideID):
                         if dataType == "stateAlert":
                             sendtoTelegram(userID, rideID, data)
-
-
-def sendtoTelegram(userID, rideID, data):
-    """
-    Sends the information received from 
-    a MQTT topic to Telegram using REST (post)
-    """
-
-    global database
-
-    with open(database, "r") as file:
-        db = json.load(file)
-
-
-    for user in db["users"]:
-        if user["userID"] == int(userID):
-            for ride in user["rides"]:
-                if ride["rideID"] == int(rideID):
-                    chatID = ride["chatID"]
-
-                    if data == 1:
-                        bot_message=f"Your ride registered with ID {rideID} is almost entering in maintance"
-                        RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + str(chatID) + "&text=" + bot_message
-                    
-                    if data == 2:
-                        bot_message=f"Your ride registered with ID {rideID} will need maintance shortly"
-                        RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + str(chatID) + "&text=" + bot_message
-
-                    if data == 3:
-                        bot_message=f"Your ride registered with ID {rideID} needs maintance:  IS CLOSED"
-                        RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + str(chatID) + "&text=" + bot_message
-
-                    requests.get(RequestToTelegram)
-
-
-
-
 
 @bot.message_handler(commands=["hello"])
 def hello(message):

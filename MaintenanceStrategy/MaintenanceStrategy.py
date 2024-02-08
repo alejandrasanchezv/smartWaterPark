@@ -227,9 +227,11 @@ class MaintenancePublisher(object):
                     rideid = strat['rideID']
                     break
 
-            maxRides = db['strategies'][chosenstrat]['maxRides']
-            counterRides = db['strategies'][chosenstrat]['counterRides']
-            isinMaint = db['strategies'][chosenstrat]["isinMaint"]
+            index = db['strategies'].index(chosenstrat)
+
+            maxRides = db['strategies'][index]['maxRides']
+            counterRides = db['strategies'][index]['counterRides']
+            isinMaint = db['strategies'][index]["isinMaint"]
         except:
             raise cherrypy.HTTPError(400, 'User not found')
 
@@ -239,7 +241,7 @@ class MaintenancePublisher(object):
                 if sensor_topic == "sensors":
                     for sensor in db['sensors']:
                         if sensor == "counterRides":
-                            counterRides += value
+                            counterRides += int(value)
                             if isinMaint:
                                 maintenanceOn(userid, rideid, counterRides)
                             else:
@@ -352,7 +354,7 @@ if __name__ == "__main__":
       }
   }
   cherrypy.tree.mount(MaintenanceStrategy(), '/dbTopic', conf)
-  cherrypy.config.update({'server.socket_host': '127.0.0.1', 'server.socket_port': 8094})
+  cherrypy.config.update({'server.socket_host': '127.0.0.1', 'server.socket_port': 8095})
   cherrypy.engine.start()
   
   with open(database, "r") as file:
