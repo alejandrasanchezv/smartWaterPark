@@ -17,25 +17,29 @@ class TelegramMqtt(object):
 
     def onMsgReceived(device1, userdata, msg):
         print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
-        data = json.loads(msg.payload)
+        data = msg.payload
         topic = msg.topic
+
+        #"smartWaterPark/maintenance/user/" + str(userid) + "/ride/" + str(rideid) + "/stateAlert"
 
         userID = topic.split("/")[3]
         print(f'userID: {userID}')
         rideID = topic.split("/")[5]
         print(f'rideID: {rideID}')
+        dataType = topic.split("/")[6]
+        print(f'dataType: {dataType}')
 
 
         with open("telegramDB.json", "r") as file:
             db = json.load(file)
 
 
-
         for user in db["users"]:
             if user["userID"] == int(userID):
                 for ride in user["rides"]:
                     if ride["rideID"] == int(rideID):
-                        sendtoTelegram(userID, rideID, data)
+                        if dataType == "stateAlert":
+                            sendtoTelegram(userID, rideID, data)
 
 
 def sendtoTelegram(userID, rideID, data):
@@ -140,7 +144,7 @@ if __name__ == "__main__":
 
     #usrID = db["userID"]
     #rideID = db["rideID"]
-    topic = "smartWaterPark/telegram/user/" + str(1) + "/ride/" + str(1) + "/#"
+    topic = "smartWaterPark/maintenance/user/" + str(1) + "/ride/" + str(1) + "/#"
     client = "telegram" + str(1)
     telegramMqtt = ClientMQTT(client, [topic],onMessageReceived=TelegramMqtt.onMsgReceived)
     telegramMqtt.start()

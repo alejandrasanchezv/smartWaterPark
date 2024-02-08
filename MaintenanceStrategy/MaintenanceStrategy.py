@@ -207,7 +207,7 @@ class MaintenancePublisher(object):
 
     def onMsgReceived(self, userdata, msg):
         print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
-        value = json.loads(msg.payload)
+        value = msg.payload
         topic = msg.topic
 
         user_topic = topic.split('/')[1]
@@ -244,7 +244,8 @@ class MaintenancePublisher(object):
                                 maintenanceOn(userid, rideid, counterRides)
                             else:
                                 alertStatus = 0
-                                alertTopic = "smartWaterPark/thingSpeak/user/" + str(userid) + "/ride/" + str(rideid) + "/stateAlert"
+                                #alertTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/maintenance/stateAlert"
+                                alertTopic = "smartWaterPark/maintenance/user/" + str(userid) + "/ride/" + str(rideid) + "/stateAlert"
                                 if counterRides > round(maxRides*0.99):
                                     print('MAXIMUM NUMBER OF RIDES: ENTERING THE RIDE IN MAINTENANCE')
                                     alertStatus = 3
@@ -273,7 +274,7 @@ class MaintenancePublisher(object):
          
 
 def maintenanceOn(userid, rideid, counterRides):
-    maintTopic = "smartWaterPark/thingSpeak/user/" + str(userid) + "/ride/" + str(rideid)
+    maintTopic = "smartWaterPark/maintenance/user/" + str(userid) + "/ride/" + str(rideid)
 
     with open(database, "r") as file:
         db = json.load(file)

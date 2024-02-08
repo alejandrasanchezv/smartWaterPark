@@ -100,7 +100,7 @@ class ThingSpeakmqtt(object):
 
     def onMsgReceived(device1, userdata, msg):
         print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
-        data = json.loads(msg.payload)
+        data = msg.payload
         topic = msg.topic
 
         userID = topic.split("/")[3]
@@ -209,7 +209,7 @@ if __name__ == "__main__":
 
     usrID = db["userID"]
     rideID = db["rideID"]
-    topic = "smartWaterPark/thingSpeak/user/" + str(usrID) + "/ride/" + str(rideID) + "/#"
+    topic = "smartWaterPark/maintenance/user/" + str(usrID) + "/ride/" + str(rideID) + "/#"
     client = "thingSpeak" + str(usrID)
     thingsSpeakMqtt = ClientMQTT(client, [topic],onMessageReceived=ThingSpeakmqtt.onMsgReceived)
     thingsSpeakMqtt.start()

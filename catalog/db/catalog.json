@@ -65,14 +65,14 @@
                ],
                "strategies": {
                   "maintenance": [
-                     "smartWaterPark/user_1/ride_1/strategy/maintenance/sensors/counterRides/#"
+                     "smartWaterPark/user_1/ride_1/strategy/maintenance/sensors/counterRides"
                   ],
                   "water": [
-                     "smartWaterPark/user_1/ride_1/strategy/water/sensors/waterLevel/#",
-                     "smartWaterPark/user_1/ride_1/strategy/water/sensors/phSensor/#"
+                     "smartWaterPark/user_1/ride_1/strategy/water/sensors/waterLevel",
+                     "smartWaterPark/user_1/ride_1/strategy/water/sensors/phSensor"
                   ],
                   "comfort": [
-                     "smartWaterPark/user_1/ride_1/strategy/comfort/#"
+                     "smartWaterPark/user_1/ride_1/strategy/comfort/sensors/readApi"
                   ]
                },
                "maintenance_params": {
@@ -85,11 +85,11 @@
                },
                "comfort_params": {
                   "topic": "smartWaterPark/user_1/ride_1/strategy/maintenance/0",
-                  "temp": 10.3,
-                  "isday": 0,
-                  "lights": true,
+                  "temp": 12.5,
+                  "isday": 1,
+                  "lights": false,
                   "fans": false,
-                  "timestamp": 1707221178.6839967
+                  "timestamp": 1707403165.478361
                }
             },
             {

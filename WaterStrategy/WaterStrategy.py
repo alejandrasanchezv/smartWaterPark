@@ -222,7 +222,7 @@ class WaterPublisher(object):
 
     def onMsgReceived(self, userdata, msg):
         print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
-        value = json.loads(msg.payload)
+        value = msg.payload
         topic = msg.topic
 
         user_topic = topic.split('/')[1]
@@ -268,7 +268,7 @@ class WaterPublisher(object):
                                     print('WATER IS IN NORMAL RANGE') # we don't need the valve to be opened
                                     valveStatus = False
 
-                                dcTopic = "smartWaterPark/devConnector/user_" + str(userid) + "/ride_" + str(rideid) + "/waterValve"
+                                dcTopic = "smartWaterPark/devConnector/user_" + str(userid) + "/ride_" + str(rideid) + "/strategy/water/actuator/waterValve"
                                 self.publish(dcTopic, valveStatus)
                                 db['strategies'][chosenstrat]['waterLevel'] = waterLevel
                                 db['strategies'][chosenstrat]['waterValve'] = valveStatus
@@ -284,7 +284,7 @@ class WaterPublisher(object):
                                 else:
                                     print('PH IS IN NORMAL RANGE') # we don't need the valve to be opened
                                     valveStatus = False
-                                dcTopic = "smartWaterPark/devConnector/user_" + str(usrID) + "/ride_" + str(rideID) + "/chlorineValve"
+                                dcTopic = "smartWaterPark/devConnector/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/water/actuator/chlorineValve"
                                 self.publish(dcTopic, valveStatus)
                                 db['strategies'][chosenstrat]['phSensor'] = phLevel
                                 db['strategies'][chosenstrat]['chlorineValve'] = valveStatus

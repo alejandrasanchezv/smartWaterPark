@@ -153,7 +153,7 @@ class Publisher(object):
 
   def onMsgReceived(self, userdata, msg):
     print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
-    value = json.loads(msg.payload)
+    value = msg.payload
     topic = msg.topic
 
     user_topic = topic.split('/')[2]
@@ -194,7 +194,7 @@ class Publisher(object):
               #print(f'Actuators with type: {actuator.type} should be controlled by API')
               for actuator in self.actuatorsComfort:
                 if actuator_topic ==  actuator.type:
-                  if value == 1:
+                  if value:
                     actuator.comfortActuatorOn(actuator.id)
                   else:
                     actuator.comfortActuatorOff(actuator.id)
@@ -234,7 +234,8 @@ class Publisher(object):
           sensorw.readvalue(sensorw)
           topic = sensorTopic + "water/sensors/phSensor/sensorid/"+ str(sensorw.id)
           devMqtt.publish(topic, sensorw.value)
-
+    topic = sensorTopic + "control/sensors/readApi"
+    devMqtt.publish(topic, 1)
     print('End publishing')
     
 def updateDB():
@@ -298,12 +299,9 @@ def updateDB():
         #devMqtt.subscribe(stratTopicSensor2)
         db['strategies'][typeStrat].append(stratTopicSensor2)
       elif typeStrat == "comfort":
-        stratTopic1 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/comfort/sensors/temp"
-        stratTopic2 = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/comfort/sensors/isday"
-        #devMqtt.subscribe(stratTopic1)
-        db['strategies'][typeStrat].append(stratTopic1)
-        #devMqtt.subscribe(stratTopicSensor2)
-        db['strategies'][typeStrat].append(stratTopic2)
+        stratTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/comfort/sensors/readApi"
+        #devMqtt.subscribe(stratTopic)
+        db['strategies'][typeStrat].append(stratTopic)
       else:
         stratTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/" + str(typeStrat)
         #devMqtt.subscribe(stratTopic)

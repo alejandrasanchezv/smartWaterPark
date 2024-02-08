@@ -225,8 +225,17 @@ class ComfortPublisher(object):
 
     def onMsgReceived(self, userdata, msg):
         print(f"Message received. Topic:{msg.topic}, QoS:{msg.qos}s, Message:{msg.payload}")
+        value = msg.payload
+        topic = msg.topic
 
-        weatherApi()
+        #"smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/control/sensors/readApi"
+        user_topic = topic.split('/')[1]
+        ride_topic = topic.split('/')[2]
+        sensors = topic.split('/')[5]
+
+        if sensors ==  "sensors":
+            weatherApi()
+
 
 def weatherApi():
     with open(database, "r") as file:
@@ -263,9 +272,9 @@ def weatherApi():
     else:
         lights = False
 
-    fansTopic = "smartWaterPark/devConnector/user_" + str(usrID) + "/ride_" + str(rideID) + "/fans"
+    fansTopic = "smartWaterPark/devConnector/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/comfort/actuator/fans"
     comfortMqtt.publish(fansTopic, fans)
-    lightsTopic = "smartWaterPark/devConnector/user_" + str(usrID) + "/ride_" + str(rideID) + "/lights"
+    lightsTopic = "smartWaterPark/devConnector/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/comfort/actuator/lights"
     comfortMqtt.publish(lightsTopic, lights)
 
     stratDB['temp'] = temp

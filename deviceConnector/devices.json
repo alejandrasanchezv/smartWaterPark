@@ -61,14 +61,14 @@
    },
    "strategies": {
       "maintenance": [
-         "smartWaterPark/user_1/ride_1/strategy/maintenance/sensors/counterRides/#"
+         "smartWaterPark/user_1/ride_1/strategy/maintenance/sensors/counterRides"
       ],
       "water": [
-         "smartWaterPark/user_1/ride_1/strategy/water/sensors/waterLevel/#",
-         "smartWaterPark/user_1/ride_1/strategy/water/sensors/phSensor/#"
+         "smartWaterPark/user_1/ride_1/strategy/water/sensors/waterLevel",
+         "smartWaterPark/user_1/ride_1/strategy/water/sensors/phSensor"
       ],
       "comfort": [
-         "smartWaterPark/user_1/ride_1/strategy/comfort/#"
+         "smartWaterPark/user_1/ride_1/strategy/comfort/sensors/readApi"
       ]
    }
 }
