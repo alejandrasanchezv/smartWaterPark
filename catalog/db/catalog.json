@@ -10,7 +10,7 @@
             {
                "rideID": 1,
                "rideName": "Atlantis",
-               "state": 1,
+               "state": false,
                "maintenanceTime": 2,
                "maxRides": 500,
                "deviceConnectors": [
@@ -20,17 +20,17 @@
                            {
                               "id": 0,
                               "type": "counterRides",
-                              "value": 156
+                              "value": 0
                            },
                            {
                               "id": 1,
                               "type": "waterLevel",
-                              "value": 15.93
+                              "value": 0
                            },
                            {
                               "id": 2,
                               "type": "phSensor",
-                              "value": 8.0
+                              "value": 0
                            }
                         ],
                         "actuators": [
@@ -80,8 +80,8 @@
                   "isinMaint": false,
                   "numMaint": 0,
                   "alert": 3,
-                  "counterRides": 813688,
-                  "timestamp": 1707423793.428751
+                  "counterRides": 836786,
+                  "timestamp": 1707426317.3921015
                },
                "comfort_params": {
                   "topic": "smartWaterPark/user_1/ride_1/strategy/maintenance/0",

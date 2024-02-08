@@ -181,7 +181,6 @@ class Publisher(object):
       
       for strategy in strategies:
         if strategy == strategy_topic:
-          
           element = topic.split('/')[6]
           if element == "actuator":            
             actuator_topic = topic.split('/')[7]
@@ -200,15 +199,12 @@ class Publisher(object):
                     actuator.comfortActuatorOff(actuator.id)
                   print(f'actuator with type: {actuator.type} and id {actuator.id} is set to {actuator.state}')
             elif strategy == "maintenance":
-              if actuator.type == "maintenanceCall":
-                print(f'atuator: {actuator} is ON')
-            else:
-              print(f'Strategy: {strategy}')
-              if value == 1:
-                actuator.turnOn()
-              else:
-                actuator.turnOff()
-              print(f'actuator with type: {actuator.type} and id {actuator.id} is set to {actuator.state}')          
+              if bool(value):
+                print('RIDE IS IN MAINTENANCE')
+                db['status'] = False
+
+                with open(database, "w") as file:
+                  json.dump(db, file, indent=3)
         break
 
   def publishSensorReading(self, sensorType):
@@ -217,27 +213,30 @@ class Publisher(object):
     with open(database, "r") as file:
       db = json.load(file)
 
-    sensorTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/"
-    for sensor in self.sensorsList:
-      if sensor == "counterRides":
-        for sensorM in self.sensorsMaintenance:
-          sensorM.readvalue(sensorM)
-          topic = sensorTopic + "maintenance/sensors/counterRides"
-          devMqtt.publish(topic, sensorM.value)
-      elif sensor == "waterLevel":
-        for sensorw in self.sensorsWater:
-          sensorw.readvalue(sensorw)
-          topic = sensorTopic + "water/sensors/waterLevel"
-          devMqtt.publish(topic, sensorw.value)
-      elif sensor == "phSensor":
-        for sensorw in self.sensorsWater:
-          sensorw.readvalue(sensorw)
-          topic = sensorTopic + "water/sensors/phSensor"
-          devMqtt.publish(topic, sensorw.value)
-    topic = sensorTopic + "comfort/sensors/readApi"
-    devMqtt.publish(topic, 1)
-    print('End publishing')
-    
+    if db['status'] == True:
+      sensorTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/"
+      for sensor in self.sensorsList:
+        if sensor == "counterRides":
+          for sensorM in self.sensorsMaintenance:
+            sensorM.readvalue(sensorM)
+            topic = sensorTopic + "maintenance/sensors/counterRides"
+            devMqtt.publish(topic, sensorM.value)
+        elif sensor == "waterLevel":
+          for sensorw in self.sensorsWater:
+            sensorw.readvalue(sensorw)
+            topic = sensorTopic + "water/sensors/waterLevel"
+            devMqtt.publish(topic, sensorw.value)
+        elif sensor == "phSensor":
+          for sensorw in self.sensorsWater:
+            sensorw.readvalue(sensorw)
+            topic = sensorTopic + "water/sensors/phSensor"
+            devMqtt.publish(topic, sensorw.value)
+      topic = sensorTopic + "comfort/sensors/readApi"
+      devMqtt.publish(topic, 1)
+      print('End publishing')
+    else:
+      print('RIDE IS CLOSED')
+
 def updateDB():
     global sensorsMaintenance, sensorsWater, actuatorsMaintenance, actuatorsWater, actuatorsComfort
 

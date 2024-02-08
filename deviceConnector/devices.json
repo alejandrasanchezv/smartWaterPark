@@ -1,6 +1,7 @@
 {
    "userID": 1,
    "rideID": 1,
+   "status": false,
    "sensorTypes": [
       "counterRides",
       "waterLevel",
@@ -18,17 +19,17 @@
          {
             "id": 0,
             "type": "counterRides",
-            "value": 156
+            "value": 0
          },
          {
             "id": 1,
             "type": "waterLevel",
-            "value": 15.93
+            "value": 0
          },
          {
             "id": 2,
             "type": "phSensor",
-            "value": 8.0
+            "value": 0
          }
       ],
       "actuators": [

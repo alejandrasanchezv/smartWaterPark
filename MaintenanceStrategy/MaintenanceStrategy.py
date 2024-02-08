@@ -243,7 +243,7 @@ class MaintenancePublisher(object):
                         if sensor == "counterRides":
                             counterRides += int(value)
                             if isinMaint:
-                                maintenanceOn(userid, rideid, counterRides)
+                                maintenanceOn(userid, rideid)
                             else:
                                 alertStatus = 0
                                 #alertTopic = "smartWaterPark/user_" + str(usrID) + "/ride_" + str(rideID) + "/maintenance/stateAlert"
@@ -251,7 +251,7 @@ class MaintenancePublisher(object):
                                 if counterRides > round(maxRides*0.99):
                                     print('MAXIMUM NUMBER OF RIDES: ENTERING THE RIDE IN MAINTENANCE')
                                     alertStatus = 3
-                                    maintenanceOn(userid, rideid, counterRides)
+                                    maintenanceOn(userid, rideid)
                                 elif counterRides >= round(maxRides*0.95):
                                     alertStatus = 2
                                 elif counterRides >= round(maxRides*0.9):
@@ -275,7 +275,7 @@ class MaintenancePublisher(object):
             json.dump(db, file, indent=3)
          
 
-def maintenanceOn(userid, rideid, counterRides):
+def maintenanceOn(userid, rideid):
     maintTopic = "smartWaterPark/maintenance/user/" + str(userid) + "/ride/" + str(rideid)
 
     with open(database, "r") as file:
@@ -311,7 +311,10 @@ def maintenanceOn(userid, rideid, counterRides):
     maintMqtt.publish(alertTopic, 3)
     stratDB["alert"] = 3
 
-    stratDB["counterRides"] = counterRides
+    stratDB["counterRides"] = 0
+
+    devTopic = "smartWaterPark/devConnector/user_" + str(usrID) + "/ride_" + str(rideID) + "/strategy/maintenance/actuator/isinMaint"
+    maintMqtt.publish(devTopic, True)
 
     with open(database, "w") as file:
       json.dump(db, file, indent=3)
