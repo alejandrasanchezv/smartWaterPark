@@ -6,7 +6,7 @@ import paho.mqtt.client as mqtt
 
 from mqttClass import *
 
-API_KEY="6523268004:AAHTrXHEmQVYRvnYXtJrBf7ZX2bChnF_o1A"
+API_KEY="6928781843:AAH1rwszYDJj5-_5sIlgFoxKN42MUZGdZaE"
 url_telegram = "https://api.telegram.org/bot"
 bot = telebot.TeleBot(API_KEY)
 database = "telegramDB.json"
@@ -29,21 +29,30 @@ def sendtoTelegram(userID, rideID, dataB):
             for ride in user["rides"]:
                 if ride["rideID"] == int(rideID):
                     chatID = ride["chatID"]
+                    stateRide = ride["state"]
 
-                    if data == 1:
-                        bot_message=f"Your ride registered with ID {rideID} is almost entering in maintance"
-                        RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + str(chatID) + "&text=" + bot_message
-                        requests.get(RequestToTelegram)
-                    
-                    elif data == 2:
-                        bot_message=f"Your ride registered with ID {rideID} will need maintance shortly"
-                        RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + str(chatID) + "&text=" + bot_message
-                        requests.get(RequestToTelegram)
+                    if stateRide:
+                        if data == 1:
+                            bot_message=f"Your ride registered with ID {rideID} is almost entering in maintance"
+                            RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + str(chatID) + "&text=" + bot_message
+                            requests.get(RequestToTelegram)
+                        
+                        elif data == 2:
+                            bot_message=f"Your ride registered with ID {rideID} will need maintance shortly"
+                            RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + str(chatID) + "&text=" + bot_message
+                            requests.get(RequestToTelegram)
 
-                    elif data == 3:
-                        bot_message=f"Your ride registered with ID {rideID} needs maintance:  IS CLOSED"
-                        RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + str(chatID) + "&text=" + bot_message
-                        requests.get(RequestToTelegram)
+                        elif data == 3:
+                            bot_message=f"Your ride registered with ID {rideID} needs maintance:  IS CLOSED"
+                            RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + str(chatID) + "&text=" + bot_message
+                            requests.get(RequestToTelegram)
+                            time.sleep(2)
+                            
+                            ride["state"] = False
+                            with open(database, "w") as file:
+                                json.dump(db, file, indent=3)
+                    else:
+                        print(f'RIDE {rideID} IS ALREADY CLOSED')
 
                     #requests.get(RequestToTelegram)
 
@@ -131,7 +140,7 @@ def send_water(message):
 
 #Automatic notification - could work in any part of the project
 def telegram_bot_sendtext(bot_message):
-   token = "6523268004:AAHTrXHEmQVYRvnYXtJrBf7ZX2bChnF_o1A"
+   token = "6928781843:AAH1rwszYDJj5-_5sIlgFoxKN42MUZGdZaE"
    chat_id = "1227359148"
    url_req = "https://api.telegram.org/bot" + token + "/sendMessage" + "?chat_id=" + chat_id + "&text=" + bot_message 
    results = requests.get(url_req)

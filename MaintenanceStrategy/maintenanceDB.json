@@ -11,11 +11,11 @@
          "strategyStatus": true,
          "topic": "smartWaterPark/user_1/ride_1/strategy/maintenance/0",
          "maintenanceTime": 2,
-         "maxRides": 500,
+         "maxRides": 5000,
          "isinMaint": false,
          "numMaint": 0,
          "alert": 3,
-         "counterRides": 836786
+         "counterRides": 5641
       }
    ]
 }

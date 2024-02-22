@@ -1,27 +1,29 @@
 {
-    "userID": 1,
-    "rideID": 0,
-    "API_KEY":"6523268004:AAHTrXHEmQVYRvnYXtJrBf7ZX2bChnF_o1A",
-    "ip" : "https://api.telegram.org/bot",
-    "topics": [],
-    "users": [
-        {
-            "userID": 0,
-            "rides": [
-                {
-                    "rideID": 0,
-                    "chatID": 1227359148
-                }
-            ]
-        },
-        {
-            "userID": 1,
-            "rides": [
-                {
-                    "rideID": 1,
-                    "chatID": 1388779941
-                }
-            ]
-        }
-    ]
+   "userID": 1,
+   "rideID": 0,
+   "API_KEY": "6928781843:AAH1rwszYDJj5-_5sIlgFoxKN42MUZGdZaE",
+   "ip": "https://api.telegram.org/bot",
+   "topics": [],
+   "users": [
+      {
+         "userID": 0,
+         "rides": [
+            {
+               "rideID": 0,
+               "chatID": 1388779941,
+               "state": true
+            }
+         ]
+      },
+      {
+         "userID": 1,
+         "rides": [
+            {
+               "rideID": 1,
+               "chatID": 1227359148,
+               "state": false
+            }
+         ]
+      }
+   ]
 }
