@@ -129,7 +129,7 @@ Comfort strategy is in charge of assuring the water park user’s are comfortabl
 }
 ```
 ## NODE RED
-Used to create/register a new user or ride
+Used to create a friendly graphical user-interface, in order to allow the user to interact with the system. User will have the possibility to create, update and delete information about himself or a specific ride inside the park. Besides the user can visualize the information related to the state of sensors and actuators for each park ride registered in the database.
 
 ## TELEGRAM BOT
 Used by the maintenance startegy to inform an employee that a ride needs to be closed to go to revision
