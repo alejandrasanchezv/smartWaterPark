@@ -100,8 +100,7 @@ Water strategy is in charge of assuring the water is in optimal conditions. This
 		“valveID”: 0,
 		“activatorID": 0
 	},
-	"strategies": [
-	]
+	"strategies": []
 }
 ```
 ### Comfort
@@ -114,7 +113,8 @@ Comfort strategy is in charge of assuring the water park user’s are comfortabl
 - **Actuators:** array with each actuator assigned to this ride by this strategy:
 	- **Lights:** becomes activated when the light intensity on the premises is too low
 	- **Fans:** used to cool down the area – becomes activated when the weather conditions determines the city’s temperatura is over 26°C.
-
+ - **Strategies:** array with each the user's city and API to determining the temperature and day/night, it also contains the temperature threshold value and the actuators' current state 
+	- **temperature threshold:** float - maximum ideal temperature value before needing to activate the fans
 ```
 “comfortControl" = {
 	“state”: True/False,
@@ -124,25 +124,26 @@ Comfort strategy is in charge of assuring the water park user’s are comfortabl
 	“actuators”: {
 		“lightsID”: 0,
 		“fansID": 0
-	}
+	},
+	"strategies": []
 }
 ```
-
-## Thingspeak Adaptor
-Used to show the Admin (user) the variables measured by each strategy
-
-Used by the water park clients to see the state of the queue of each ride.
-
 ## NODE RED
-Used to create/register a new user or ride (?) creo
+Used to create/register a new user or ride
 
 ## TELEGRAM BOT
-Used by the maintenance startedy to inform an employee that a ride needs to be closed to go to revision
+Used by the maintenance startegy to inform an employee that a ride needs to be closed to go to revision
 
 3 alerts:
-- **ALERT 1:** a ride is about to need a revision soon – the ride has done 80% of its máximum rides or maximum time finishes in 2 days
-- **ALERT 2:** a ride is closed because it has to go to revision, mainly just to inform its already closed – this alert shouldn’t be a surprise because alert 1 should have warned the employee
-- **ALERT 3:** not really an alert just a notice to inform a ride has made its revision and is back on. 
+- **ALERT 1:** a ride is about to need a revision soon – the ride has done 80% of its máximum rides 
+- **ALERT 2:** a ride is about to need a revision very very soon – the ride has done 90% of its maximum rides
+- **ALERT 3:** a ride is closed because it has to go to revision, mainly just to inform its already closed – this alert shouldn’t be a surprise because alert 1 should have warned the employee
+
+## THINGSPEAK
+Used to show the Admin (user) the registry of the maintence's schedule. Used to have a registry on 3 variables related to the park ride's value
+- **IS IN MAINT:** bool - states if the park ride is currently on maintenance or not 
+- **NUM MAINT:** int - number of times that the park ride has closed due to maintenance
+- **STATE ALERT:** int [0, 1, 2, 3] -  states the curret park ride's alert according to the maximum rides 
 
 ```
 user : {
