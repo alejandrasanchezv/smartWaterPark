@@ -1,34 +1,361 @@
 [
     {
-        "id": "b3e923dc0a301c60",
+        "id": "773261dc17be4159",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4b689c68c68459ea",
+        "type": "group",
+        "z": "773261dc17be4159",
+        "name": "Home",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "3b03150baca07ca3",
+            "0535270adc3c442c",
+            "844572d690562b42",
+            "98227d738e71f0c2",
+            "208c08931a063d32",
+            "ad0ac371cef2d7ce",
+            "dc7279a94fb39f40",
+            "132b9e85439989ae",
+            "8e2cce31dee053ca",
+            "6f797763719d595e",
+            "906ad3390ffe78b5",
+            "861b38b0ebadf102",
+            "a8679bbb0578da84"
+        ],
+        "x": 74,
+        "y": 99,
+        "w": 932,
+        "h": 482
+    },
+    {
+        "id": "b0327be6a442ef45",
+        "type": "group",
+        "z": "773261dc17be4159",
+        "name": "User Management",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "3b8688b1bf41badc",
+            "0a29662dccd26a5a",
+            "dd1bb987fdc97a54"
+        ],
+        "x": 88,
+        "y": 793,
+        "w": 844,
+        "h": 794
+    },
+    {
+        "id": "7e87597a3d263e0f",
+        "type": "group",
+        "z": "773261dc17be4159",
+        "name": "Park Ride Management",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "da4b8bd1e8be4b19",
+            "d65695ef5408584d",
+            "e6d2c99d8633a6f7",
+            "7d71c12a320dc056"
+        ],
+        "x": 88,
+        "y": 1813,
+        "w": 754,
+        "h": 874
+    },
+    {
+        "id": "ee05f996d2a8bf52",
+        "type": "group",
+        "z": "773261dc17be4159",
+        "name": "Strategies Manager",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "5d116c0424206254",
+            "da348d011c8f9d01",
+            "ba5a9bfff478b9a5",
+            "512fefefafc91951",
+            "119edddfd90ea58a"
+        ],
+        "x": 74,
+        "y": 2793,
+        "w": 958,
+        "h": 674
+    },
+    {
+        "id": "3b8688b1bf41badc",
+        "type": "group",
+        "z": "773261dc17be4159",
+        "g": "b0327be6a442ef45",
+        "name": "Registration",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "559f7547d52ec5ed",
+            "0ebb027e0e058519",
+            "35ca0b3fc020511b",
+            "513bea74db70e272",
+            "db469854062ddc99"
+        ],
+        "x": 114,
+        "y": 819,
+        "w": 632,
+        "h": 162
+    },
+    {
+        "id": "0a29662dccd26a5a",
+        "type": "group",
+        "z": "773261dc17be4159",
+        "g": "b0327be6a442ef45",
+        "name": "Update",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "d65eede7bc3c9a94",
+            "a2a9d0a28d17db7e",
+            "2deaa84a5ff363ef",
+            "bb82a52a9bd1854f",
+            "7c0ae81a22bb31ad",
+            "a7768f4e99535f97",
+            "155b0b99cb853333"
+        ],
+        "x": 114,
+        "y": 1079,
+        "w": 702,
+        "h": 222
+    },
+    {
+        "id": "dd1bb987fdc97a54",
+        "type": "group",
+        "z": "773261dc17be4159",
+        "g": "b0327be6a442ef45",
+        "name": "Delete User",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "de3d49b13fa73dd5",
+            "4615a5448954948c",
+            "62d7bcf7577b51c8",
+            "38c9227c0f43f836",
+            "7f91c41d00a18d49",
+            "a0bae244d80baacc",
+            "b92831739c49d2c7",
+            "83b1c8cf36afc50a"
+        ],
+        "x": 114,
+        "y": 1339,
+        "w": 792,
+        "h": 222
+    },
+    {
+        "id": "da4b8bd1e8be4b19",
+        "type": "group",
+        "z": "773261dc17be4159",
+        "g": "7e87597a3d263e0f",
+        "name": "Retrieve Information",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "8e08344642c8d609",
+            "4e23e690f2926273",
+            "74c175a24a037aaa",
+            "22486cca7b5c96a8"
+        ],
+        "x": 114,
+        "y": 1839,
+        "w": 572,
+        "h": 142
+    },
+    {
+        "id": "d65695ef5408584d",
+        "type": "group",
+        "z": "773261dc17be4159",
+        "g": "7e87597a3d263e0f",
+        "name": "Registration",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "a105c342a1099f84",
+            "1ee5bc09eb857683",
+            "8d2684ecc8ef7b53",
+            "77aa3a2aeebbf8bd",
+            "1ae6fea4b9512f68"
+        ],
+        "x": 114,
+        "y": 2019,
+        "w": 632,
+        "h": 162
+    },
+    {
+        "id": "e6d2c99d8633a6f7",
+        "type": "group",
+        "z": "773261dc17be4159",
+        "g": "7e87597a3d263e0f",
+        "name": "Update",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "e396af19bd0126fb",
+            "79a91336083b2ca4",
+            "a32422767b3db7da",
+            "ac8030893fd98e03",
+            "0a451b823bbc9c5c",
+            "b2935103cd31680a",
+            "0b0909c524fa5e50"
+        ],
+        "x": 114,
+        "y": 2259,
+        "w": 702,
+        "h": 222
+    },
+    {
+        "id": "7d71c12a320dc056",
+        "type": "group",
+        "z": "773261dc17be4159",
+        "g": "7e87597a3d263e0f",
+        "name": "Delete",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "4eec837333d3ee37",
+            "66ef8657c3ef4877",
+            "6a7020d587cc5e1e",
+            "48e821103ebc0460",
+            "a31d15f1264a2732"
+        ],
+        "x": 114,
+        "y": 2519,
+        "w": 572,
+        "h": 142
+    },
+    {
+        "id": "ba5a9bfff478b9a5",
+        "type": "group",
+        "z": "773261dc17be4159",
+        "g": "ee05f996d2a8bf52",
+        "name": "Maintenance",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "346dfc0492267d0d",
+            "4730523391a9e073"
+        ],
+        "x": 614,
+        "y": 2819,
+        "w": 232,
+        "h": 142
+    },
+    {
+        "id": "512fefefafc91951",
+        "type": "group",
+        "z": "773261dc17be4159",
+        "g": "ee05f996d2a8bf52",
+        "name": "Comfort",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "90fb5eeb3ec27e9e",
+            "3b360662f9331192",
+            "831e188848d3ef29",
+            "3fb0b9c4b0956ed2",
+            "586a0b7967f5e4a7"
+        ],
+        "x": 594,
+        "y": 3039,
+        "w": 412,
+        "h": 222
+    },
+    {
+        "id": "119edddfd90ea58a",
+        "type": "group",
+        "z": "773261dc17be4159",
+        "g": "ee05f996d2a8bf52",
+        "name": "Water",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "49d5d6cc66c60977",
+            "78ce0016270199dd"
+        ],
+        "x": 554,
+        "y": 3299,
+        "w": 192,
+        "h": 142
+    },
+    {
+        "id": "35ca0b3fc020511b",
         "type": "ui_form",
         "z": "773261dc17be4159",
-        "g": "3cbaea7c100919c1",
+        "g": "3b8688b1bf41badc",
         "name": "",
         "label": "",
-        "group": "181e5a3da1f229b2",
+        "group": "00cb24640bce1b3d",
         "order": 2,
         "width": 0,
         "height": 0,
         "options": [
             {
-                "label": "Water pH",
-                "value": "waterPH",
-                "type": "number",
+                "label": "User ID",
+                "value": "userID",
+                "type": "text",
                 "required": true,
                 "rows": null
             },
             {
-                "label": "Water Level",
-                "value": "waterLevel",
-                "type": "number",
-                "required": false,
+                "label": "Username",
+                "value": "userName",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Password",
+                "value": "password",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Email address",
+                "value": "email",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "City",
+                "value": "city",
+                "type": "text",
+                "required": true,
                 "rows": null
             }
         ],
         "formValue": {
-            "waterPH": "",
-            "waterLevel": ""
+            "userID": "",
+            "userName": "",
+            "password": "",
+            "email": "",
+            "city": ""
         },
         "payload": "",
         "submit": "submit",
@@ -37,14 +364,2040 @@
         "topicType": "msg",
         "splitLayout": "",
         "className": "",
-        "x": 230,
-        "y": 3480,
+        "x": 190,
+        "y": 860,
         "wires": [
             [
-                "da904c0c071273ce",
-                "9424044918484342"
+                "559f7547d52ec5ed",
+                "db469854062ddc99"
             ]
         ]
+    },
+    {
+        "id": "559f7547d52ec5ed",
+        "type": "http request",
+        "z": "773261dc17be4159",
+        "g": "3b8688b1bf41badc",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8080/user",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 410,
+        "y": 860,
+        "wires": [
+            [
+                "0ebb027e0e058519",
+                "513bea74db70e272"
+            ]
+        ]
+    },
+    {
+        "id": "0ebb027e0e058519",
+        "type": "debug",
+        "z": "773261dc17be4159",
+        "g": "3b8688b1bf41badc",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "513bea74db70e272",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "3b8688b1bf41badc",
+        "group": "00cb24640bce1b3d",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "text",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 650,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "d65eede7bc3c9a94",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "0a29662dccd26a5a",
+        "group": "637c60ebb63c7d10",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "text",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 710,
+        "y": 1200,
+        "wires": []
+    },
+    {
+        "id": "a2a9d0a28d17db7e",
+        "type": "http request",
+        "z": "773261dc17be4159",
+        "g": "0a29662dccd26a5a",
+        "name": "",
+        "method": "PUT",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8080/user",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 510,
+        "y": 1140,
+        "wires": [
+            [
+                "d65eede7bc3c9a94",
+                "2deaa84a5ff363ef"
+            ]
+        ]
+    },
+    {
+        "id": "2deaa84a5ff363ef",
+        "type": "debug",
+        "z": "773261dc17be4159",
+        "g": "0a29662dccd26a5a",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "bb82a52a9bd1854f",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "0a29662dccd26a5a",
+        "group": "637c60ebb63c7d10",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Please fill all the fields you want to update",
+        "format": "",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "22",
+        "color": "#000000",
+        "x": 420,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "db469854062ddc99",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "3b8688b1bf41badc",
+        "group": "00cb24640bce1b3d",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Please fill all the fields in order to register a new user",
+        "format": "",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "22",
+        "color": "#000000",
+        "x": 360,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "3b03150baca07ca3",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "4b689c68c68459ea",
+        "group": "ba191f8ddc595c61",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Email:",
+        "format": "{{msg.payload.email}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 790,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "0535270adc3c442c",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "4b689c68c68459ea",
+        "group": "ba191f8ddc595c61",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "City:",
+        "format": "{{msg.payload.city}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 790,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "7c0ae81a22bb31ad",
+        "type": "ui_form",
+        "z": "773261dc17be4159",
+        "g": "0a29662dccd26a5a",
+        "name": "",
+        "label": "",
+        "group": "637c60ebb63c7d10",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Username",
+                "value": "userName",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Email address",
+                "value": "email",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "City",
+                "value": "city",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "userName": "",
+            "email": "",
+            "city": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 190,
+        "y": 1120,
+        "wires": [
+            [
+                "155b0b99cb853333"
+            ]
+        ]
+    },
+    {
+        "id": "a7768f4e99535f97",
+        "type": "ui_form",
+        "z": "773261dc17be4159",
+        "g": "0a29662dccd26a5a",
+        "name": "",
+        "label": "",
+        "group": "637c60ebb63c7d10",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "USER ID",
+                "value": "userID",
+                "type": "number",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "userID": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 190,
+        "y": 1180,
+        "wires": [
+            [
+                "155b0b99cb853333",
+                "bb82a52a9bd1854f"
+            ]
+        ]
+    },
+    {
+        "id": "155b0b99cb853333",
+        "type": "join",
+        "z": "773261dc17be4159",
+        "g": "0a29662dccd26a5a",
+        "name": "",
+        "mode": "custom",
+        "build": "merged",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "4",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 350,
+        "y": 1160,
+        "wires": [
+            [
+                "a2a9d0a28d17db7e"
+            ]
+        ]
+    },
+    {
+        "id": "de3d49b13fa73dd5",
+        "type": "debug",
+        "z": "773261dc17be4159",
+        "g": "dd1bb987fdc97a54",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 1380,
+        "wires": []
+    },
+    {
+        "id": "4615a5448954948c",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "dd1bb987fdc97a54",
+        "group": "dd2556f40ca25ee7",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "text",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 790,
+        "y": 1440,
+        "wires": []
+    },
+    {
+        "id": "62d7bcf7577b51c8",
+        "type": "http request",
+        "z": "773261dc17be4159",
+        "g": "dd1bb987fdc97a54",
+        "name": "",
+        "method": "DELETE",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8080/user/?userID={{{valor}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 590,
+        "y": 1380,
+        "wires": [
+            [
+                "de3d49b13fa73dd5",
+                "4615a5448954948c"
+            ]
+        ]
+    },
+    {
+        "id": "38c9227c0f43f836",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "dd1bb987fdc97a54",
+        "group": "dd2556f40ca25ee7",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Please enter the ID of the user you want to remove",
+        "format": "",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "22",
+        "color": "#000000",
+        "x": 470,
+        "y": 1520,
+        "wires": []
+    },
+    {
+        "id": "7f91c41d00a18d49",
+        "type": "debug",
+        "z": "773261dc17be4159",
+        "g": "dd1bb987fdc97a54",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 380,
+        "y": 1460,
+        "wires": []
+    },
+    {
+        "id": "a0bae244d80baacc",
+        "type": "ui_form",
+        "z": "773261dc17be4159",
+        "g": "dd1bb987fdc97a54",
+        "name": "",
+        "label": "",
+        "group": "dd2556f40ca25ee7",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "User Name",
+                "value": "valor",
+                "type": "number",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "valor": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "",
+        "topicType": "str",
+        "splitLayout": "",
+        "className": "",
+        "x": 190,
+        "y": 1380,
+        "wires": [
+            [
+                "7f91c41d00a18d49",
+                "38c9227c0f43f836",
+                "b92831739c49d2c7"
+            ]
+        ]
+    },
+    {
+        "id": "b92831739c49d2c7",
+        "type": "change",
+        "z": "773261dc17be4159",
+        "g": "dd1bb987fdc97a54",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload.valor",
+                "pt": "msg",
+                "to": "valor",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 390,
+        "y": 1380,
+        "wires": [
+            [
+                "83b1c8cf36afc50a",
+                "62d7bcf7577b51c8"
+            ]
+        ]
+    },
+    {
+        "id": "83b1c8cf36afc50a",
+        "type": "debug",
+        "z": "773261dc17be4159",
+        "g": "dd1bb987fdc97a54",
+        "name": "debug 7",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 1440,
+        "wires": []
+    },
+    {
+        "id": "8e08344642c8d609",
+        "type": "ui_form",
+        "z": "773261dc17be4159",
+        "g": "da4b8bd1e8be4b19",
+        "name": "",
+        "label": "",
+        "group": "b6ec54b8a0a4c436",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "User ID",
+                "value": "userID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Park ride ID",
+                "value": "parkRideID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "userID": "",
+            "parkRideID": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 190,
+        "y": 1880,
+        "wires": [
+            [
+                "74c175a24a037aaa",
+                "22486cca7b5c96a8"
+            ]
+        ]
+    },
+    {
+        "id": "4e23e690f2926273",
+        "type": "debug",
+        "z": "773261dc17be4159",
+        "g": "da4b8bd1e8be4b19",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 1880,
+        "wires": []
+    },
+    {
+        "id": "74c175a24a037aaa",
+        "type": "http request",
+        "z": "773261dc17be4159",
+        "g": "da4b8bd1e8be4b19",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8080/parkride?userID={{{payload.userID}}}&parkRideID={{{payload.parkRideID}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 370,
+        "y": 1880,
+        "wires": [
+            [
+                "4e23e690f2926273"
+            ]
+        ]
+    },
+    {
+        "id": "22486cca7b5c96a8",
+        "type": "debug",
+        "z": "773261dc17be4159",
+        "g": "da4b8bd1e8be4b19",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.parkRideID",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 320,
+        "y": 1940,
+        "wires": []
+    },
+    {
+        "id": "a105c342a1099f84",
+        "type": "http request",
+        "z": "773261dc17be4159",
+        "g": "d65695ef5408584d",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8080/parkride",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 410,
+        "y": 2060,
+        "wires": [
+            [
+                "1ee5bc09eb857683",
+                "77aa3a2aeebbf8bd"
+            ]
+        ]
+    },
+    {
+        "id": "1ee5bc09eb857683",
+        "type": "debug",
+        "z": "773261dc17be4159",
+        "g": "d65695ef5408584d",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 2060,
+        "wires": []
+    },
+    {
+        "id": "8d2684ecc8ef7b53",
+        "type": "ui_form",
+        "z": "773261dc17be4159",
+        "g": "d65695ef5408584d",
+        "name": "",
+        "label": "",
+        "group": "e247aeb7dd912608",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "User ID",
+                "value": "userID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Ride Park ID",
+                "value": "rideParkID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Ride Park Name",
+                "value": "rideParkName",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Maintenance",
+                "value": "maintenance",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "userID": "",
+            "rideParkID": "",
+            "rideParkName": "",
+            "maintenance": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 190,
+        "y": 2060,
+        "wires": [
+            [
+                "a105c342a1099f84",
+                "1ae6fea4b9512f68"
+            ]
+        ]
+    },
+    {
+        "id": "77aa3a2aeebbf8bd",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "d65695ef5408584d",
+        "group": "e247aeb7dd912608",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "text",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 650,
+        "y": 2120,
+        "wires": []
+    },
+    {
+        "id": "1ae6fea4b9512f68",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "d65695ef5408584d",
+        "group": "e247aeb7dd912608",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Please fill all the fields in order to register a new user",
+        "format": "",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "22",
+        "color": "#000000",
+        "x": 360,
+        "y": 2140,
+        "wires": []
+    },
+    {
+        "id": "e396af19bd0126fb",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "e6d2c99d8633a6f7",
+        "group": "1def0158f933ca2d",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "text",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 710,
+        "y": 2380,
+        "wires": []
+    },
+    {
+        "id": "79a91336083b2ca4",
+        "type": "http request",
+        "z": "773261dc17be4159",
+        "g": "e6d2c99d8633a6f7",
+        "name": "",
+        "method": "PUT",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8080/parkride",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 510,
+        "y": 2320,
+        "wires": [
+            [
+                "e396af19bd0126fb",
+                "a32422767b3db7da"
+            ]
+        ]
+    },
+    {
+        "id": "a32422767b3db7da",
+        "type": "debug",
+        "z": "773261dc17be4159",
+        "g": "e6d2c99d8633a6f7",
+        "name": "debug 10",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 2320,
+        "wires": []
+    },
+    {
+        "id": "ac8030893fd98e03",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "e6d2c99d8633a6f7",
+        "group": "1def0158f933ca2d",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Please fill all the fields you want to update",
+        "format": "",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "22",
+        "color": "#000000",
+        "x": 420,
+        "y": 2440,
+        "wires": []
+    },
+    {
+        "id": "0a451b823bbc9c5c",
+        "type": "ui_form",
+        "z": "773261dc17be4159",
+        "g": "e6d2c99d8633a6f7",
+        "name": "",
+        "label": "",
+        "group": "1def0158f933ca2d",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Park Ride Name",
+                "value": "parkRideName",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Maintenance",
+                "value": "maintenance",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "parkRideName": "",
+            "maintenance": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 190,
+        "y": 2300,
+        "wires": [
+            [
+                "0b0909c524fa5e50"
+            ]
+        ]
+    },
+    {
+        "id": "b2935103cd31680a",
+        "type": "ui_form",
+        "z": "773261dc17be4159",
+        "g": "e6d2c99d8633a6f7",
+        "name": "",
+        "label": "",
+        "group": "1def0158f933ca2d",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "User ID",
+                "value": "userID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Park Ride ID",
+                "value": "parkRideID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "userID": "",
+            "parkRideID": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 190,
+        "y": 2360,
+        "wires": [
+            [
+                "0b0909c524fa5e50",
+                "ac8030893fd98e03"
+            ]
+        ]
+    },
+    {
+        "id": "0b0909c524fa5e50",
+        "type": "join",
+        "z": "773261dc17be4159",
+        "g": "e6d2c99d8633a6f7",
+        "name": "",
+        "mode": "custom",
+        "build": "merged",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "4",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 350,
+        "y": 2340,
+        "wires": [
+            [
+                "79a91336083b2ca4"
+            ]
+        ]
+    },
+    {
+        "id": "4eec837333d3ee37",
+        "type": "ui_form",
+        "z": "773261dc17be4159",
+        "g": "7d71c12a320dc056",
+        "name": "",
+        "label": "",
+        "group": "cdcdda1a7108af98",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "User ID",
+                "value": "userID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Park ride ID",
+                "value": "parkRideID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "userID": "",
+            "parkRideID": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 190,
+        "y": 2560,
+        "wires": [
+            [
+                "6a7020d587cc5e1e",
+                "48e821103ebc0460"
+            ]
+        ]
+    },
+    {
+        "id": "66ef8657c3ef4877",
+        "type": "debug",
+        "z": "773261dc17be4159",
+        "g": "7d71c12a320dc056",
+        "name": "debug 11",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 2560,
+        "wires": []
+    },
+    {
+        "id": "6a7020d587cc5e1e",
+        "type": "http request",
+        "z": "773261dc17be4159",
+        "g": "7d71c12a320dc056",
+        "name": "",
+        "method": "DELETE",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8080/parkride?userID={{{payload.userID}}}&parkRideID={{{payload.parkRideID}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 370,
+        "y": 2560,
+        "wires": [
+            [
+                "66ef8657c3ef4877",
+                "a31d15f1264a2732"
+            ]
+        ]
+    },
+    {
+        "id": "48e821103ebc0460",
+        "type": "debug",
+        "z": "773261dc17be4159",
+        "g": "7d71c12a320dc056",
+        "name": "debug 12",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.parkRideID",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 320,
+        "y": 2620,
+        "wires": []
+    },
+    {
+        "id": "a31d15f1264a2732",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "7d71c12a320dc056",
+        "group": "cdcdda1a7108af98",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "text",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 610,
+        "y": 2620,
+        "wires": []
+    },
+    {
+        "id": "844572d690562b42",
+        "type": "ui_gauge",
+        "z": "773261dc17be4159",
+        "g": "4b689c68c68459ea",
+        "name": "",
+        "group": "872d637344a9cac6",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "State of Attraction",
+        "label": "state",
+        "format": "{{msg.payload}}",
+        "min": 0,
+        "max": "1",
+        "colors": [
+            "#050000",
+            "#e6e600",
+            "#59cb3a"
+        ],
+        "seg1": "OFF",
+        "seg2": "ON",
+        "diff": false,
+        "className": "",
+        "x": 890,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "98227d738e71f0c2",
+        "type": "ui_form",
+        "z": "773261dc17be4159",
+        "g": "4b689c68c68459ea",
+        "name": "",
+        "label": "",
+        "group": "438c976e67bf879c",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "User ID",
+                "value": "userID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Park ride ID",
+                "value": "parkRideID",
+                "type": "text",
+                "required": false,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "userID": "",
+            "parkRideID": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 150,
+        "y": 300,
+        "wires": [
+            [
+                "208c08931a063d32",
+                "ad0ac371cef2d7ce",
+                "132b9e85439989ae"
+            ]
+        ]
+    },
+    {
+        "id": "208c08931a063d32",
+        "type": "http request",
+        "z": "773261dc17be4159",
+        "g": "4b689c68c68459ea",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8080/parkride?userID={{{payload.userID}}}&parkRideID={{{payload.parkRideID}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 390,
+        "y": 300,
+        "wires": [
+            [
+                "8e2cce31dee053ca",
+                "861b38b0ebadf102",
+                "906ad3390ffe78b5",
+                "a8679bbb0578da84"
+            ]
+        ]
+    },
+    {
+        "id": "ad0ac371cef2d7ce",
+        "type": "http request",
+        "z": "773261dc17be4159",
+        "g": "4b689c68c68459ea",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8080/user?userID={{{payload.userID}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 390,
+        "y": 260,
+        "wires": [
+            [
+                "dc7279a94fb39f40",
+                "3b03150baca07ca3",
+                "0535270adc3c442c",
+                "6f797763719d595e"
+            ]
+        ]
+    },
+    {
+        "id": "dc7279a94fb39f40",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "4b689c68c68459ea",
+        "group": "ba191f8ddc595c61",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "User name:",
+        "format": "{{msg.payload.userName}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 810,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "132b9e85439989ae",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "4b689c68c68459ea",
+        "group": "438c976e67bf879c",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "",
+        "format": "Please enter the values of User and Park Ride you want to retrieve the information",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 310,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "8e2cce31dee053ca",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "4b689c68c68459ea",
+        "group": "872d637344a9cac6",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Park ride name:",
+        "format": "{{msg.payload.rideName}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 820,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "861b38b0ebadf102",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "4b689c68c68459ea",
+        "group": "872d637344a9cac6",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "",
+        "format": "PARK RIDE INFORMATION",
+        "layout": "col-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 790,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "6f797763719d595e",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "4b689c68c68459ea",
+        "group": "ba191f8ddc595c61",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "",
+        "format": "USER INFORMATION",
+        "layout": "col-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 790,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "906ad3390ffe78b5",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "4b689c68c68459ea",
+        "group": "872d637344a9cac6",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "State:",
+        "format": "{{msg.payload.state}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 790,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "5d116c0424206254",
+        "type": "ui_form",
+        "z": "773261dc17be4159",
+        "g": "ee05f996d2a8bf52",
+        "name": "",
+        "label": "",
+        "group": "c38248f85d5333ee",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "User ID",
+                "value": "userID",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Park ride ID",
+                "value": "parkRideID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "userID": "",
+            "parkRideID": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 150,
+        "y": 3000,
+        "wires": [
+            [
+                "da348d011c8f9d01"
+            ]
+        ]
+    },
+    {
+        "id": "da348d011c8f9d01",
+        "type": "http request",
+        "z": "773261dc17be4159",
+        "g": "ee05f996d2a8bf52",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8080/parkride?userID={{{payload.userID}}}&parkRideID={{{payload.parkRideID}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 390,
+        "y": 3000,
+        "wires": [
+            [
+                "346dfc0492267d0d",
+                "4730523391a9e073",
+                "3b360662f9331192",
+                "3fb0b9c4b0956ed2",
+                "586a0b7967f5e4a7",
+                "49d5d6cc66c60977",
+                "78ce0016270199dd"
+            ]
+        ]
+    },
+    {
+        "id": "4266815d17c686a0",
+        "type": "inject",
+        "z": "773261dc17be4159",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 5160,
+        "wires": [
+            [
+                "62971dfc3bb24bac"
+            ]
+        ]
+    },
+    {
+        "id": "62971dfc3bb24bac",
+        "type": "http request",
+        "z": "773261dc17be4159",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://api.weatherapi.com/v1/current.json?key=2782492787784b98814165302230711&q=cali",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 430,
+        "y": 5160,
+        "wires": [
+            [
+                "cfaaa9785ab7541c",
+                "cd7897e6a439446e"
+            ]
+        ]
+    },
+    {
+        "id": "cfaaa9785ab7541c",
+        "type": "debug",
+        "z": "773261dc17be4159",
+        "name": "debug 13",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.current.temp_c",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 700,
+        "y": 5160,
+        "wires": []
+    },
+    {
+        "id": "cd7897e6a439446e",
+        "type": "debug",
+        "z": "773261dc17be4159",
+        "name": "debug 14",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 700,
+        "y": 5240,
+        "wires": []
+    },
+    {
+        "id": "46d6ca74badaa662",
+        "type": "debug",
+        "z": "773261dc17be4159",
+        "name": "debug 22",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 5340,
+        "wires": []
+    },
+    {
+        "id": "3783101f6507ed97",
+        "type": "http request",
+        "z": "773261dc17be4159",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8080/device_connector?userID=1&parkRideID=1&strategyType=\"maintenance\"",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 250,
+        "y": 5400,
+        "wires": [
+            [
+                "46d6ca74badaa662"
+            ]
+        ]
+    },
+    {
+        "id": "721b02522c5324bd",
+        "type": "inject",
+        "z": "773261dc17be4159",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 80,
+        "y": 5420,
+        "wires": [
+            [
+                "3783101f6507ed97"
+            ]
+        ]
+    },
+    {
+        "id": "346dfc0492267d0d",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "ba5a9bfff478b9a5",
+        "group": "3b64443e97f7558c",
+        "order": 2,
+        "width": "6",
+        "height": "3",
+        "name": "",
+        "label": "In Maintenance:",
+        "format": "{{msg.payload.maintenance_params.isinMaint}}",
+        "layout": "col-center",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "22",
+        "color": "#000000",
+        "x": 720,
+        "y": 2860,
+        "wires": []
+    },
+    {
+        "id": "4730523391a9e073",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "ba5a9bfff478b9a5",
+        "group": "3b64443e97f7558c",
+        "order": 2,
+        "width": "6",
+        "height": "3",
+        "name": "",
+        "label": "Number of Rides",
+        "format": "{{msg.payload.maintenance_params.counterRides}}",
+        "layout": "col-center",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "22",
+        "color": "#000000",
+        "x": 730,
+        "y": 2920,
+        "wires": []
+    },
+    {
+        "id": "90fb5eeb3ec27e9e",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "512fefefafc91951",
+        "group": "44780543bef0fb64",
+        "order": 1,
+        "width": "6",
+        "height": "2",
+        "name": "",
+        "label": "Lights status:",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "22",
+        "color": "#000000",
+        "x": 890,
+        "y": 3140,
+        "wires": []
+    },
+    {
+        "id": "3b360662f9331192",
+        "type": "ui_gauge",
+        "z": "773261dc17be4159",
+        "g": "512fefefafc91951",
+        "name": "",
+        "group": "44780543bef0fb64",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "Celcius degrees",
+        "format": "{{msg.payload.comfort_params.temp}}",
+        "min": 0,
+        "max": "40",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 710,
+        "y": 3080,
+        "wires": []
+    },
+    {
+        "id": "831e188848d3ef29",
+        "type": "ui_text",
+        "z": "773261dc17be4159",
+        "g": "512fefefafc91951",
+        "group": "44780543bef0fb64",
+        "order": 2,
+        "width": "6",
+        "height": "2",
+        "name": "",
+        "label": "Fans status:",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "22",
+        "color": "#000000",
+        "x": 910,
+        "y": 3220,
+        "wires": []
+    },
+    {
+        "id": "3fb0b9c4b0956ed2",
+        "type": "function",
+        "z": "773261dc17be4159",
+        "g": "512fefefafc91951",
+        "name": "function 1",
+        "func": "if (msg.payload.comfort_params.lights === true) {\n    var newMsg = { payload: \"ON\" };\n    return newMsg;\n} else {\n    var newMsg = { payload: \"OFF\" }\n    return newMsg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 3140,
+        "wires": [
+            [
+                "90fb5eeb3ec27e9e"
+            ]
+        ]
+    },
+    {
+        "id": "586a0b7967f5e4a7",
+        "type": "function",
+        "z": "773261dc17be4159",
+        "g": "512fefefafc91951",
+        "name": "function 2",
+        "func": "if (msg.payload.comfort_params.fans === true) {\n    var newMsg = { payload: \"ON\" };\n    return newMsg;\n} else {\n    var newMsg = { payload: \"OFF\" }\n    return newMsg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 3200,
+        "wires": [
+            [
+                "831e188848d3ef29"
+            ]
+        ]
+    },
+    {
+        "id": "49d5d6cc66c60977",
+        "type": "ui_gauge",
+        "z": "773261dc17be4159",
+        "g": "119edddfd90ea58a",
+        "name": "",
+        "group": "181e5a3da1f229b2",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Water Level",
+        "label": "meters",
+        "format": "{{msg.payload.water_params.waterLevel}}",
+        "min": 0,
+        "max": "20",
+        "colors": [
+            "#04c6f6",
+            "#04c5f5",
+            "#04c5f5"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 650,
+        "y": 3340,
+        "wires": []
+    },
+    {
+        "id": "78ce0016270199dd",
+        "type": "ui_gauge",
+        "z": "773261dc17be4159",
+        "g": "119edddfd90ea58a",
+        "name": "",
+        "group": "181e5a3da1f229b2",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "pH Value",
+        "label": "",
+        "format": "{{msg.payload.water_params.phSensor}}",
+        "min": 0,
+        "max": "14",
+        "colors": [
+            "#b31200",
+            "#00e604",
+            "#9d3acb"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 640,
+        "y": 3400,
+        "wires": []
+    },
+    {
+        "id": "a8679bbb0578da84",
+        "type": "function",
+        "z": "773261dc17be4159",
+        "g": "4b689c68c68459ea",
+        "name": "function 3",
+        "func": "if (msg.payload.state === true) {\n    var newMsg = { payload: 1};\n    return newMsg;\n} else {\n    var newMsg = { payload: 0 }\n    return newMsg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 540,
+        "wires": [
+            [
+                "844572d690562b42"
+            ]
+        ]
+    },
+    {
+        "id": "7926bb4e154a3413",
+        "type": "ui_spacer",
+        "z": "773261dc17be4159",
+        "name": "spacer",
+        "group": "ba191f8ddc595c61",
+        "order": 5,
+        "width": "1",
+        "height": "1"
+    },
+    {
+        "id": "00cb24640bce1b3d",
+        "type": "ui_group",
+        "name": "Registration",
+        "tab": "e316f46317bbfb56",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "637c60ebb63c7d10",
+        "type": "ui_group",
+        "name": "Update",
+        "tab": "e316f46317bbfb56",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "ba191f8ddc595c61",
+        "type": "ui_group",
+        "name": "Information",
+        "tab": "5e5e170497bf7594",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "dd2556f40ca25ee7",
+        "type": "ui_group",
+        "name": "Delete",
+        "tab": "e316f46317bbfb56",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "b6ec54b8a0a4c436",
+        "type": "ui_group",
+        "name": "Formulario",
+        "tab": "a581598c0c470867",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "e247aeb7dd912608",
+        "type": "ui_group",
+        "name": "Registration",
+        "tab": "a581598c0c470867",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "1def0158f933ca2d",
+        "type": "ui_group",
+        "name": "Update",
+        "tab": "a581598c0c470867",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "cdcdda1a7108af98",
+        "type": "ui_group",
+        "name": "Delete",
+        "tab": "a581598c0c470867",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "872d637344a9cac6",
+        "type": "ui_group",
+        "name": "Ride Information",
+        "tab": "5e5e170497bf7594",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "438c976e67bf879c",
+        "type": "ui_group",
+        "name": "Welcome to Smart Water Park",
+        "tab": "5e5e170497bf7594",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "c38248f85d5333ee",
+        "type": "ui_group",
+        "name": "Ride selector",
+        "tab": "e00cfd45124a538a",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "3b64443e97f7558c",
+        "type": "ui_group",
+        "name": "Maintenance",
+        "tab": "e00cfd45124a538a",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "44780543bef0fb64",
+        "type": "ui_group",
+        "name": "Comfort Strategy",
+        "tab": "e00cfd45124a538a",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
     },
     {
         "id": "181e5a3da1f229b2",
@@ -58,9 +2411,36 @@
         "className": ""
     },
     {
+        "id": "e316f46317bbfb56",
+        "type": "ui_tab",
+        "name": "User Management",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "5e5e170497bf7594",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "a581598c0c470867",
+        "type": "ui_tab",
+        "name": "Park Ride Management",
+        "icon": "dashboard",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    },
+    {
         "id": "e00cfd45124a538a",
         "type": "ui_tab",
-        "name": "Strategy",
+        "name": "Strategies Manager",
         "icon": "dashboard",
         "order": 4,
         "disabled": false,
