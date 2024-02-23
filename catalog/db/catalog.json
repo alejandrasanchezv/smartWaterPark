@@ -20,17 +20,17 @@
                            {
                               "id": 0,
                               "type": "counterRides",
-                              "value": 385
+                              "value": 277
                            },
                            {
                               "id": 1,
                               "type": "waterLevel",
-                              "value": 11.08
+                              "value": 19.76
                            },
                            {
                               "id": 2,
                               "type": "phSensor",
-                              "value": 7.55
+                              "value": 7.06
                            }
                         ],
                         "actuators": [
@@ -80,8 +80,8 @@
                   "isinMaint": false,
                   "numMaint": 0,
                   "alert": 3,
-                  "counterRides": 5641,
-                  "timestamp": 1708636489.6087668
+                  "counterRides": 3497,
+                  "timestamp": 1708680133.465774
                },
                "comfort_params": {
                   "topic": "smartWaterPark/user_1/ride_1/strategy/maintenance/0",

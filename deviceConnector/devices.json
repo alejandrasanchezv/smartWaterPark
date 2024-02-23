@@ -19,17 +19,17 @@
          {
             "id": 0,
             "type": "counterRides",
-            "value": 385
+            "value": 277
          },
          {
             "id": 1,
             "type": "waterLevel",
-            "value": 11.08
+            "value": 19.76
          },
          {
             "id": 2,
             "type": "phSensor",
-            "value": 7.55
+            "value": 7.06
          }
       ],
       "actuators": [

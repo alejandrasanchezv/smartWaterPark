@@ -252,9 +252,9 @@ class MaintenancePublisher(object):
                                     print('MAXIMUM NUMBER OF RIDES: ENTERING THE RIDE IN MAINTENANCE')
                                     alertStatus = 3
                                     maintenanceOn(userid, rideid)
-                                elif counterRides >= round(maxRides*0.95):
-                                    alertStatus = 2
                                 elif counterRides >= round(maxRides*0.9):
+                                    alertStatus = 2
+                                elif counterRides >= round(maxRides*0.8):
                                     alertStatus = 1
                                 else:
                                     print('No alert')

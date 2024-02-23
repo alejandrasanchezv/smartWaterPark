@@ -33,17 +33,17 @@ def sendtoTelegram(userID, rideID, dataB):
 
                     if stateRide:
                         if data == 1:
-                            bot_message=f"Your ride registered with ID {rideID} is almost entering in maintance"
+                            bot_message=f"Your ride registered with ID {rideID} is almost entering in maintenance"
                             RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + str(chatID) + "&text=" + bot_message
                             requests.get(RequestToTelegram)
                         
                         elif data == 2:
-                            bot_message=f"Your ride registered with ID {rideID} will need maintance shortly"
+                            bot_message=f"Your ride registered with ID {rideID} will need maintenance shortly"
                             RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + str(chatID) + "&text=" + bot_message
                             requests.get(RequestToTelegram)
 
                         elif data == 3:
-                            bot_message=f"Your ride registered with ID {rideID} needs maintance:  IS CLOSED"
+                            bot_message=f"Your ride registered with ID {rideID} needs maintenance:  IS CLOSED"
                             RequestToTelegram = url_telegram + API_KEY + "/sendMessage" + "?chat_id=" + str(chatID) + "&text=" + bot_message
                             requests.get(RequestToTelegram)
                             time.sleep(2)
