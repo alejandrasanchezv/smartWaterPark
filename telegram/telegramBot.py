@@ -147,11 +147,7 @@ def telegram_bot_sendtext(bot_message):
    print(results.json())
 
 if __name__ == "__main__":
-    #time.sleep(10)
-    #telegram_bot_sendtext("Hello there!")
 
-    #usrID = db["userID"]
-    #rideID = db["rideID"]
     topic = "smartWaterPark/maintenance/user/" + str(1) + "/ride/" + str(1) + "/#"
     client = "telegram" + str(1)
     telegramMqtt = ClientMQTT(client, [topic],onMessageReceived=TelegramMqtt.onMsgReceived)

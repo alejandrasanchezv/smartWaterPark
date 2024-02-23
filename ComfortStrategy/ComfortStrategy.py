@@ -1,3 +1,8 @@
+"""
+Control strategy encharged to set a the actuators fans and lights on or off
+according to the weather API based on the user's city location
+"""
+
 import paho.mqtt.client as PahoMQTT
 import time
 import json

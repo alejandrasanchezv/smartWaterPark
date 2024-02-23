@@ -1,3 +1,8 @@
+"""
+Control strategy encharged to set a the actuators chlorine valve and water valve open or closed
+according to the ph level sensor and water level sensor
+"""
+
 import paho.mqtt.client as PahoMQTT
 import time
 import json

@@ -1,10 +1,6 @@
 import json
 import cherrypy
 
-#https://stackoverflow.com/questions/48650658/cherrypy-405-method-not-allowed-specified-method-is-invalid-for-this-resource
-#https://programtalk.com/python-examples/cherrypy.request.params/
-#https://docs.cherrypy.dev/en/latest/tutorials.html#tutorial-7-give-us-a-rest
-
 
 class User(object):
     exposed = True

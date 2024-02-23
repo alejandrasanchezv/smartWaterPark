@@ -1,3 +1,8 @@
+"""
+Control strategy encharged to set a park ride in maintenance (closed)
+when the ride has reached its maximum rides
+"""
+
 import paho.mqtt.client as PahoMQTT
 import time
 import json

@@ -236,25 +236,3 @@ if __name__ == "__main__":
         if (timeNow - timeLastDB) >= timeLimitDB:
             postFunc()
             timeLastDB = timeNow
-    #thingsSpeakMqtt.stop()
-
-    #exampleData = {
-    #    "isinMaint": 1,
-    #    "numMaint": 1,
-    #    "stateAlert": 0
-    #}
-
-    #time.sleep(5)
-
-    #topicTest = "smartWaterPark/thingSpeak/user/" + str(usrID) + "/ride/" + str(rideID) + "/isinMaint"
-    #sendThingSpeak(topicTest, exampleData)
-
-    #time.sleep(15)
-
-    #topicTest = "smartWaterPark/thingSpeak/user/" + str(usrID) + "/ride/" + str(rideID) + "/numMaint"
-    #sendThingSpeak(topicTest, exampleData)
-
-    #time.sleep(15)
-
-    #topicTest = "smartWaterPark/thingSpeak/user/" + str(usrID) + "/ride/" + str(rideID) + "/stateAlert"
-    #sendThingSpeak(topicTest, exampleData)
