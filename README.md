@@ -60,21 +60,19 @@ Maintenance strategy is in charge of determine whether a ride should stop functi
 - **State:** bool – determines if the strategy is activated for this ride
 - **Sensors:** array with each sensor assigned to this ride by this strategy:
 	- **Number of rides sensor:** counts the number of rounds this ride has done
-	- **Weight:** used to determine if the water float id inflated enough
 - **Actuators:** array with each actuator assigned to this ride by this strategy:
-	- **Air pump:** used to inflate the water float – becomes activated when the float’s weight is too low
 	- **Maintenance call:** alert sent when the ride needs to close and got to revision – determined by time or number of rides (maybe weather) – assignes the ride state to False
+ - **Strategies:** array with each value obatained by the sensors on a specific park ride
 ```
  "maintenanceControl" = {
 	“state”: True/False,
 	“sensors”: {
-		“sensorRidesID”: 0,
-		“weightID”: 0
+		“sensorRidesID”: 0
 	},
 	“actuators”: {
-		“airpumpID”: 0,
 		“maintenanceCallID": 0
-	}
+	},
+	"strategies": []
 }
 ```
 
@@ -88,7 +86,9 @@ Water strategy is in charge of assuring the water is in optimal conditions. This
 - **Actuators:** array with each actuator assigned to this ride by this strategy:
 	- **Valve:** used to insert more wáter to the ride – becomes activated when the water level is too low
 	- **Activator:** used to insert more chemicals (chlorine) to the water – becomes activated when the ph sensor measures a high PH level
-
+ - **Strategies:** array with each value obatained by the sensors and actuators on a specific park ride, it also contains the threshold value for each sensor reading
+	- **ph threshold:** float - maximum ideal ph level before needing to activate the chlorine valve
+  	- **water threshold:** float - minimum ideal water level before needing to activate the water valve
 ```
 “waterControl" = {
 	“state”: True/False,
@@ -99,7 +99,9 @@ Water strategy is in charge of assuring the water is in optimal conditions. This
 	“actuators”: {
 		“valveID”: 0,
 		“activatorID": 0
-	}
+	},
+	"strategies": [
+	]
 }
 ```
 ### Comfort
