@@ -1,5 +1,5 @@
 # Smart WaterPark
-IoT project
+IoT project final project
 
 ## User definition
 User registration based on the following data structure:
@@ -12,12 +12,12 @@ User registration based on the following data structure:
 - **Rides:** array composed by each of the rides assigned to the user – each ride has its own characteristics
 ```
 User = {
-	“name”: “kids”,
 	“id”: 001,
+	“userName”: “kids”,
 	“password”: “K!dsarea312”,
-	“mail”: info@kidsarea.it,
+	“email”: info@kidsarea.it,
 	“city”: “Torino”,
-	“rides”: { …}
+	“parkRides”: { …}
 }
 ```
 
@@ -27,18 +27,25 @@ Each user will have park rides registered with the following variables:
 - **Name:** string – assigned by the user
 - **ID:** unique number (int) – assigned by the system
 - **State:** bool – determines if the ride is open (true) or closed (false) – ride can be closed do to weather condition or maintenance revision
-- **Maintenance time:** string – determines the maximum time the ride can stay without a maintenance revision
 - **Max rides:** number (int) – determines the maximum rides the ride can do without a maintenance revision
+- **Device connectors:** array composed by each sensor/actuator registered under the ride ID, defined by their id, type and value/state
 - **Control Strategies:** array composed by each of the strategies assigned to the ride
+- **Strategies:** array composed by the topics where the device connector will publish the sensor readings
+- **Maintenance/Comfort/Water paramenters:** array composed by the last parameters posted by each strategy
 ```
 Rides = {
 	“ride1”: {
 	“name”: “river”,
-	“id”: 001,
+	“id”: 1,
 	“state”: True,
 	“maintenance_time”: “2 weeks”,
 	“mx_rides”: 500,
-	“control_strategies”: { …}
+	“deviceConnectors”: [ …],
+	“control_strategies”: [ …],
+	“strategies”: [ …],
+	“maintenance_params”: [ …],
+	“comfort_params”: [ …],
+	“water_params”: [ …],
 	},
 	“ride2”: { … }
 }
@@ -153,11 +160,9 @@ user : {
 								"maintenanceControl": {
 										"state": true/false,
 										"sensors": {
-												"sensorRidesID": 0,
-												"weightID": 0
+												"sensorRidesID": 0
 										},
 										"actuators": {
-												"airpumpID": 0,
 												"maintenanceCallID": 0
 										}
 								}
